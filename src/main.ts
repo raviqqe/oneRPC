@@ -1,6 +1,9 @@
 import { isAsyncIterable, map } from "@raviqqe/hidash/promise.js";
 import { toByteStream, toStream } from "@raviqqe/hidash/stream.js";
 import { type ZodType } from "zod";
+import { UserError } from "./error.js";
+
+export { UserError } from "./error.js";
 
 type RawHandler<T, S> = (input: T) => S | Promise<S>;
 
@@ -69,7 +72,9 @@ const procedure =
         headers: { "content-type": "application/json" },
       });
     } catch (error) {
-      return new Response(undefined, { status: 500 });
+      return new Response(undefined, {
+        status: error instanceof UserError ? 400 : 500,
+      });
     }
   };
 

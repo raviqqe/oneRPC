@@ -2,7 +2,7 @@ import { map, toArray } from "@raviqqe/hidash/promise.js";
 import { toIterable, toStringStream } from "@raviqqe/hidash/stream.js";
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
-import { mutate, query } from "./main.js";
+import { UserError, mutate, query } from "./main.js";
 
 for (const [procedure, buildRequest] of [
   [
@@ -57,16 +57,36 @@ for (const [procedure, buildRequest] of [
     it("handles async iterable", async () => {
       const value = { foo: 42 };
 
-      const response = await procedure(z.any(), z.any(), async function* () {
-        yield value;
-        yield value;
-      })(buildRequest({}));
+      const response = await procedure(
+        z.unknown(),
+        z.any(),
+        async function* () {
+          yield value;
+          yield value;
+        }
+      )(buildRequest({}));
 
       expect(
         await toArray(
           map(toIterable(toStringStream(response.body!)), JSON.parse)
         )
       ).toEqual([value, value]);
+    });
+
+    it("handles a user error", async () => {
+      const response = await procedure(z.unknown(), z.never(), () => {
+        throw new UserError();
+      })(buildRequest({}));
+
+      expect(response.status).toBe(400);
+    });
+
+    it("handles an unexpected error", async () => {
+      const response = await procedure(z.unknown(), z.never(), () => {
+        throw new Error();
+      })(buildRequest({}));
+
+      expect(response.status).toBe(500);
     });
   });
 }

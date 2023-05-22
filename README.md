@@ -1,5 +1,10 @@
 # oneRPC
 
+[![GitHub Action](https://img.shields.io/github/actions/workflow/status/raviqqe/onerpc/test.yaml?branch=main&style=flat-square)](https://github.com/raviqqe/onerpc/actions)
+[![Codecov](https://img.shields.io/codecov/c/github/raviqqe/onerpc.svg?style=flat-square)](https://codecov.io/gh/raviqqe/onerpc)
+[![npm](https://img.shields.io/npm/v/@raviqqe/onerpc?style=flat-square)](https://www.npmjs.com/package/@raviqqe/onerpc)
+[![License](https://img.shields.io/github/license/raviqqe/onerpc.svg?style=flat-square)](LICENSE)
+
 The RPC library for the serverless and TypeScript era.
 
 ## Features

@@ -2,6 +2,8 @@ import { isAsyncIterable, map } from "@raviqqe/hidash/promise.js";
 import { toByteStream, toStream } from "@raviqqe/hidash/stream.js";
 import { type ZodType } from "zod";
 
+export { UserError } from "./error.js";
+
 type RawHandler<T, S> = (input: T) => S | Promise<S>;
 
 type RequestHandler = (request: Request) => Promise<Response>;

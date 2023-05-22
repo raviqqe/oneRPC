@@ -18,4 +18,18 @@ describe(query.name, () => {
 
     expect(await response.json()).toEqual(value);
   });
+
+  it("handles null", async () => {
+    const response = await query(
+      z.any(),
+      z.any(),
+      () => null
+    )(
+      new Request(
+        `https://foo.com?input=${encodeURIComponent(JSON.stringify({}))}`
+      )
+    );
+
+    expect(await response.json()).toBe(null);
+  });
 });

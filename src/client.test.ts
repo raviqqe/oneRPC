@@ -36,6 +36,17 @@ describe(query.name, () => {
       null
     );
   });
+
+  it("specifies a path", async () => {
+    const serverQuery = server.query(z.null(), z.any(), (x: null) => x, {
+      path: "https://foo.com/bar",
+    });
+    mockFetch(serverQuery);
+
+    expect(await query<typeof serverQuery>("https://foo.com/bar", null)).toBe(
+      null
+    );
+  });
 });
 
 describe(mutate.name, () => {

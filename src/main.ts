@@ -1,4 +1,5 @@
-import { isAsyncIterable, map } from "@raviqqe/hidash/promise.js";
+import { stringifyLines } from "@raviqqe/hidash/json.js";
+import { map } from "@raviqqe/hidash/promise.js";
 import { toByteStream, toStream } from "@raviqqe/hidash/stream.js";
 import { type ZodType } from "zod";
 import { UserError } from "./error.js";
@@ -6,6 +7,8 @@ import { UserError } from "./error.js";
 export { UserError } from "./error.js";
 
 type RawHandler<T, S> = (input: T) => S | Promise<S>;
+
+type RawStreamHandler<T, S> = (input: T) => AsyncIterable<S>;
 
 interface ProcedureRequestHandler<T, S, M extends boolean, R extends boolean> {
   (request: Request): Promise<Response>;
@@ -20,6 +23,13 @@ export type QueryRequestHandler<T, S> = ProcedureRequestHandler<
   S,
   false,
   false
+>;
+
+export type QueryStreamRequestHandler<T, S> = ProcedureRequestHandler<
+  T,
+  S,
+  false,
+  true
 >;
 
 export type MutateRequestHandler<T, S> = ProcedureRequestHandler<
@@ -40,68 +50,86 @@ export const query = <T, S extends ResponseBody>(
   outputValidator: Validator<S>,
   handle: RawHandler<T, S>
 ): QueryRequestHandler<T, S> =>
-  procedure(
-    (request) => {
-      const input = new URL(request.url).searchParams.get(inputParameterName);
-
-      if (!input) {
-        throw new Error("Input parameter not defined");
-      }
-
-      return JSON.parse(input) as unknown;
-    },
+  jsonProcedure(
+    getSearchParameterInput,
     inputValidator,
     outputValidator,
     handle,
-    false,
     false
+  );
+
+export const queryStream = <T, S>(
+  inputValidator: Validator<T>,
+  outputValidator: Validator<S>,
+  handle: RawStreamHandler<T, S>
+): QueryStreamRequestHandler<T, S> =>
+  procedure(
+    async (request: Request) =>
+      new Response(
+        toByteStream(
+          toStream(
+            stringifyLines(
+              map(
+                handle(
+                  validate(
+                    inputValidator,
+                    await getSearchParameterInput(request)
+                  )
+                ),
+                (output) => validate(outputValidator, output)
+              )
+            )
+          )
+        )
+      ),
+    false,
+    true
   );
 
 export const mutate = <T, S extends ResponseBody>(
   inputValidator: Validator<T>,
   outputValidator: Validator<S>,
   handle: RawHandler<T, S>
-): MutateRequestHandler<T, S> => {
-  return procedure(
+): MutateRequestHandler<T, S> =>
+  jsonProcedure(
     (request) => request.json(),
     inputValidator,
     outputValidator,
     handle,
-    true,
-    false
+    true
   );
-};
 
-const procedure = <
-  T,
-  S extends ResponseBody,
-  M extends boolean,
-  R extends boolean
->(
+const jsonProcedure = <T, S extends ResponseBody, M extends boolean>(
   getInput: (request: Request) => Promise<unknown> | unknown,
   inputValidator: Validator<T>,
   outputValidator: Validator<S>,
   handle: RawHandler<T, S>,
+  mutate: M
+): ProcedureRequestHandler<T, S, M, false> =>
+  procedure(
+    async (request: Request) =>
+      new Response(
+        JSON.stringify(
+          validate(
+            outputValidator,
+            await handle(validate(inputValidator, await getInput(request)))
+          )
+        ),
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        { headers: { "content-type": "application/json" } }
+      ),
+    mutate,
+    false
+  );
+
+const procedure = <T, S, M extends boolean, R extends boolean>(
+  handle: (request: Request) => Promise<Response>,
   mutate: M,
   stream: R
 ): ProcedureRequestHandler<T, S, M, R> => {
   const handler = async (request: Request) => {
     try {
-      const data = validate(
-        outputValidator,
-        await handle(validate(inputValidator, await getInput(request)))
-      );
-
-      if (isAsyncIterable(data) !== stream) {
-        throw new Error("Incompatible response type");
-      } else if (isAsyncIterable(data)) {
-        return new Response(toByteStream(toStream(map(data, JSON.stringify))));
-      }
-
-      return new Response(JSON.stringify(data), {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        headers: { "content-type": "application/json" },
-      });
+      return await handle(request);
     } catch (error) {
       return new Response(undefined, {
         status: error instanceof UserError ? 400 : 500,
@@ -115,6 +143,16 @@ const procedure = <
   handler._stream = stream;
 
   return handler;
+};
+
+const getSearchParameterInput = (request: Request): unknown => {
+  const input = new URL(request.url).searchParams.get(inputParameterName);
+
+  if (!input) {
+    throw new Error("Input parameter not defined");
+  }
+
+  return JSON.parse(input) as unknown;
 };
 
 const validate = <T>(validator: Validator<T>, data: unknown): T =>

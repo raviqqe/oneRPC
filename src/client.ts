@@ -31,6 +31,7 @@ export const mutate = async <T extends MutateRequestHandler<unknown, unknown>>(
 ): Promise<T["_output"]> =>
   procedure(
     new Request(path, {
+      method: "post",
       body: JSON.stringify(input),
       // eslint-disable-next-line @typescript-eslint/naming-convention
       headers: { "content-type": "application/json" },

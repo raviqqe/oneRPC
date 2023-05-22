@@ -1,7 +1,8 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { z } from "zod";
 import * as server from "./main.js";
-import { query } from "./client.js";
+import { mutate, query, queryStream } from "./client.js";
+import { toArray } from "@raviqqe/hidash/promise.js";
 
 describe(query.name, () => {
   const mockFetch = (query: server.QueryRequestHandler<unknown, unknown>) =>
@@ -37,21 +38,68 @@ describe(query.name, () => {
   });
 });
 
-// describe(queryStream.name, () => {
-//   it("handles async iterable", async () => {
-//     const value = { foo: 42 };
+describe(mutate.name, () => {
+  const mockFetch = (mutate: server.MutateRequestHandler<unknown, unknown>) =>
+    vi
+      .spyOn(global, "fetch")
+      .mockImplementation((request) =>
+        mutate(request instanceof Request ? request : new Request(request))
+      );
 
-//     const response = await queryStream(
-//       z.unknown(),
-//       z.any(),
-//       async function* () {
-//         yield value;
-//         yield value;
-//       }
-//     )(buildQueryRequest({}));
+  beforeEach(() => {});
 
-//     expect(
-//       await toArray(map(toIterable(toStringStream(response.body!)), JSON.parse))
-//     ).toEqual([value, value]);
-//   });
-// });
+  it("handles a JSON object", async () => {
+    const value = { foo: 42 };
+    const serverMutate = server.mutate(
+      z.object({ foo: z.number() }),
+      z.any(),
+      (x: typeof value) => x
+    );
+    mockFetch(serverMutate);
+
+    expect(
+      await mutate<typeof serverMutate>("https://foo.com/foo", value)
+    ).toEqual(value);
+  });
+
+  it("handles null", async () => {
+    const serverMutate = server.mutate(z.null(), z.any(), (x: null) => x);
+    mockFetch(serverMutate);
+
+    expect(await mutate<typeof serverMutate>("https://foo.com/foo", null)).toBe(
+      null
+    );
+  });
+});
+
+describe(queryStream.name, () => {
+  const mockFetch = (
+    query: server.QueryStreamRequestHandler<unknown, unknown>
+  ) =>
+    vi
+      .spyOn(global, "fetch")
+      .mockImplementation((request) =>
+        query(request instanceof Request ? request : new Request(request))
+      );
+
+  beforeEach(() => {});
+
+  it("handles a JSON object", async () => {
+    const value = { foo: 42 };
+    const serverQuery = server.queryStream(
+      z.object({ foo: z.number() }),
+      z.any(),
+      async function* () {
+        yield value;
+        yield value;
+      }
+    );
+    mockFetch(serverQuery);
+
+    expect(
+      await toArray(
+        queryStream<typeof serverQuery>("https://foo.com/foo", value)
+      )
+    ).toEqual([value, value]);
+  });
+});

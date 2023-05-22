@@ -35,6 +35,21 @@ describe(query.name, () => {
     );
   });
 
+  it("handles options", async () => {
+    const serverQuery = server.query(
+      z.null(),
+      z.any(),
+      (_: null, request: Request) => ({ hello: request.headers.get("hello") })
+    );
+    mockFetch(serverQuery);
+
+    expect(
+      await query<typeof serverQuery>("https://foo.com/foo", null, {
+        headers: { hello: "world" },
+      })
+    ).toEqual({ hello: "world" });
+  });
+
   it("specifies a path", async () => {
     const serverQuery = server.query(z.null(), z.any(), (x: null) => x, {
       path: "https://foo.com/bar",
@@ -77,6 +92,21 @@ describe(mutate.name, () => {
       null
     );
   });
+
+  it("handles options", async () => {
+    const serverMutate = server.mutate(
+      z.null(),
+      z.any(),
+      (_: null, request: Request) => ({ hello: request.headers.get("hello") })
+    );
+    mockFetch(serverMutate);
+
+    expect(
+      await mutate<typeof serverMutate>("https://foo.com/foo", null, {
+        headers: { hello: "world" },
+      })
+    ).toEqual({ hello: "world" });
+  });
 });
 
 describe(queryStream.name, () => {
@@ -106,5 +136,24 @@ describe(queryStream.name, () => {
         queryStream<typeof serverQuery>("https://foo.com/foo", value)
       )
     ).toEqual([value, value]);
+  });
+
+  it("handles options", async () => {
+    const serverQuery = server.queryStream(
+      z.null(),
+      z.string(),
+      async function* (_: null, request: Request) {
+        yield request.headers.get("hello");
+      }
+    );
+    mockFetch(serverQuery);
+
+    expect(
+      await toArray(
+        queryStream<typeof serverQuery>("https://foo.com/foo", null, {
+          headers: { hello: "world" },
+        })
+      )
+    ).toEqual(["world"]);
   });
 });

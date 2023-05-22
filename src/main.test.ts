@@ -58,6 +58,16 @@ for (const [procedure, buildRequest] of [
 
       expect(response.status).toBe(500);
     });
+
+    it("attaches custom headers", async () => {
+      const response = await procedure(
+        z.unknown(),
+        z.null(),
+        () => null
+      )(buildRequest({}));
+
+      expect(await response.json()).toBe(null);
+    });
   });
 }
 

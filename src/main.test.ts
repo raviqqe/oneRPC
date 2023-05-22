@@ -36,8 +36,8 @@ for (const [procedure, buildRequest] of [
 
     it("handles null", async () => {
       const response = await procedure(
-        z.any(),
-        z.any(),
+        z.unknown(),
+        z.null(),
         () => null
       )(buildRequest({}));
 
@@ -46,8 +46,8 @@ for (const [procedure, buildRequest] of [
 
     it("handles undefined", async () => {
       const response = await procedure(
-        z.any(),
-        z.any(),
+        z.unknown(),
+        z.undefined(),
         () => undefined
       )(buildRequest({}));
 

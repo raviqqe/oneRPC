@@ -6,20 +6,22 @@ import {
   type MutateRequestHandler,
 } from "./main.js";
 
+interface RequestOptions extends Omit<RequestInit, "body" | "method"> {}
+
 export const query = async <T extends QueryRequestHandler<unknown, unknown>>(
   path: T["_path"],
   input: T["_input"],
-  options: RequestInit = {}
-): Promise<T["_output"]> => procedure(buildQueryRequest(path, input));
+  options: RequestOptions = {}
+): Promise<T["_output"]> => procedure(buildQueryRequest(path, input, options));
 
 export const queryStream = async function* <
   T extends QueryStreamRequestHandler<unknown, unknown>
 >(
   path: T["_path"],
   input: T["_input"],
-  options: RequestInit = {}
+  options: RequestOptions = {}
 ): AsyncIterable<T["_output"]> {
-  const response = await fetch(buildQueryRequest(path, input));
+  const response = await fetch(buildQueryRequest(path, input, options));
 
   if (!response.body) {
     throw new Error("Empty stream body");
@@ -33,7 +35,7 @@ export const queryStream = async function* <
 export const mutate = async <T extends MutateRequestHandler<unknown, unknown>>(
   path: T["_path"],
   input: T["_input"],
-  options: RequestInit = {}
+  options: RequestOptions = {}
 ): Promise<T["_output"]> =>
   procedure(
     new Request(path, {
@@ -45,12 +47,16 @@ export const mutate = async <T extends MutateRequestHandler<unknown, unknown>>(
     })
   );
 
-const buildQueryRequest = (path: string, input: unknown): Request => {
+const buildQueryRequest = (
+  path: string,
+  input: unknown,
+  options: RequestOptions
+): Request => {
   const parameters = new URLSearchParams({
     input: JSON.stringify(input),
   }).toString();
 
-  return new Request(`${path}?${parameters}`);
+  return new Request(`${path}?${parameters}`, options);
 };
 
 const procedure = async <T extends MutateRequestHandler<unknown, unknown>>(

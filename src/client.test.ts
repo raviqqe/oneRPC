@@ -1,8 +1,8 @@
+import { toArray } from "@raviqqe/hidash/promise.js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { z } from "zod";
-import * as server from "./main.js";
 import { mutate, query, queryStream } from "./client.js";
-import { toArray } from "@raviqqe/hidash/promise.js";
+import * as server from "./main.js";
 
 describe(query.name, () => {
   const mockFetch = (query: server.QueryRequestHandler<unknown, unknown>) =>

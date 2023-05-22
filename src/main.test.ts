@@ -3,7 +3,7 @@ import { z } from "zod";
 import { query } from "./main.js";
 
 describe(query.name, () => {
-  it("handles a json", async () => {
+  it("handles a JSON object", async () => {
     const value = { foo: 42 };
 
     const response = await query(

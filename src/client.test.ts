@@ -12,8 +12,6 @@ describe(query.name, () => {
         query(request instanceof Request ? request : new Request(request))
       );
 
-  beforeEach(() => {});
-
   it("handles a JSON object", async () => {
     const value = { foo: 42 };
     const serverQuery = server.query(
@@ -57,8 +55,6 @@ describe(mutate.name, () => {
         mutate(request instanceof Request ? request : new Request(request))
       );
 
-  beforeEach(() => {});
-
   it("handles a JSON object", async () => {
     const value = { foo: 42 };
     const serverMutate = server.mutate(
@@ -92,8 +88,6 @@ describe(queryStream.name, () => {
       .mockImplementation((request) =>
         query(request instanceof Request ? request : new Request(request))
       );
-
-  beforeEach(() => {});
 
   it("handles a JSON object", async () => {
     const value = { foo: 42 };

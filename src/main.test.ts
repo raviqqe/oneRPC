@@ -60,13 +60,11 @@ for (const [procedure, buildRequest] of [
     });
 
     it("attaches custom headers", async () => {
-      const response = await procedure(
-        z.unknown(),
-        z.null(),
-        () => null
-      )(buildRequest({}));
+      const response = await procedure(z.unknown(), z.null(), () => null, {
+        headers: { hello: "world" },
+      })(buildRequest({}));
 
-      expect(await response.json()).toBe(null);
+      expect(response.headers.get("hello")).toBe("world");
     });
   });
 }
@@ -103,5 +101,16 @@ describe(queryStream.name, () => {
     })(buildQueryRequest({}));
 
     expect(response.status).toBe(500);
+  });
+
+  it("attaches custom headers", async () => {
+    const response = await queryStream(
+      z.unknown(),
+      z.any(),
+      async function* () {},
+      { headers: { hello: "world" } }
+    )(buildQueryRequest({}));
+
+    expect(response.headers.get("hello")).toBe("world");
   });
 });

@@ -14,14 +14,14 @@ export const query = async <T extends QueryRequestHandler<unknown, unknown>>(
 export const mutate = async <T extends MutateRequestHandler<unknown, unknown>>(
   path: string,
   input: T["_input"]
-): Promise<T["_output"]> => {
-  return procedure(
+): Promise<T["_output"]> =>
+  procedure(
     new Request(path, {
       body: JSON.stringify(input),
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       headers: { "content-type": "application/json" },
     })
   );
-};
 
 const procedure = async <T extends MutateRequestHandler<unknown, unknown>>(
   request: Request

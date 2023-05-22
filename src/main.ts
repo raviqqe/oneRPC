@@ -160,7 +160,7 @@ const procedure = <
       return await handle(request);
     } catch (error) {
       return new Response(undefined, {
-        status: error instanceof UserError ? 400 : 500,
+        status: error instanceof UserError ? error.status ?? 400 : 500,
       });
     }
   };

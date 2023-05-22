@@ -51,6 +51,14 @@ for (const [procedure, buildRequest] of [
       expect(response.status).toBe(400);
     });
 
+    it("handles a user error with status", async () => {
+      const response = await procedure(z.unknown(), z.never(), () => {
+        throw new UserError(undefined, { status: 403 });
+      })(buildRequest({}));
+
+      expect(response.status).toBe(403);
+    });
+
     it("handles an unexpected error", async () => {
       const response = await procedure(z.unknown(), z.never(), () => {
         throw new Error();
@@ -93,6 +101,14 @@ describe(queryStream.name, () => {
     })(buildQueryRequest({}));
 
     expect(response.status).toBe(400);
+  });
+
+  it("handles a user error with status", async () => {
+    const response = await queryStream(z.unknown(), z.never(), () => {
+      throw new UserError(undefined, { status: 403 });
+    })(buildQueryRequest({}));
+
+    expect(response.status).toBe(403);
   });
 
   it("handles an unexpected error", async () => {

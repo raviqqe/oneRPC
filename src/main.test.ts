@@ -2,16 +2,15 @@ import { map, toArray } from "@raviqqe/hidash/promise.js";
 import { toIterable, toStringStream } from "@raviqqe/hidash/stream.js";
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
-import { UserError, mutate, query } from "./main.js";
+import { UserError, mutate, query, queryStream } from "./main.js";
+
+const buildQueryRequest = (value: unknown) =>
+  new Request(
+    `https://foo.com?input=${encodeURIComponent(JSON.stringify(value))}`
+  );
 
 for (const [procedure, buildRequest] of [
-  [
-    query,
-    (value: unknown) =>
-      new Request(
-        `https://foo.com?input=${encodeURIComponent(JSON.stringify(value))}`
-      ),
-  ] as const,
+  [query, buildQueryRequest] as const,
   [
     mutate,
     (value: unknown) =>
@@ -44,25 +43,6 @@ for (const [procedure, buildRequest] of [
       expect(await response.json()).toBe(null);
     });
 
-    it("handles async iterable", async () => {
-      const value = { foo: 42 };
-
-      const response = await procedure(
-        z.unknown(),
-        z.any(),
-        async function* () {
-          yield value;
-          yield value;
-        }
-      )(buildRequest({}));
-
-      expect(
-        await toArray(
-          map(toIterable(toStringStream(response.body!)), JSON.parse)
-        )
-      ).toEqual([value, value]);
-    });
-
     it("handles a user error", async () => {
       const response = await procedure(z.unknown(), z.never(), () => {
         throw new UserError();
@@ -80,3 +60,38 @@ for (const [procedure, buildRequest] of [
     });
   });
 }
+
+describe(queryStream.name, () => {
+  it("handles async iterable", async () => {
+    const value = { foo: 42 };
+
+    const response = await queryStream(
+      z.unknown(),
+      z.any(),
+      async function* () {
+        yield value;
+        yield value;
+      }
+    )(buildQueryRequest({}));
+
+    expect(
+      await toArray(map(toIterable(toStringStream(response.body!)), JSON.parse))
+    ).toEqual([value, value]);
+  });
+
+  it("handles a user error", async () => {
+    const response = await queryStream(z.unknown(), z.never(), () => {
+      throw new UserError();
+    })(buildQueryRequest({}));
+
+    expect(response.status).toBe(400);
+  });
+
+  it("handles an unexpected error", async () => {
+    const response = await queryStream(z.unknown(), z.never(), () => {
+      throw new Error();
+    })(buildQueryRequest({}));
+
+    expect(response.status).toBe(500);
+  });
+});

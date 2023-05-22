@@ -7,11 +7,16 @@ export { UserError } from "./error.js";
 
 type RawHandler<T, S> = (input: T) => S | Promise<S>;
 
-export type RequestHandler<T, S> = {
+interface ProcedureRequestHandler<T, S, M extends boolean> {
   (request: Request): Promise<Response>;
-  __input: T;
-  __output: S;
-};
+  _input: T;
+  _output: S;
+  _mutate: M;
+}
+
+export type QueryRequestHandler<T, S> = ProcedureRequestHandler<T, S, false>;
+
+export type MutateRequestHandler<T, S> = ProcedureRequestHandler<T, S, true>;
 
 type Validator<T> = ZodType<T> | ((data: unknown) => T);
 
@@ -23,7 +28,7 @@ export const query = <T, S extends ResponseBody>(
   inputValidator: Validator<T>,
   outputValidator: Validator<S>,
   handle: RawHandler<T, S>
-): RequestHandler<T, S> =>
+): QueryRequestHandler<T, S> =>
   procedure(
     (request) => {
       const input = new URL(request.url).searchParams.get(inputParameterName);
@@ -43,20 +48,25 @@ export const mutate = <T, S extends ResponseBody>(
   inputValidator: Validator<T>,
   outputValidator: Validator<S>,
   handle: RawHandler<T, S>
-): RequestHandler<T, S> =>
-  procedure(
+): MutateRequestHandler<T, S> => {
+  const handler: ProcedureRequestHandler<T, S, boolean> = procedure(
     (request) => request.json(),
     inputValidator,
     outputValidator,
     handle
   );
 
+  handler._mutate = true as const;
+
+  return handler as MutateRequestHandler<T, S>;
+};
+
 const procedure = <T, S extends ResponseBody>(
   getInput: (request: Request) => Promise<unknown> | unknown,
   inputValidator: Validator<T>,
   outputValidator: Validator<S>,
   handle: RawHandler<T, S>
-): RequestHandler<T, S> => {
+): ProcedureRequestHandler<T, S, false> => {
   const handler = async (request: Request) => {
     try {
       const data = validate(
@@ -81,8 +91,9 @@ const procedure = <T, S extends ResponseBody>(
     }
   };
 
-  handler.__input = undefined as T;
-  handler.__output = undefined as S;
+  handler._input = undefined as T;
+  handler._output = undefined as S;
+  handler._mutate = false as const;
 
   return handler;
 };

@@ -1,2 +1,7 @@
 # oneRPC
-RPC library for the serverless and TypeScript era.
+
+The RPC library for the serverless and TypeScript era.
+
+## License
+
+[MIT](LICENSE)

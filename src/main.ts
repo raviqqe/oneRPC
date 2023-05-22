@@ -25,7 +25,7 @@ export const query = <T, S extends ResponseBody>(
         throw new Error("Input parameter not defined");
       }
 
-      return JSON.parse(input);
+      return JSON.parse(input) as unknown;
     },
     inputValidator,
     outputValidator,
@@ -46,7 +46,7 @@ export const mutate = <T, S extends ResponseBody>(
 
 const procedure =
   <T, S extends ResponseBody>(
-    getInput: (request: Request) => Promise<unknown>,
+    getInput: (request: Request) => Promise<unknown> | unknown,
     inputValidator: Validator<T>,
     outputValidator: Validator<S>,
     handle: RawHandler<T, S>
@@ -65,6 +65,7 @@ const procedure =
       }
 
       return new Response(JSON.stringify(data), {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         headers: { "content-type": "application/json" },
       });
     } catch (error) {

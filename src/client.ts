@@ -8,12 +8,17 @@ import {
 
 export const query = async <T extends QueryRequestHandler<unknown, unknown>>(
   path: T["_path"],
-  input: T["_input"]
+  input: T["_input"],
+  options: RequestInit = {}
 ): Promise<T["_output"]> => procedure(buildQueryRequest(path, input));
 
 export const queryStream = async function* <
   T extends QueryStreamRequestHandler<unknown, unknown>
->(path: T["_path"], input: T["_input"]): AsyncIterable<T["_output"]> {
+>(
+  path: T["_path"],
+  input: T["_input"],
+  options: RequestInit = {}
+): AsyncIterable<T["_output"]> {
   const response = await fetch(buildQueryRequest(path, input));
 
   if (!response.body) {
@@ -27,13 +32,15 @@ export const queryStream = async function* <
 
 export const mutate = async <T extends MutateRequestHandler<unknown, unknown>>(
   path: T["_path"],
-  input: T["_input"]
+  input: T["_input"],
+  options: RequestInit = {}
 ): Promise<T["_output"]> =>
   procedure(
     new Request(path, {
+      ...options,
       body: JSON.stringify(input),
       // eslint-disable-next-line @typescript-eslint/naming-convention
-      headers: { "content-type": "application/json" },
+      headers: { ...options.headers, "content-type": "application/json" },
       method: "post",
     })
   );

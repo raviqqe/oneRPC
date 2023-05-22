@@ -1,7 +1,7 @@
 {
   "name": "onerpc",
   "version": "0.1.0",
-  "description": "RPC library for the serverless and TypeScript era.",
+  "description": "The RPC library for the serverless and TypeScript era.",
   "repository": "https://github.com/raviqqe/onerpc",
   "type": "module",
   "main": "dist/index.js",

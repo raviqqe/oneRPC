@@ -32,4 +32,18 @@ describe(query.name, () => {
 
     expect(await response.json()).toBe(null);
   });
+
+  it("handles undefined", async () => {
+    const response = await query(
+      z.any(),
+      z.any(),
+      () => undefined
+    )(
+      new Request(
+        `https://foo.com?input=${encodeURIComponent(JSON.stringify({}))}`
+      )
+    );
+
+    expect(response.body).toBe(null);
+  });
 });

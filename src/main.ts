@@ -6,9 +6,9 @@ import { UserError } from "./error.js";
 
 export { UserError } from "./error.js";
 
-type RawHandler<T, S> = (input: T) => S | Promise<S>;
+type RawHandler<T, S> = (input: T, request: Request) => S | Promise<S>;
 
-type RawStreamHandler<T, S> = (input: T) => AsyncIterable<S>;
+type RawStreamHandler<T, S> = (input: T, request: Request) => AsyncIterable<S>;
 
 interface ProcedureRequestHandler<T, S, M extends boolean, R extends boolean> {
   (request: Request): Promise<Response>;
@@ -74,7 +74,8 @@ export const queryStream = <T, S>(
                   validate(
                     inputValidator,
                     await getSearchParameterInput(request)
-                  )
+                  ),
+                  request
                 ),
                 (output) => validate(outputValidator, output)
               )
@@ -112,7 +113,10 @@ const jsonProcedure = <T, S extends ResponseBody, M extends boolean>(
         JSON.stringify(
           validate(
             outputValidator,
-            await handle(validate(inputValidator, await getInput(request)))
+            await handle(
+              validate(inputValidator, await getInput(request)),
+              request
+            )
           )
         ),
         // eslint-disable-next-line @typescript-eslint/naming-convention

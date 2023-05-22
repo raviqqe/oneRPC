@@ -4,7 +4,16 @@
   "description": "RPC library for the serverless and TypeScript era.",
   "main": "dist/index.js",
   "repository": "https://github.com/raviqqe/onerpc",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@raviqqe/eslint-config": "^1.0.22",
+    "@raviqqe/tsconfig": "^1.0.1",
+    "@vitest/coverage-c8": "^0.31.0",
+    "eslint": "^8.34.0",
+    "typescript": "^5.0.2",
+    "vitest": "^0.31.0"
   }
 }

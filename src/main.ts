@@ -152,7 +152,7 @@ const getSearchParameterInput = (request: Request): unknown => {
     throw new Error("Input parameter not defined");
   }
 
-  return JSON.parse(decodeURIComponent(input)) as unknown;
+  return JSON.parse(input) as unknown;
 };
 
 const validate = <T>(validator: Validator<T>, data: unknown): T =>

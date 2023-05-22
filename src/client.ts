@@ -40,7 +40,7 @@ export const mutate = async <T extends MutateRequestHandler<unknown, unknown>>(
 
 const buildQueryRequest = (path: string, input: unknown): Request => {
   const parameters = new URLSearchParams({
-    input: encodeURIComponent(JSON.stringify(input)),
+    input: JSON.stringify(input),
   }).toString();
 
   return new Request(`${path}?${parameters}`);

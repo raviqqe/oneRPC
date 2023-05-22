@@ -15,7 +15,7 @@ The RPC library for the serverless and TypeScript era.
   - Server-client communication is made safe with request and response types in TypeScript which are used by both client and server.
 - 🔥 Serverless first
   - Routing is delegated to other frameworks or infrastructures.
-- HTTP friendly
+- 🤝 HTTP friendly
   - You can leverage full potential of HTTP functionalities, such as cache control headers.
 - 🌊 Streaming
   - Stream responses are transferred as [JSON Lines](https://jsonlines.org/) and clients can consume them chunk by chunk.

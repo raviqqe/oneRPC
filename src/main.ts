@@ -31,7 +31,7 @@ export type MutateRequestHandler<T, S> = ProcedureRequestHandler<
 
 type Validator<T> = ZodType<T> | ((data: unknown) => T);
 
-type ResponseBody = AsyncIterable<unknown> | object | null | undefined;
+type ResponseBody = AsyncIterable<unknown> | object | null;
 
 const inputParameterName = "input";
 
@@ -110,7 +110,7 @@ const procedure = <
   };
 
   handler._input = undefined as T;
-  handler._output = undefined as S;
+  handler._output = undefined as unknown as S;
   handler._mutate = mutate;
   handler._stream = stream;
 

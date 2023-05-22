@@ -44,16 +44,6 @@ for (const [procedure, buildRequest] of [
       expect(await response.json()).toBe(null);
     });
 
-    it("handles undefined", async () => {
-      const response = await procedure(
-        z.unknown(),
-        z.undefined(),
-        () => undefined
-      )(buildRequest({}));
-
-      expect(response.body).toBe(null);
-    });
-
     it("handles async iterable", async () => {
       const value = { foo: 42 };
 

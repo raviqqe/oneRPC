@@ -7,7 +7,11 @@ export { UserError } from "./error.js";
 
 type RawHandler<T, S> = (input: T) => S | Promise<S>;
 
-type RequestHandler = (request: Request) => Promise<Response>;
+export type RequestHandler<T, S> = {
+  (request: Request): Promise<Response>;
+  __input: T;
+  __output: S;
+};
 
 type Validator<T> = ZodType<T> | ((data: unknown) => T);
 
@@ -19,7 +23,7 @@ export const query = <T, S extends ResponseBody>(
   inputValidator: Validator<T>,
   outputValidator: Validator<S>,
   handle: RawHandler<T, S>
-): RequestHandler =>
+): RequestHandler<T, S> =>
   procedure(
     (request) => {
       const input = new URL(request.url).searchParams.get(inputParameterName);
@@ -39,7 +43,7 @@ export const mutate = <T, S extends ResponseBody>(
   inputValidator: Validator<T>,
   outputValidator: Validator<S>,
   handle: RawHandler<T, S>
-): RequestHandler =>
+): RequestHandler<T, S> =>
   procedure(
     (request) => request.json(),
     inputValidator,
@@ -47,14 +51,13 @@ export const mutate = <T, S extends ResponseBody>(
     handle
   );
 
-const procedure =
-  <T, S extends ResponseBody>(
-    getInput: (request: Request) => Promise<unknown> | unknown,
-    inputValidator: Validator<T>,
-    outputValidator: Validator<S>,
-    handle: RawHandler<T, S>
-  ): RequestHandler =>
-  async (request) => {
+const procedure = <T, S extends ResponseBody>(
+  getInput: (request: Request) => Promise<unknown> | unknown,
+  inputValidator: Validator<T>,
+  outputValidator: Validator<S>,
+  handle: RawHandler<T, S>
+): RequestHandler<T, S> => {
+  const handler = async (request: Request) => {
     try {
       const data = validate(
         outputValidator,
@@ -77,6 +80,12 @@ const procedure =
       });
     }
   };
+
+  handler.__input = undefined as T;
+  handler.__output = undefined as S;
+
+  return handler;
+};
 
 const validate = <T>(validator: Validator<T>, data: unknown): T =>
   validator instanceof Function ? validator(data) : validator.parse(data);

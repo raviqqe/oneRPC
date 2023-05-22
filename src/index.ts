@@ -7,28 +7,30 @@ const inputParameterName = "input";
 export const query =
   <T, S>(handle: RawHandler<T, S>): RequestHandler =>
   (request) =>
-    handleError(async () => {
-      return new Response(
-        JSON.stringify(
-          await handle(
-            JSON.parse(
-              new URL(request.url).searchParams.get(inputParameterName) ??
-                JSON.stringify(null)
+    handleError(
+      async () =>
+        new Response(
+          JSON.stringify(
+            await handle(
+              JSON.parse(
+                new URL(request.url).searchParams.get(inputParameterName) ??
+                  JSON.stringify(null)
+              )
             )
-          )
-        ),
-        { status: 200 }
-      );
-    });
+          ),
+          { status: 200 }
+        )
+    );
 
 export const mutate =
   <T, S>(handle: RawHandler<T, S>): RequestHandler =>
   (request) =>
-    handleError(async () => {
-      return new Response(JSON.stringify(await handle(await request.json())), {
-        status: 200,
-      });
-    });
+    handleError(
+      async () =>
+        new Response(JSON.stringify(await handle(await request.json())), {
+          status: 200,
+        })
+    );
 
 const handleError = async (
   handle: () => Promise<Response>

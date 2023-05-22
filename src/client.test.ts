@@ -1,5 +1,5 @@
 import { toArray } from "@raviqqe/hidash/promise.js";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { z } from "zod";
 import { mutate, query, queryStream } from "./client.js";
 import * as server from "./main.js";
@@ -11,8 +11,6 @@ describe(query.name, () => {
       .mockImplementation((request) =>
         query(request instanceof Request ? request : new Request(request))
       );
-
-  beforeEach(() => {});
 
   it("handles a JSON object", async () => {
     const value = { foo: 42 };
@@ -37,6 +35,21 @@ describe(query.name, () => {
     );
   });
 
+  it("handles options", async () => {
+    const serverQuery = server.query(
+      z.null(),
+      z.any(),
+      (_: null, request: Request) => ({ hello: request.headers.get("hello") })
+    );
+    mockFetch(serverQuery);
+
+    expect(
+      await query<typeof serverQuery>("https://foo.com/foo", null, {
+        headers: { hello: "world" },
+      })
+    ).toEqual({ hello: "world" });
+  });
+
   it("specifies a path", async () => {
     const serverQuery = server.query(z.null(), z.any(), (x: null) => x, {
       path: "https://foo.com/bar",
@@ -56,8 +69,6 @@ describe(mutate.name, () => {
       .mockImplementation((request) =>
         mutate(request instanceof Request ? request : new Request(request))
       );
-
-  beforeEach(() => {});
 
   it("handles a JSON object", async () => {
     const value = { foo: 42 };
@@ -81,6 +92,21 @@ describe(mutate.name, () => {
       null
     );
   });
+
+  it("handles options", async () => {
+    const serverMutate = server.mutate(
+      z.null(),
+      z.any(),
+      (_: null, request: Request) => ({ hello: request.headers.get("hello") })
+    );
+    mockFetch(serverMutate);
+
+    expect(
+      await mutate<typeof serverMutate>("https://foo.com/foo", null, {
+        headers: { hello: "world" },
+      })
+    ).toEqual({ hello: "world" });
+  });
 });
 
 describe(queryStream.name, () => {
@@ -92,8 +118,6 @@ describe(queryStream.name, () => {
       .mockImplementation((request) =>
         query(request instanceof Request ? request : new Request(request))
       );
-
-  beforeEach(() => {});
 
   it("handles a JSON object", async () => {
     const value = { foo: 42 };
@@ -112,5 +136,24 @@ describe(queryStream.name, () => {
         queryStream<typeof serverQuery>("https://foo.com/foo", value)
       )
     ).toEqual([value, value]);
+  });
+
+  it("handles options", async () => {
+    const serverQuery = server.queryStream(
+      z.null(),
+      z.string(),
+      async function* (_: null, request: Request) {
+        yield request.headers.get("hello");
+      }
+    );
+    mockFetch(serverQuery);
+
+    expect(
+      await toArray(
+        queryStream<typeof serverQuery>("https://foo.com/foo", null, {
+          headers: { hello: "world" },
+        })
+      )
+    ).toEqual(["world"]);
   });
 });

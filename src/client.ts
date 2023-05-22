@@ -6,15 +6,22 @@ import {
   type MutateRequestHandler,
 } from "./main.js";
 
+interface RequestOptions extends Omit<RequestInit, "body" | "method"> {}
+
 export const query = async <T extends QueryRequestHandler<unknown, unknown>>(
   path: T["_path"],
-  input: T["_input"]
-): Promise<T["_output"]> => procedure(buildQueryRequest(path, input));
+  input: T["_input"],
+  options: RequestOptions = {}
+): Promise<T["_output"]> => procedure(buildQueryRequest(path, input, options));
 
 export const queryStream = async function* <
   T extends QueryStreamRequestHandler<unknown, unknown>
->(path: T["_path"], input: T["_input"]): AsyncIterable<T["_output"]> {
-  const response = await fetch(buildQueryRequest(path, input));
+>(
+  path: T["_path"],
+  input: T["_input"],
+  options: RequestOptions = {}
+): AsyncIterable<T["_output"]> {
+  const response = await fetch(buildQueryRequest(path, input, options));
 
   if (!response.body) {
     throw new Error("Empty stream body");
@@ -27,23 +34,29 @@ export const queryStream = async function* <
 
 export const mutate = async <T extends MutateRequestHandler<unknown, unknown>>(
   path: T["_path"],
-  input: T["_input"]
+  input: T["_input"],
+  options: RequestOptions = {}
 ): Promise<T["_output"]> =>
   procedure(
     new Request(path, {
+      ...options,
       body: JSON.stringify(input),
       // eslint-disable-next-line @typescript-eslint/naming-convention
-      headers: { "content-type": "application/json" },
+      headers: { ...options.headers, "content-type": "application/json" },
       method: "post",
     })
   );
 
-const buildQueryRequest = (path: string, input: unknown): Request => {
+const buildQueryRequest = (
+  path: string,
+  input: unknown,
+  options: RequestOptions
+): Request => {
   const parameters = new URLSearchParams({
     input: JSON.stringify(input),
   }).toString();
 
-  return new Request(`${path}?${parameters}`);
+  return new Request(`${path}?${parameters}`, options);
 };
 
 const procedure = async <T extends MutateRequestHandler<unknown, unknown>>(

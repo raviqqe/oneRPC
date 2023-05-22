@@ -1,6 +1,7 @@
 import { isAsyncIterable, map } from "@raviqqe/hidash/promise.js";
 import { toByteStream, toStream } from "@raviqqe/hidash/stream.js";
 import { type ZodType } from "zod";
+import { UserError } from "./error.js";
 
 export { UserError } from "./error.js";
 
@@ -10,7 +11,7 @@ type RequestHandler = (request: Request) => Promise<Response>;
 
 type Validator<T> = ZodType<T> | ((data: unknown) => T);
 
-type ResponseBody = AsyncIterable<unknown> | object | undefined;
+type ResponseBody = AsyncIterable<unknown> | object | null | undefined;
 
 const inputParameterName = "input";
 
@@ -71,7 +72,9 @@ const procedure =
         headers: { "content-type": "application/json" },
       });
     } catch (error) {
-      return new Response(undefined, { status: 500 });
+      return new Response(undefined, {
+        status: error instanceof UserError ? 400 : 500,
+      });
     }
   };
 

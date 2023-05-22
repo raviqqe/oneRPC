@@ -1,3 +1,5 @@
+import { toStream } from "@raviqqe/hidash/stream.js";
+import { isAsyncIterable, map } from "@raviqqe/hidash/promise.js";
 import { type ZodType } from "zod";
 
 type RawHandler<T, S> = (input: T) => S | Promise<S>;
@@ -6,7 +8,7 @@ type RequestHandler = (request: Request) => Promise<Response>;
 
 type Validator<T> = ZodType<T> | ((data: unknown) => T);
 
-type ResponseBody = BodyInit | object | null | undefined;
+type ResponseBody = AsyncIterable<unknown> | object | null | undefined;
 
 const inputParameterName = "input";
 
@@ -44,30 +46,24 @@ const invoke =
     outputValidator: Validator<S>,
     handle: RawHandler<T, S>
   ): RequestHandler =>
-  (request) =>
-    handleError(async () =>
-      buildResponse(
-        validate(
-          outputValidator,
-          await handle(validate(inputValidator, await getInput(request)))
-        )
-      )
-    );
+  async (request) => {
+    try {
+      const data = validate(
+        outputValidator,
+        await handle(validate(inputValidator, await getInput(request)))
+      );
 
-const buildResponse = (data: BodyInit | object | null | undefined): Response =>
-  data instanceof ReadableStream || data === undefined
-    ? new Response(data)
-    : new Response(JSON.stringify(data));
-
-const handleError = async (
-  handle: () => Promise<Response>
-): Promise<Response> => {
-  try {
-    return handle();
-  } catch (error) {
-    return new Response(undefined, { status: 500 });
-  }
-};
+      return new Response(
+        data === undefined
+          ? undefined
+          : isAsyncIterable(data)
+          ? toStream(map(data, JSON.stringify))
+          : JSON.stringify(data)
+      );
+    } catch (error) {
+      return new Response(undefined, { status: 500 });
+    }
+  };
 
 const validate = <T>(validator: Validator<T>, data: unknown): T =>
   validator instanceof Function ? validator(data) : validator.parse(data);

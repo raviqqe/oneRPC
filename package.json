@@ -4,7 +4,7 @@
   "description": "The RPC library for the serverless and TypeScript era.",
   "repository": "https://github.com/raviqqe/onerpc",
   "type": "module",
-  "main": "dist/index.js",
+  "main": "dist/main.js",
   "scripts": {
     "build": "tsc",
     "lint": "eslint 'src/**/*.ts'",

@@ -1,5 +1,5 @@
 import { toArray } from "@raviqqe/hidash/promise.js";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { z } from "zod";
 import { mutate, query, queryStream } from "./client.js";
 import * as server from "./main.js";

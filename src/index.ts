@@ -2,13 +2,20 @@ type RequestHandler = (request: Request) => Promise<Response>;
 
 type RawHandler<T, S> = (input: T) => S | Promise<S>;
 
+const inputParameterName = "input";
+
 export const query =
   <T, S>(handle: RawHandler<T, S>): RequestHandler =>
   (request) =>
     handleError(async () => {
       return new Response(
         JSON.stringify(
-          await handle(JSON.parse(new URL(request.url).searchParams))
+          await handle(
+            JSON.parse(
+              new URL(request.url).searchParams.get(inputParameterName) ??
+                JSON.stringify(null)
+            )
+          )
         ),
         { status: 200 }
       );
@@ -18,10 +25,9 @@ export const mutate =
   <T, S>(handle: RawHandler<T, S>): RequestHandler =>
   (request) =>
     handleError(async () => {
-      return new Response(
-        JSON.stringify(await handle(JSON.parse(await request.json()))),
-        { status: 200 }
-      );
+      return new Response(JSON.stringify(await handle(await request.json())), {
+        status: 200,
+      });
     });
 
 const handleError = async (

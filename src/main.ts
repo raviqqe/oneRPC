@@ -46,11 +46,9 @@ export type MutateRequestHandler<
 
 type Validator<T> = ZodType<T> | ((data: unknown) => T);
 
-type ResponseBody = object | null;
-
 const inputParameterName = "input";
 
-export const query = <T, S extends ResponseBody, P extends string = string>(
+export const query = <T, S, P extends string = string>(
   inputValidator: Validator<T>,
   outputValidator: Validator<S>,
   handle: RawHandler<T, S>,
@@ -96,7 +94,7 @@ export const queryStream = <T, S, P extends string = string>(
     { path: options.path ?? ("" as P), headers: options.headers ?? {} }
   );
 
-export const mutate = <T, S extends ResponseBody, P extends string = string>(
+export const mutate = <T, S, P extends string = string>(
   inputValidator: Validator<T>,
   outputValidator: Validator<S>,
   handle: RawHandler<T, S>,
@@ -111,12 +109,7 @@ export const mutate = <T, S extends ResponseBody, P extends string = string>(
     { path: options.path ?? ("" as P), headers: options.headers ?? {} }
   );
 
-const jsonProcedure = <
-  T,
-  S extends ResponseBody,
-  P extends string,
-  M extends boolean
->(
+const jsonProcedure = <T, S, P extends string, M extends boolean>(
   getInput: (request: Request) => Promise<unknown> | unknown,
   inputValidator: Validator<T>,
   outputValidator: Validator<S>,

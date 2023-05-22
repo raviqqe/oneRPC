@@ -7,13 +7,13 @@ import {
 } from "./main.js";
 
 export const query = async <T extends QueryRequestHandler<unknown, unknown>>(
-  path: string,
+  path: T["_path"],
   input: T["_input"]
 ): Promise<T["_output"]> => procedure(buildQueryRequest(path, input));
 
 export const queryStream = async function* <
   T extends QueryStreamRequestHandler<unknown, unknown>
->(path: string, input: T["_input"]): AsyncIterable<T["_output"]> {
+>(path: T["_path"], input: T["_input"]): AsyncIterable<T["_output"]> {
   const response = await fetch(buildQueryRequest(path, input));
 
   if (!response.body) {
@@ -26,7 +26,7 @@ export const queryStream = async function* <
 };
 
 export const mutate = async <T extends MutateRequestHandler<unknown, unknown>>(
-  path: string,
+  path: T["_path"],
   input: T["_input"]
 ): Promise<T["_output"]> =>
   procedure(

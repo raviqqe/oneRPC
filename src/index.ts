@@ -58,13 +58,15 @@ const procedure =
         await handle(validate(inputValidator, await getInput(request)))
       );
 
-      return new Response(
-        data === undefined
-          ? undefined
-          : isAsyncIterable(data)
-          ? toByteStream(toStream(map(data, JSON.stringify)))
-          : JSON.stringify(data)
-      );
+      if (data === undefined) {
+        return new Response(undefined);
+      } else if (isAsyncIterable(data)) {
+        return new Response(toByteStream(toStream(map(data, JSON.stringify))));
+      }
+
+      return new Response(JSON.stringify(data), {
+        headers: { "content-type": "application/json" },
+      });
     } catch (error) {
       return new Response(undefined, { status: 500 });
     }

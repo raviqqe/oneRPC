@@ -92,8 +92,8 @@ const procedure = <
         await handle(validate(inputValidator, await getInput(request)))
       );
 
-      if (data === undefined) {
-        return new Response(undefined);
+      if (isAsyncIterable(data) !== stream) {
+        throw new Error("Incompatible response type");
       } else if (isAsyncIterable(data)) {
         return new Response(toByteStream(toStream(map(data, JSON.stringify))));
       }

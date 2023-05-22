@@ -17,12 +17,15 @@ The RPC library for the serverless and TypeScript era.
   - Routing is delegated to other frameworks or infrastructures.
 - 🤝 HTTP friendly
   - You can leverage full potential of HTTP functionalities, such as cache control headers.
+- 🐁 Minimal dependencies
+  - It depends only on [Web APIs](https://developer.mozilla.org/en-US/docs/Web/API). Thus, it works on many platforms including Node.js, Deno, and edges.
 - 🌊 Streaming
   - Stream responses are transferred as [JSON Lines](https://jsonlines.org/) and clients can consume them chunk by chunk.
 
 ## References
 
 - [tRPC](https://trpc.io/)
+- [Hono.js](https://hono.dev/)
 - [Route Handlers | Next.js](https://nextjs.org/docs/app/building-your-application/routing/router-handlers)
 
 ## License

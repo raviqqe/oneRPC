@@ -1,17 +1,15 @@
 import { parseLines } from "@raviqqe/hidash/json.js";
+import { toIterable, toStringStream } from "@raviqqe/hidash/stream.js";
 import {
   type QueryRequestHandler,
   type QueryStreamRequestHandler,
   type MutateRequestHandler,
 } from "./main.js";
-import { toIterable, toStringStream } from "@raviqqe/hidash/stream.js";
 
 export const query = async <T extends QueryRequestHandler<unknown, unknown>>(
   path: string,
   input: T["_input"]
-): Promise<T["_output"]> => {
-  return procedure(buildQueryRequest(path, input));
-};
+): Promise<T["_output"]> => procedure(buildQueryRequest(path, input));
 
 export const queryStream = async function* <
   T extends QueryStreamRequestHandler<unknown, unknown>

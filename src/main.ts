@@ -87,7 +87,8 @@ export const queryStream = <T, S, P extends string = string>(
               )
             )
           )
-        )
+        ),
+        { headers: options.headers }
       ),
     false,
     true,
@@ -129,8 +130,13 @@ const jsonProcedure = <T, S, P extends string, M extends boolean>(
             )
           )
         ),
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        { headers: { "content-type": "application/json" } }
+        {
+          headers: {
+            ...options.headers,
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            "content-type": "application/json",
+          },
+        }
       ),
     mutate,
     false,

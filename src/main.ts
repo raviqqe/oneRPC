@@ -1,5 +1,5 @@
-import { toByteStream, toStream } from "@raviqqe/hidash/stream.js";
 import { isAsyncIterable, map } from "@raviqqe/hidash/promise.js";
+import { toByteStream, toStream } from "@raviqqe/hidash/stream.js";
 import { type ZodType } from "zod";
 
 type RawHandler<T, S> = (input: T) => S | Promise<S>;

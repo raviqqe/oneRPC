@@ -1,0 +1,10 @@
+{
+  "name": "onerpc",
+  "version": "0.1.0",
+  "description": "RPC library for the serverless and TypeScript era.",
+  "main": "dist/index.js",
+  "repository": "https://github.com/raviqqe/onerpc",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}

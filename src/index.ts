@@ -17,7 +17,7 @@ export const query = <T, S extends ResponseBody>(
   outputValidator: Validator<S>,
   handle: RawHandler<T, S>
 ): RequestHandler =>
-  invoke(
+  procedure(
     (request) => {
       const input = new URL(request.url).searchParams.get(inputParameterName);
 
@@ -37,9 +37,14 @@ export const mutate = <T, S extends ResponseBody>(
   outputValidator: Validator<S>,
   handle: RawHandler<T, S>
 ): RequestHandler =>
-  invoke((request) => request.json(), inputValidator, outputValidator, handle);
+  procedure(
+    (request) => request.json(),
+    inputValidator,
+    outputValidator,
+    handle
+  );
 
-const invoke =
+const procedure =
   <T, S extends ResponseBody>(
     getInput: (request: Request) => Promise<unknown>,
     inputValidator: Validator<T>,

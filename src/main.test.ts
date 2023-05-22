@@ -51,12 +51,28 @@ for (const [procedure, buildRequest] of [
       expect(response.status).toBe(400);
     });
 
+    it("handles a user error with status", async () => {
+      const response = await procedure(z.unknown(), z.never(), () => {
+        throw new UserError(undefined, { status: 403 });
+      })(buildRequest({}));
+
+      expect(response.status).toBe(403);
+    });
+
     it("handles an unexpected error", async () => {
       const response = await procedure(z.unknown(), z.never(), () => {
         throw new Error();
       })(buildRequest({}));
 
       expect(response.status).toBe(500);
+    });
+
+    it("attaches custom headers", async () => {
+      const response = await procedure(z.unknown(), z.null(), () => null, {
+        headers: { hello: "world" },
+      })(buildRequest({}));
+
+      expect(response.headers.get("hello")).toBe("world");
     });
   });
 }
@@ -87,11 +103,30 @@ describe(queryStream.name, () => {
     expect(response.status).toBe(400);
   });
 
+  it("handles a user error with status", async () => {
+    const response = await queryStream(z.unknown(), z.never(), () => {
+      throw new UserError(undefined, { status: 403 });
+    })(buildQueryRequest({}));
+
+    expect(response.status).toBe(403);
+  });
+
   it("handles an unexpected error", async () => {
     const response = await queryStream(z.unknown(), z.never(), () => {
       throw new Error();
     })(buildQueryRequest({}));
 
     expect(response.status).toBe(500);
+  });
+
+  it("attaches custom headers", async () => {
+    const response = await queryStream(
+      z.unknown(),
+      z.any(),
+      async function* () {},
+      { headers: { hello: "world" } }
+    )(buildQueryRequest({}));
+
+    expect(response.headers.get("hello")).toBe("world");
   });
 });

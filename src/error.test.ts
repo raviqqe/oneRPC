@@ -8,4 +8,8 @@ describe(UserError.name, () => {
     expect(new Error() instanceof UserError).toBe(false);
     expect(new Error() instanceof Error).toBe(true);
   });
+
+  it("sets a status code", () => {
+    expect(new UserError(undefined, { status: 403 }).status).toBe(403);
+  });
 });

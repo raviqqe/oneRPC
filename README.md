@@ -10,17 +10,28 @@ The RPC library for the serverless and TypeScript era.
 ## Features
 
 - 🔮 Seamless client-server communication
-  - You can call remote procedures just as seamless as calling local functions.
+
+  You can call remote procedures just as seamless as calling local functions.
+
 - 🛡️ Type safe
-  - Server-client communication is made safe with request and response types in TypeScript which are used by both client and server.
+
+  Server-client communication is made safe with request and response types in TypeScript which are used by both client and server.
+
 - 🔥 Serverless first
-  - Routing is delegated to other frameworks or infrastructures.
+
+  Routing is delegated to other frameworks or infrastructures.
+
 - 🤝 HTTP friendly
-  - You can leverage full potential of HTTP functionalities, such as cache control headers.
+
+  You can leverage full potential of HTTP functionalities, such as cache control headers.
+
 - 🐁 Minimal dependencies
-  - It depends only on [Web APIs](https://developer.mozilla.org/en-US/docs/Web/API). Thus, it works on many platforms including Node.js, Deno, and edges.
+
+  It depends only on [Web APIs](https://developer.mozilla.org/en-US/docs/Web/API). Thus, it works on many platforms including Node.js, Deno, and edges.
+
 - 🌊 Streaming
-  - Stream responses are transferred as [JSON Lines](https://jsonlines.org/) and clients can consume them chunk by chunk.
+
+  Stream responses are transferred as [JSON Lines](https://jsonlines.org/) and clients can consume them chunk by chunk.
 
 ## References
 

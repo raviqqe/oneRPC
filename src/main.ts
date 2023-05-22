@@ -3,7 +3,7 @@ import { map } from "@raviqqe/hidash/promise.js";
 import { toByteStream, toStream } from "@raviqqe/hidash/stream.js";
 import { type ZodType } from "zod";
 import { UserError } from "./error.js";
-import { ProcedureOptions } from "./options.js";
+import { type ProcedureOptions } from "./options.js";
 
 export { UserError } from "./error.js";
 
@@ -60,7 +60,7 @@ export const query = <T, S, P extends string = string>(
     outputValidator,
     handle,
     false,
-    { path: options.path ?? ("" as P), headers: options.headers ?? {} }
+    resolveOptions(options)
   );
 
 export const queryStream = <T, S, P extends string = string>(
@@ -91,7 +91,7 @@ export const queryStream = <T, S, P extends string = string>(
       ),
     false,
     true,
-    { path: options.path ?? ("" as P), headers: options.headers ?? {} }
+    resolveOptions(options)
   );
 
 export const mutate = <T, S, P extends string = string>(
@@ -106,7 +106,7 @@ export const mutate = <T, S, P extends string = string>(
     outputValidator,
     handle,
     true,
-    { path: options.path ?? ("" as P), headers: options.headers ?? {} }
+    resolveOptions(options)
   );
 
 const jsonProcedure = <T, S, P extends string, M extends boolean>(
@@ -175,8 +175,15 @@ const getSearchParameterInput = (request: Request): unknown => {
     throw new Error("Input parameter not defined");
   }
 
-  return JSON.parse(input) as unknown;
+  return JSON.parse(input);
 };
 
 const validate = <T>(validator: Validator<T>, data: unknown): T =>
   validator instanceof Function ? validator(data) : validator.parse(data);
+
+const resolveOptions = <P extends string>(
+  options: Partial<ProcedureOptions<P>>
+): ProcedureOptions<P> => ({
+  headers: options.headers ?? {},
+  path: options.path ?? ("" as P),
+});

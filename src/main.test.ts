@@ -26,8 +26,8 @@ for (const [procedure, buildRequest] of [
       const value = { foo: 42 };
 
       const response = await procedure(
-        z.any(),
-        z.any(),
+        z.object({ foo: z.number() }),
+        z.object({ foo: z.number() }),
         (value: object) => value
       )(buildRequest(value));
 

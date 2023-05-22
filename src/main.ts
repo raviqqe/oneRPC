@@ -7,16 +7,27 @@ export { UserError } from "./error.js";
 
 type RawHandler<T, S> = (input: T) => S | Promise<S>;
 
-interface ProcedureRequestHandler<T, S, M extends boolean> {
+interface ProcedureRequestHandler<T, S, M extends boolean, R extends boolean> {
   (request: Request): Promise<Response>;
   _input: T;
   _output: S;
   _mutate: M;
+  _stream: R;
 }
 
-export type QueryRequestHandler<T, S> = ProcedureRequestHandler<T, S, false>;
+export type QueryRequestHandler<T, S> = ProcedureRequestHandler<
+  T,
+  S,
+  false,
+  false
+>;
 
-export type MutateRequestHandler<T, S> = ProcedureRequestHandler<T, S, true>;
+export type MutateRequestHandler<T, S> = ProcedureRequestHandler<
+  T,
+  S,
+  true,
+  false
+>;
 
 type Validator<T> = ZodType<T> | ((data: unknown) => T);
 
@@ -41,7 +52,9 @@ export const query = <T, S extends ResponseBody>(
     },
     inputValidator,
     outputValidator,
-    handle
+    handle,
+    false,
+    false
   );
 
 export const mutate = <T, S extends ResponseBody>(
@@ -49,24 +62,29 @@ export const mutate = <T, S extends ResponseBody>(
   outputValidator: Validator<S>,
   handle: RawHandler<T, S>
 ): MutateRequestHandler<T, S> => {
-  const handler: ProcedureRequestHandler<T, S, boolean> = procedure(
+  return procedure(
     (request) => request.json(),
     inputValidator,
     outputValidator,
-    handle
+    handle,
+    true,
+    false
   );
-
-  handler._mutate = true as const;
-
-  return handler as MutateRequestHandler<T, S>;
 };
 
-const procedure = <T, S extends ResponseBody>(
+const procedure = <
+  T,
+  S extends ResponseBody,
+  M extends boolean,
+  R extends boolean
+>(
   getInput: (request: Request) => Promise<unknown> | unknown,
   inputValidator: Validator<T>,
   outputValidator: Validator<S>,
-  handle: RawHandler<T, S>
-): ProcedureRequestHandler<T, S, false> => {
+  handle: RawHandler<T, S>,
+  mutate: M,
+  stream: R
+): ProcedureRequestHandler<T, S, M, R> => {
   const handler = async (request: Request) => {
     try {
       const data = validate(
@@ -93,7 +111,8 @@ const procedure = <T, S extends ResponseBody>(
 
   handler._input = undefined as T;
   handler._output = undefined as S;
-  handler._mutate = false as const;
+  handler._mutate = mutate;
+  handler._stream = stream;
 
   return handler;
 };

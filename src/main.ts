@@ -3,6 +3,7 @@ import { map } from "@raviqqe/hidash/promise.js";
 import { toByteStream, toStream } from "@raviqqe/hidash/stream.js";
 import { type ZodType } from "zod";
 import { UserError } from "./error.js";
+import { ProcedureOptions } from "./options.js";
 
 export { UserError } from "./error.js";
 
@@ -10,59 +11,66 @@ type RawHandler<T, S> = (input: T, request: Request) => S | Promise<S>;
 
 type RawStreamHandler<T, S> = (input: T, request: Request) => AsyncIterable<S>;
 
-interface ProcedureRequestHandler<T, S, M extends boolean, R extends boolean> {
+interface ProcedureRequestHandler<
+  T,
+  S,
+  M extends boolean,
+  R extends boolean,
+  P extends string
+> {
   (request: Request): Promise<Response>;
   _input: T;
   _output: S;
   _mutate: M;
   _stream: R;
+  _path: P;
 }
 
-export type QueryRequestHandler<T, S> = ProcedureRequestHandler<
+export type QueryRequestHandler<
   T,
   S,
-  false,
-  false
->;
+  P extends string = string
+> = ProcedureRequestHandler<T, S, false, false, P>;
 
-export type QueryStreamRequestHandler<T, S> = ProcedureRequestHandler<
+export type QueryStreamRequestHandler<
   T,
   S,
-  false,
-  true
->;
+  P extends string = string
+> = ProcedureRequestHandler<T, S, false, true, P>;
 
-export type MutateRequestHandler<T, S> = ProcedureRequestHandler<
+export type MutateRequestHandler<
   T,
   S,
-  true,
-  false
->;
+  P extends string = string
+> = ProcedureRequestHandler<T, S, true, false, P>;
 
 type Validator<T> = ZodType<T> | ((data: unknown) => T);
 
-type ResponseBody = AsyncIterable<unknown> | object | null;
+type ResponseBody = object | null;
 
 const inputParameterName = "input";
 
-export const query = <T, S extends ResponseBody>(
+export const query = <T, S extends ResponseBody, P extends string = string>(
   inputValidator: Validator<T>,
   outputValidator: Validator<S>,
-  handle: RawHandler<T, S>
-): QueryRequestHandler<T, S> =>
+  handle: RawHandler<T, S>,
+  options: Partial<ProcedureOptions<P>> = {}
+): QueryRequestHandler<T, S, P> =>
   jsonProcedure(
     getSearchParameterInput,
     inputValidator,
     outputValidator,
     handle,
-    false
+    false,
+    { path: options.path ?? ("" as P), headers: options.headers ?? {} }
   );
 
-export const queryStream = <T, S>(
+export const queryStream = <T, S, P extends string = string>(
   inputValidator: Validator<T>,
   outputValidator: Validator<S>,
-  handle: RawStreamHandler<T, S>
-): QueryStreamRequestHandler<T, S> =>
+  handle: RawStreamHandler<T, S>,
+  options: Partial<ProcedureOptions<P>> = {}
+): QueryStreamRequestHandler<T, S, P> =>
   procedure(
     async (request: Request) =>
       new Response(
@@ -84,29 +92,38 @@ export const queryStream = <T, S>(
         )
       ),
     false,
-    true
+    true,
+    { path: options.path ?? ("" as P), headers: options.headers ?? {} }
   );
 
-export const mutate = <T, S extends ResponseBody>(
+export const mutate = <T, S extends ResponseBody, P extends string = string>(
   inputValidator: Validator<T>,
   outputValidator: Validator<S>,
-  handle: RawHandler<T, S>
-): MutateRequestHandler<T, S> =>
+  handle: RawHandler<T, S>,
+  options: Partial<ProcedureOptions<P>> = {}
+): MutateRequestHandler<T, S, P> =>
   jsonProcedure(
     (request) => request.json(),
     inputValidator,
     outputValidator,
     handle,
-    true
+    true,
+    { path: options.path ?? ("" as P), headers: options.headers ?? {} }
   );
 
-const jsonProcedure = <T, S extends ResponseBody, M extends boolean>(
+const jsonProcedure = <
+  T,
+  S extends ResponseBody,
+  P extends string,
+  M extends boolean
+>(
   getInput: (request: Request) => Promise<unknown> | unknown,
   inputValidator: Validator<T>,
   outputValidator: Validator<S>,
   handle: RawHandler<T, S>,
-  mutate: M
-): ProcedureRequestHandler<T, S, M, false> =>
+  mutate: M,
+  options: ProcedureOptions<P>
+): ProcedureRequestHandler<T, S, M, false, P> =>
   procedure(
     async (request: Request) =>
       new Response(
@@ -123,14 +140,22 @@ const jsonProcedure = <T, S extends ResponseBody, M extends boolean>(
         { headers: { "content-type": "application/json" } }
       ),
     mutate,
-    false
+    false,
+    options
   );
 
-const procedure = <T, S, M extends boolean, R extends boolean>(
+const procedure = <
+  T,
+  S,
+  M extends boolean,
+  R extends boolean,
+  P extends string
+>(
   handle: (request: Request) => Promise<Response>,
   mutate: M,
-  stream: R
-): ProcedureRequestHandler<T, S, M, R> => {
+  stream: R,
+  options: ProcedureOptions<P>
+): ProcedureRequestHandler<T, S, M, R, P> => {
   const handler = async (request: Request) => {
     try {
       return await handle(request);
@@ -145,6 +170,7 @@ const procedure = <T, S, M extends boolean, R extends boolean>(
   handler._output = undefined as unknown as S;
   handler._mutate = mutate;
   handler._stream = stream;
+  handler._path = options.path;
 
   return handler;
 };

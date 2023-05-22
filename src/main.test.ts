@@ -1,3 +1,5 @@
+import { map, toArray } from "@raviqqe/hidash/promise.js";
+import { toIterable, toStringStream } from "@raviqqe/hidash/stream.js";
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
 import { mutate, query } from "./main.js";
@@ -50,6 +52,21 @@ for (const [procedure, buildRequest] of [
       )(buildRequest({}));
 
       expect(response.body).toBe(null);
+    });
+
+    it("handles async iterable", async () => {
+      const value = { foo: 42 };
+
+      const response = await procedure(z.any(), z.any(), async function* () {
+        yield value;
+        yield value;
+      })(buildRequest({}));
+
+      expect(
+        await toArray(
+          map(toIterable(toStringStream(response.body!)), JSON.parse)
+        )
+      ).toEqual([value, value]);
     });
   });
 }

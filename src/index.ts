@@ -1,4 +1,4 @@
-import { toStream } from "@raviqqe/hidash/stream.js";
+import { toByteStream, toStream } from "@raviqqe/hidash/stream.js";
 import { isAsyncIterable, map } from "@raviqqe/hidash/promise.js";
 import { type ZodType } from "zod";
 
@@ -62,7 +62,7 @@ const procedure =
         data === undefined
           ? undefined
           : isAsyncIterable(data)
-          ? toStream(map(data, JSON.stringify))
+          ? toByteStream(toStream(map(data, JSON.stringify)))
           : JSON.stringify(data)
       );
     } catch (error) {

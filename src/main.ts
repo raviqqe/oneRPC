@@ -8,7 +8,7 @@ type RequestHandler = (request: Request) => Promise<Response>;
 
 type Validator<T> = ZodType<T> | ((data: unknown) => T);
 
-type ResponseBody = AsyncIterable<unknown> | object | null | undefined;
+type ResponseBody = AsyncIterable<unknown> | object | undefined;
 
 const inputParameterName = "input";
 

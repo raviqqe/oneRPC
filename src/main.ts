@@ -187,7 +187,7 @@ const getQueryInput = (request: Request): unknown => {
     throw new Error("Input parameter not defined");
   }
 
-  return input === "undefined" ? undefined : JSON.parse(input);
+  return input ? JSON.parse(input) : undefined;
 };
 
 const validate = <T>(validator: Validator<T>, data: unknown): T =>

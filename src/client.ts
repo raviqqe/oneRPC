@@ -61,14 +61,12 @@ const buildQueryRequest = (
   input: unknown,
   options: RequestOptions
 ): Request => {
+  const url = new URL(path, options.baseUrl).toString();
   const parameters = new URLSearchParams({
     [inputParameterName]: JSON.stringify(input) || "",
   }).toString();
 
-  return new Request(
-    `${new URL(path, options.baseUrl)}?${parameters}`,
-    options
-  );
+  return new Request(`${url}?${parameters}`, options);
 };
 
 const procedure = async <T extends MutateRequestHandler<unknown, unknown>>(

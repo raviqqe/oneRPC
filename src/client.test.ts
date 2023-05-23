@@ -298,6 +298,7 @@ describe(queryStream.name, () => {
       z.null(),
       async function* (_: null, request: Request) {
         const url = new URL(request.url);
+
         if (url.origin !== baseUrl || url.pathname !== path) {
           throw new Error();
         }

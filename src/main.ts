@@ -4,6 +4,7 @@ import { toByteStream, toStream } from "@raviqqe/hidash/stream.js";
 import { type ZodType } from "zod";
 import { RpcError } from "./error.js";
 import { type ProcedureOptions } from "./options.js";
+import { type ErrorBody, inputParameterName, jsonHeaders } from "./utility.js";
 
 export { RpcError } from "./error.js";
 
@@ -46,7 +47,6 @@ export type MutateRequestHandler<
 
 type Validator<T> = ZodType<T> | ((data: unknown) => T);
 
-const inputParameterName = "input";
 const defaultStatus = 500;
 
 export const query = <T, S, P extends string = string>(
@@ -131,8 +131,7 @@ const jsonProcedure = <T, S, P extends string, M extends boolean>(
         {
           headers: {
             ...options.headers,
-            // eslint-disable-next-line @typescript-eslint/naming-convention
-            "content-type": "application/json",
+            ...jsonHeaders,
           },
         }
       ),
@@ -160,9 +159,9 @@ const procedure = <
       return new Response(
         JSON.stringify({
           message: error instanceof Error ? error.message : "Unknown error",
-        }),
+        } satisfies ErrorBody),
         {
-          headers: { "content-type": "application/json" },
+          headers: jsonHeaders,
           status:
             error instanceof RpcError
               ? error.status ?? defaultStatus

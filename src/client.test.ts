@@ -72,7 +72,7 @@ describe(query.name, () => {
     );
     mockFetch(serverQuery);
 
-    expect(
+    await expect(
       query<typeof serverQuery>("https://foo.com/bar", null)
     ).rejects.toThrowError("foo");
   });
@@ -135,7 +135,7 @@ describe(mutate.name, () => {
     );
     mockFetch(serverMutate);
 
-    expect(
+    await expect(
       mutate<typeof serverMutate>("https://foo.com/bar", null)
     ).rejects.toThrowError("foo");
   });
@@ -200,7 +200,7 @@ describe(queryStream.name, () => {
     );
     mockFetch(serverQuery);
 
-    expect(
+    await expect(
       toArray(queryStream<typeof serverQuery>("https://foo.com/bar", null))
     ).rejects.toThrowError("foo");
   });

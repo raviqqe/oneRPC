@@ -5,6 +5,7 @@ import {
   type QueryStreamRequestHandler,
   type MutateRequestHandler,
 } from "./main.js";
+import { type ErrorBody, inputParameterName, jsonHeaders } from "./utility.js";
 
 interface RequestOptions extends Omit<RequestInit, "body" | "method"> {}
 
@@ -43,8 +44,7 @@ export const mutate = async <T extends MutateRequestHandler<unknown, unknown>>(
     new Request(path, {
       ...options,
       body: JSON.stringify(input),
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      headers: { ...options.headers, "content-type": "application/json" },
+      headers: { ...options.headers, ...jsonHeaders },
       method: "post",
     })
   );
@@ -55,7 +55,7 @@ const buildQueryRequest = (
   options: RequestOptions
 ): Request => {
   const parameters = new URLSearchParams({
-    input: JSON.stringify(input),
+    [inputParameterName]: JSON.stringify(input),
   }).toString();
 
   return new Request(`${path}?${parameters}`, options);
@@ -74,4 +74,4 @@ const procedure = async <T extends MutateRequestHandler<unknown, unknown>>(
 };
 
 const buildError = async (response: Response): Promise<Error> =>
-  new Error((await response.json()).message);
+  new Error(((await response.json()) as ErrorBody).message);

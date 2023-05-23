@@ -1,4 +1,4 @@
 export interface ProcedureOptions<T extends string> {
-  url: T;
+  path: T;
   headers: HeadersInit;
 }

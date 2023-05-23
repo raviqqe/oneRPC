@@ -75,7 +75,7 @@ const procedure = async <T extends MutateRequestHandler<unknown, unknown>>(
     throw await buildError(response);
   }
 
-  return getJsonBody(response) as T["_output"];
+  return (await getJsonBody(response)) as T["_output"];
 };
 
 const buildError = async (response: Response): Promise<Error> =>

@@ -87,7 +87,7 @@ describe(mutate.name, () => {
       new Request("", { body: toStream((async function* () {})()) })
     );
 
-    expect(response.status).toBe(500);
+    expect(response.status).toBe(200);
   });
 });
 

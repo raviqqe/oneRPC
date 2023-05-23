@@ -43,7 +43,7 @@ for (const [procedure, buildRequest] of [
       expect(await response.json()).toBe(null);
     });
 
-    it("handles a rpc error", async () => {
+    it("handles a RPC error", async () => {
       const response = await procedure(z.unknown(), z.never(), () => {
         throw new RpcError();
       })(buildRequest({}));
@@ -51,7 +51,7 @@ for (const [procedure, buildRequest] of [
       expect(response.status).toBe(400);
     });
 
-    it("handles a rpc error with status", async () => {
+    it("handles a RPC error with status", async () => {
       const response = await procedure(z.unknown(), z.never(), () => {
         throw new RpcError(undefined, { status: 403 });
       })(buildRequest({}));
@@ -95,7 +95,7 @@ describe(queryStream.name, () => {
     ).toEqual([value, value]);
   });
 
-  it("handles a rpc error", async () => {
+  it("handles a RPC error", async () => {
     const response = await queryStream(z.unknown(), z.never(), () => {
       throw new RpcError();
     })(buildQueryRequest({}));
@@ -103,7 +103,7 @@ describe(queryStream.name, () => {
     expect(response.status).toBe(400);
   });
 
-  it("handles a rpc error with status", async () => {
+  it("handles a RPC error with status", async () => {
     const response = await queryStream(z.unknown(), z.never(), () => {
       throw new RpcError(undefined, { status: 403 });
     })(buildQueryRequest({}));

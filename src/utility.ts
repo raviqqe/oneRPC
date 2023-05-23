@@ -13,7 +13,7 @@ export const getJsonBody = async (
   response: Request | Response
 ): Promise<unknown> => {
   try {
-    return await response.json();
+    return (await response.json()) as unknown;
   } catch (_error) {
     // Even when clients pass `new Request("url", { body: undefined })`,
     // bodies are defined as `ReadableStream` after transferred to the other side...

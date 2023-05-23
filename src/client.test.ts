@@ -76,6 +76,15 @@ describe(query.name, () => {
       query<typeof serverQuery>("https://foo.com/bar", null)
     ).rejects.toThrowError("foo");
   });
+
+  it("handles undefined input", async () => {
+    const serverQuery = server.query(z.void(), z.any(), () => null);
+    mockFetch(serverQuery);
+
+    expect(
+      await query<typeof serverQuery>("https://foo.com/foo", undefined)
+    ).toBe(null);
+  });
 });
 
 describe(mutate.name, () => {

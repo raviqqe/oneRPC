@@ -1,5 +1,9 @@
 import { map, toArray } from "@raviqqe/hidash/promise.js";
-import { toIterable, toStringStream } from "@raviqqe/hidash/stream.js";
+import {
+  toIterable,
+  toStream,
+  toStringStream,
+} from "@raviqqe/hidash/stream.js";
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
 import { RpcError, mutate, query, queryStream } from "./main.js";
@@ -76,6 +80,21 @@ for (const [procedure, buildRequest] of [
     });
   });
 }
+
+describe(mutate.name, () => {
+  it("handles a zero-length body", async () => {
+    const options = {
+      body: toStream((async function* () {})()),
+      duplex: "half",
+      method: "post",
+    };
+    const response = await mutate(z.void(), z.void(), () => {})(
+      new Request("https://foo.com", options)
+    );
+
+    expect(response.status).toBe(200);
+  });
+});
 
 describe(queryStream.name, () => {
   it("handles async iterable", async () => {

@@ -123,6 +123,22 @@ describe(mutate.name, () => {
       })
     ).toEqual({ hello: "world" });
   });
+
+  it("handles an error", async () => {
+    const serverMutate = server.mutate(
+      z.unknown(),
+      z.any(),
+      () => {
+        throw new Error("foo");
+      },
+      { path: "https://foo.com/bar" }
+    );
+    mockFetch(serverMutate);
+
+    expect(
+      mutate<typeof serverMutate>("https://foo.com/bar", null)
+    ).rejects.toThrowError("foo");
+  });
 });
 
 describe(queryStream.name, () => {
@@ -171,5 +187,21 @@ describe(queryStream.name, () => {
         })
       )
     ).toEqual(["world"]);
+  });
+
+  it("handles an error", async () => {
+    const serverQuery = server.queryStream(
+      z.unknown(),
+      z.any(),
+      () => {
+        throw new Error("foo");
+      },
+      { path: "https://foo.com/bar" }
+    );
+    mockFetch(serverQuery);
+
+    expect(
+      toArray(queryStream<typeof serverQuery>("https://foo.com/bar", null))
+    ).rejects.toThrowError("foo");
   });
 });

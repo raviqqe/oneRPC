@@ -2,10 +2,10 @@ import { stringifyLines } from "@raviqqe/hidash/json.js";
 import { map } from "@raviqqe/hidash/promise.js";
 import { toByteStream, toStream } from "@raviqqe/hidash/stream.js";
 import { type ZodType } from "zod";
-import { UserError } from "./error.js";
+import { RpcError } from "./error.js";
 import { type ProcedureOptions } from "./options.js";
 
-export { UserError } from "./error.js";
+export { RpcError } from "./error.js";
 
 type RawHandler<T, S> = (input: T, request: Request) => S | Promise<S>;
 
@@ -47,6 +47,7 @@ export type MutateRequestHandler<
 type Validator<T> = ZodType<T> | ((data: unknown) => T);
 
 const inputParameterName = "input";
+const defaultStatus = 500;
 
 export const query = <T, S, P extends string = string>(
   inputValidator: Validator<T>,
@@ -160,7 +161,10 @@ const procedure = <
       return await handle(request);
     } catch (error) {
       return new Response(undefined, {
-        status: error instanceof UserError ? error.status ?? 400 : 500,
+        status:
+          error instanceof RpcError
+            ? error.status ?? defaultStatus
+            : defaultStatus,
       });
     }
   };

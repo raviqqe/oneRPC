@@ -1,15 +1,15 @@
 import { describe, expect, it } from "vitest";
-import { UserError } from "./error.js";
+import { RpcError } from "./error.js";
 
-describe(UserError.name, () => {
+describe(RpcError.name, () => {
   it("is a correct instance", () => {
-    expect(new UserError() instanceof UserError).toBe(true);
-    expect(new UserError() instanceof Error).toBe(true);
-    expect(new Error() instanceof UserError).toBe(false);
+    expect(new RpcError() instanceof RpcError).toBe(true);
+    expect(new RpcError() instanceof Error).toBe(true);
+    expect(new Error() instanceof RpcError).toBe(false);
     expect(new Error() instanceof Error).toBe(true);
   });
 
   it("sets a status code", () => {
-    expect(new UserError(undefined, { status: 403 }).status).toBe(403);
+    expect(new RpcError(undefined, { status: 403 }).status).toBe(403);
   });
 });

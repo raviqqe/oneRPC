@@ -55,7 +55,7 @@ const buildQueryRequest = (
   options: RequestOptions
 ): Request => {
   const parameters = new URLSearchParams({
-    [inputParameterName]: JSON.stringify(input),
+    [inputParameterName]: JSON.stringify(input) || "",
   }).toString();
 
   return new Request(`${path}?${parameters}`, options);

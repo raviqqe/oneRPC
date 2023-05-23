@@ -15,7 +15,7 @@ import {
 interface RequestOptions extends Omit<RequestInit, "body" | "method"> {}
 
 export const query = async <T extends QueryRequestHandler<unknown, unknown>>(
-  path: T["_path"],
+  url: T["_path"],
   input: T["_input"],
   options: RequestOptions = {}
 ): Promise<T["_output"]> => procedure(buildQueryRequest(path, input, options));
@@ -23,7 +23,7 @@ export const query = async <T extends QueryRequestHandler<unknown, unknown>>(
 export const queryStream = async function* <
   T extends QueryStreamRequestHandler<unknown, unknown>
 >(
-  path: T["_path"],
+  url: T["_path"],
   input: T["_input"],
   options: RequestOptions = {}
 ): AsyncIterable<T["_output"]> {
@@ -41,7 +41,7 @@ export const queryStream = async function* <
 };
 
 export const mutate = async <T extends MutateRequestHandler<unknown, unknown>>(
-  path: T["_path"],
+  url: T["_path"],
   input: T["_input"],
   options: RequestOptions = {}
 ): Promise<T["_output"]> =>
@@ -55,7 +55,7 @@ export const mutate = async <T extends MutateRequestHandler<unknown, unknown>>(
   );
 
 const buildQueryRequest = (
-  path: string,
+  url: string,
   input: unknown,
   options: RequestOptions
 ): Request => {

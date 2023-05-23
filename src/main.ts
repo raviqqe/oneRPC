@@ -29,7 +29,7 @@ interface ProcedureRequestHandler<
   _output: S;
   _mutate: M;
   _stream: R;
-  _path: P;
+  _url: P;
 }
 
 export type QueryRequestHandler<
@@ -198,5 +198,5 @@ const resolveOptions = <P extends string>(
   options: Partial<ProcedureOptions<P>>
 ): ProcedureOptions<P> => ({
   headers: options.headers ?? {},
-  path: options.path ?? ("" as P),
+  url: options.path ?? ("" as P),
 });

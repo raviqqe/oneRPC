@@ -84,7 +84,9 @@ for (const [procedure, buildRequest] of [
 describe(mutate.name, () => {
   it("handles a zero-length body", async () => {
     const response = await mutate(z.void(), z.void(), () => {})(
-      new Request("", { body: toStream((async function* () {})()) })
+      new Request("https://foo.com", {
+        body: toStream((async function* () {})()),
+      })
     );
 
     expect(response.status).toBe(200);

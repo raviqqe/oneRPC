@@ -12,7 +12,9 @@ import {
   getJsonBody,
 } from "./utility.js";
 
-interface RequestOptions extends Omit<RequestInit, "body" | "method"> {}
+interface RequestOptions extends Omit<RequestInit, "body" | "method"> {
+  baseUrl?: string;
+}
 
 export const query = async <T extends QueryRequestHandler<unknown, unknown>>(
   path: T["_path"],
@@ -46,7 +48,7 @@ export const mutate = async <T extends MutateRequestHandler<unknown, unknown>>(
   options: RequestOptions = {}
 ): Promise<T["_output"]> =>
   procedure(
-    new Request(path, {
+    new Request(new URL(path, options.baseUrl), {
       ...options,
       body: JSON.stringify(input),
       headers: { ...options.headers, ...jsonHeaders },
@@ -59,11 +61,12 @@ const buildQueryRequest = (
   input: unknown,
   options: RequestOptions
 ): Request => {
+  const url = new URL(path, options.baseUrl).toString();
   const parameters = new URLSearchParams({
     [inputParameterName]: JSON.stringify(input) || "",
   }).toString();
 
-  return new Request(`${path}?${parameters}`, options);
+  return new Request(`${url}?${parameters}`, options);
 };
 
 const procedure = async <T extends MutateRequestHandler<unknown, unknown>>(

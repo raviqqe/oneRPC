@@ -94,6 +94,30 @@ describe(query.name, () => {
       undefined
     );
   });
+
+  it("resolves a URL from a base URL", async () => {
+    const baseUrl = "https://foo.com";
+    const path = "/bar";
+
+    const serverQuery = server.query(
+      z.null(),
+      z.null(),
+      async (_: null, request: Request) => {
+        const url = new URL(request.url);
+
+        if (url.origin !== baseUrl || url.pathname !== path) {
+          throw new Error();
+        }
+
+        return null;
+      }
+    );
+    mockFetch(serverQuery);
+
+    expect(await query<typeof serverQuery>(path, null, { baseUrl })).toEqual(
+      null
+    );
+  });
 });
 
 describe(mutate.name, () => {
@@ -175,6 +199,30 @@ describe(mutate.name, () => {
       undefined
     );
   });
+
+  it("resolves a URL from a base URL", async () => {
+    const baseUrl = "https://foo.com";
+    const path = "/bar";
+
+    const serverMutate = server.mutate(
+      z.null(),
+      z.null(),
+      async (_: null, request: Request) => {
+        const url = new URL(request.url);
+
+        if (url.origin !== baseUrl || url.pathname !== path) {
+          throw new Error();
+        }
+
+        return null;
+      }
+    );
+    mockFetch(serverMutate);
+
+    expect(await mutate<typeof serverMutate>(path, null, { baseUrl })).toEqual(
+      null
+    );
+  });
 });
 
 describe(queryStream.name, () => {
@@ -239,5 +287,26 @@ describe(queryStream.name, () => {
     await expect(
       toArray(queryStream<typeof serverQuery>("https://foo.com/bar", null))
     ).rejects.toThrowError("foo");
+  });
+
+  it("resolves a URL from a base URL", async () => {
+    const baseUrl = "https://foo.com";
+    const path = "/bar";
+
+    const serverQuery = server.queryStream(
+      z.null(),
+      z.null(),
+      async function* (_: null, request: Request) {
+        const url = new URL(request.url);
+        if (url.origin !== baseUrl || url.pathname !== path) {
+          throw new Error();
+        }
+      }
+    );
+    mockFetch(serverQuery);
+
+    expect(
+      await toArray(queryStream<typeof serverQuery>(path, null, { baseUrl }))
+    ).toEqual([]);
   });
 });

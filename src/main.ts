@@ -22,44 +22,44 @@ interface ProcedureRequestHandler<
   S,
   M extends boolean,
   R extends boolean,
-  U extends string
+  P extends string
 > {
   (request: Request): Promise<Response>;
   _input: T;
   _output: S;
   _mutate: M;
   _stream: R;
-  _url: U;
+  _path: P;
 }
 
 export type QueryRequestHandler<
   T,
   S,
-  U extends string = string
-> = ProcedureRequestHandler<T, S, false, false, U>;
+  P extends string = string
+> = ProcedureRequestHandler<T, S, false, false, P>;
 
 export type QueryStreamRequestHandler<
   T,
   S,
-  U extends string = string
-> = ProcedureRequestHandler<T, S, false, true, U>;
+  P extends string = string
+> = ProcedureRequestHandler<T, S, false, true, P>;
 
 export type MutateRequestHandler<
   T,
   S,
-  U extends string = string
-> = ProcedureRequestHandler<T, S, true, false, U>;
+  P extends string = string
+> = ProcedureRequestHandler<T, S, true, false, P>;
 
 type Validator<T> = ZodType<T> | ((data: unknown) => T);
 
 const defaultStatus = 500;
 
-export const query = <T, S, U extends string = string>(
+export const query = <T, S, P extends string = string>(
   inputValidator: Validator<T>,
   outputValidator: Validator<S>,
   handle: RawHandler<T, S>,
-  options: Partial<ProcedureOptions<U>> = {}
-): QueryRequestHandler<T, S, U> =>
+  options: Partial<ProcedureOptions<P>> = {}
+): QueryRequestHandler<T, S, P> =>
   jsonProcedure(
     getQueryInput,
     inputValidator,
@@ -69,12 +69,12 @@ export const query = <T, S, U extends string = string>(
     resolveOptions(options)
   );
 
-export const queryStream = <T, S, U extends string = string>(
+export const queryStream = <T, S, P extends string = string>(
   inputValidator: Validator<T>,
   outputValidator: Validator<S>,
   handle: RawStreamHandler<T, S>,
-  options: Partial<ProcedureOptions<U>> = {}
-): QueryStreamRequestHandler<T, S, U> =>
+  options: Partial<ProcedureOptions<P>> = {}
+): QueryStreamRequestHandler<T, S, P> =>
   procedure(
     async (request: Request) =>
       new Response(
@@ -98,12 +98,12 @@ export const queryStream = <T, S, U extends string = string>(
     resolveOptions(options)
   );
 
-export const mutate = <T, S, U extends string = string>(
+export const mutate = <T, S, P extends string = string>(
   inputValidator: Validator<T>,
   outputValidator: Validator<S>,
   handle: RawHandler<T, S>,
-  options: Partial<ProcedureOptions<U>> = {}
-): MutateRequestHandler<T, S, U> =>
+  options: Partial<ProcedureOptions<P>> = {}
+): MutateRequestHandler<T, S, P> =>
   jsonProcedure(
     getJsonBody,
     inputValidator,
@@ -113,14 +113,14 @@ export const mutate = <T, S, U extends string = string>(
     resolveOptions(options)
   );
 
-const jsonProcedure = <T, S, U extends string, M extends boolean>(
+const jsonProcedure = <T, S, P extends string, M extends boolean>(
   getInput: (request: Request) => Promise<unknown> | unknown,
   inputValidator: Validator<T>,
   outputValidator: Validator<S>,
   handle: RawHandler<T, S>,
   mutate: M,
-  options: ProcedureOptions<U>
-): ProcedureRequestHandler<T, S, M, false, U> =>
+  options: ProcedureOptions<P>
+): ProcedureRequestHandler<T, S, M, false, P> =>
   procedure(
     async (request: Request) =>
       new Response(
@@ -150,13 +150,13 @@ const procedure = <
   S,
   M extends boolean,
   R extends boolean,
-  U extends string
+  P extends string
 >(
   handle: (request: Request) => Promise<Response>,
   mutate: M,
   stream: R,
-  options: ProcedureOptions<U>
-): ProcedureRequestHandler<T, S, M, R, U> => {
+  options: ProcedureOptions<P>
+): ProcedureRequestHandler<T, S, M, R, P> => {
   const handler = async (request: Request) => {
     try {
       return await handle(request);
@@ -180,7 +180,7 @@ const procedure = <
   handler._output = undefined as unknown as S;
   handler._mutate = mutate;
   handler._stream = stream;
-  handler._url = options.url;
+  handler._path = options.path;
 
   return handler;
 };
@@ -194,9 +194,9 @@ const getQueryInput = (request: Request): unknown => {
 const validate = <T>(validator: Validator<T>, data: unknown): T =>
   validator instanceof Function ? validator(data) : validator.parse(data);
 
-const resolveOptions = <U extends string>(
-  options: Partial<ProcedureOptions<U>>
-): ProcedureOptions<U> => ({
+const resolveOptions = <P extends string>(
+  options: Partial<ProcedureOptions<P>>
+): ProcedureOptions<P> => ({
   headers: options.headers ?? {},
-  url: options.url ?? ("" as U),
+  path: options.path ?? ("" as P),
 });

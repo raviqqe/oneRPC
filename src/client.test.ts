@@ -50,9 +50,9 @@ describe(query.name, () => {
     ).toEqual({ hello: "world" });
   });
 
-  it("specifies a url", async () => {
+  it("specifies a path", async () => {
     const serverQuery = server.query(z.null(), z.any(), (x: null) => x, {
-      url: "https://foo.com/bar",
+      path: "https://foo.com/bar",
     });
     mockFetch(serverQuery);
 
@@ -68,7 +68,7 @@ describe(query.name, () => {
       () => {
         throw new Error("foo");
       },
-      { url: "https://foo.com/bar" }
+      { path: "https://foo.com/bar" }
     );
     mockFetch(serverQuery);
 
@@ -149,7 +149,7 @@ describe(mutate.name, () => {
       () => {
         throw new Error("foo");
       },
-      { url: "https://foo.com/bar" }
+      { path: "https://foo.com/bar" }
     );
     mockFetch(serverMutate);
 
@@ -232,7 +232,7 @@ describe(queryStream.name, () => {
       () => {
         throw new Error("foo");
       },
-      { url: "https://foo.com/bar" }
+      { path: "https://foo.com/bar" }
     );
     mockFetch(serverQuery);
 

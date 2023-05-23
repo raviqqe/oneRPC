@@ -139,6 +139,15 @@ describe(mutate.name, () => {
       mutate<typeof serverMutate>("https://foo.com/bar", null)
     ).rejects.toThrowError("foo");
   });
+
+  it("handles undefined input", async () => {
+    const serverMutate = server.mutate(z.void(), z.any(), () => null);
+    mockFetch(serverMutate);
+
+    expect(
+      await mutate<typeof serverMutate>("https://foo.com/foo", undefined)
+    ).toBe(null);
+  });
 });
 
 describe(queryStream.name, () => {

@@ -4,7 +4,12 @@ import { toByteStream, toStream } from "@raviqqe/hidash/stream.js";
 import { type ZodType } from "zod";
 import { RpcError } from "./error.js";
 import { type ProcedureOptions } from "./options.js";
-import { type ErrorBody, inputParameterName, jsonHeaders } from "./utility.js";
+import {
+  type ErrorBody,
+  inputParameterName,
+  jsonHeaders,
+  getResponseBody,
+} from "./utility.js";
 
 export { RpcError } from "./error.js";
 
@@ -100,16 +105,7 @@ export const mutate = <T, S, P extends string = string>(
   options: Partial<ProcedureOptions<P>> = {}
 ): MutateRequestHandler<T, S, P> =>
   jsonProcedure(
-    async (request) => {
-      try {
-        return await request.json();
-      } catch (_error) {
-        // Even when clients pass `new Request("url", { body: undefined })`,
-        // bodies are defined as `ReadableStream` on the server side...
-        // TODO Does inspection of content length headers work in general?
-        return undefined;
-      }
-    },
+    getResponseBody,
     inputValidator,
     outputValidator,
     handle,

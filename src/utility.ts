@@ -9,7 +9,9 @@ export const jsonHeaders = {
   "content-type": "application/json",
 };
 
-export const getResponseBody = async (response: Response): Promise<unknown> => {
+export const getJsonBody = async (
+  response: Request | Response
+): Promise<unknown> => {
   try {
     return await response.json();
   } catch (_error) {

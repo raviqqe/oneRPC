@@ -9,7 +9,7 @@ import {
   type ErrorBody,
   inputParameterName,
   jsonHeaders,
-  getResponseBody,
+  getJsonBody,
 } from "./utility.js";
 
 interface RequestOptions extends Omit<RequestInit, "body" | "method"> {}
@@ -75,7 +75,7 @@ const procedure = async <T extends MutateRequestHandler<unknown, unknown>>(
     throw await buildError(response);
   }
 
-  return getResponseBody(response) as T["_output"];
+  return getJsonBody(response) as T["_output"];
 };
 
 const buildError = async (response: Response): Promise<Error> =>

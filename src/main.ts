@@ -8,7 +8,7 @@ import {
   type ErrorBody,
   inputParameterName,
   jsonHeaders,
-  getResponseBody,
+  getJsonBody,
 } from "./utility.js";
 
 export { RpcError } from "./error.js";
@@ -105,7 +105,7 @@ export const mutate = <T, S, P extends string = string>(
   options: Partial<ProcedureOptions<P>> = {}
 ): MutateRequestHandler<T, S, P> =>
   jsonProcedure(
-    getResponseBody,
+    getJsonBody,
     inputValidator,
     outputValidator,
     handle,

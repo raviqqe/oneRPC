@@ -180,7 +180,7 @@ const procedure = <
   handler._output = undefined as unknown as S;
   handler._mutate = mutate;
   handler._stream = stream;
-  handler._path = options.path;
+  handler._url = options.url;
 
   return handler;
 };
@@ -198,5 +198,5 @@ const resolveOptions = <P extends string>(
   options: Partial<ProcedureOptions<P>>
 ): ProcedureOptions<P> => ({
   headers: options.headers ?? {},
-  url: options.path ?? ("" as P),
+  url: options.url ?? ("" as P),
 });

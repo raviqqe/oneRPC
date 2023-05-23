@@ -50,7 +50,7 @@ describe(query.name, () => {
     ).toEqual({ hello: "world" });
   });
 
-  it("specifies a path", async () => {
+  it("specifies a url", async () => {
     const serverQuery = server.query(z.null(), z.any(), (x: null) => x, {
       url: "https://foo.com/bar",
     });

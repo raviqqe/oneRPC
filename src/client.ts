@@ -5,6 +5,7 @@ import {
   type QueryStreamRequestHandler,
   type MutateRequestHandler,
 } from "./main.js";
+import { type ErrorBody, inputParameterName, jsonHeaders } from "./utility.js";
 
 interface RequestOptions extends Omit<RequestInit, "body" | "method"> {}
 
@@ -23,7 +24,9 @@ export const queryStream = async function* <
 ): AsyncIterable<T["_output"]> {
   const response = await fetch(buildQueryRequest(path, input, options));
 
-  if (!response.body) {
+  if (response.status !== 200) {
+    throw await buildError(response);
+  } else if (!response.body) {
     throw new Error("Empty stream body");
   }
 
@@ -41,8 +44,7 @@ export const mutate = async <T extends MutateRequestHandler<unknown, unknown>>(
     new Request(path, {
       ...options,
       body: JSON.stringify(input),
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      headers: { ...options.headers, "content-type": "application/json" },
+      headers: { ...options.headers, ...jsonHeaders },
       method: "post",
     })
   );
@@ -53,7 +55,7 @@ const buildQueryRequest = (
   options: RequestOptions
 ): Request => {
   const parameters = new URLSearchParams({
-    input: JSON.stringify(input),
+    [inputParameterName]: JSON.stringify(input),
   }).toString();
 
   return new Request(`${path}?${parameters}`, options);
@@ -64,5 +66,12 @@ const procedure = async <T extends MutateRequestHandler<unknown, unknown>>(
 ): Promise<T["_output"]> => {
   const response = await fetch(request);
 
+  if (response.status !== 200) {
+    throw await buildError(response);
+  }
+
   return (await response.json()) as T["_output"];
 };
+
+const buildError = async (response: Response): Promise<Error> =>
+  new Error(((await response.json()) as ErrorBody).message);

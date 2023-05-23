@@ -60,6 +60,22 @@ describe(query.name, () => {
       null
     );
   });
+
+  it("handles an error", async () => {
+    const serverQuery = server.query(
+      z.unknown(),
+      z.any(),
+      () => {
+        throw new Error("foo");
+      },
+      { path: "https://foo.com/bar" }
+    );
+    mockFetch(serverQuery);
+
+    await expect(
+      query<typeof serverQuery>("https://foo.com/bar", null)
+    ).rejects.toThrowError("foo");
+  });
 });
 
 describe(mutate.name, () => {
@@ -106,6 +122,22 @@ describe(mutate.name, () => {
         headers: { hello: "world" },
       })
     ).toEqual({ hello: "world" });
+  });
+
+  it("handles an error", async () => {
+    const serverMutate = server.mutate(
+      z.unknown(),
+      z.any(),
+      () => {
+        throw new Error("foo");
+      },
+      { path: "https://foo.com/bar" }
+    );
+    mockFetch(serverMutate);
+
+    await expect(
+      mutate<typeof serverMutate>("https://foo.com/bar", null)
+    ).rejects.toThrowError("foo");
   });
 });
 
@@ -155,5 +187,21 @@ describe(queryStream.name, () => {
         })
       )
     ).toEqual(["world"]);
+  });
+
+  it("handles an error", async () => {
+    const serverQuery = server.queryStream(
+      z.unknown(),
+      z.any(),
+      () => {
+        throw new Error("foo");
+      },
+      { path: "https://foo.com/bar" }
+    );
+    mockFetch(serverQuery);
+
+    await expect(
+      toArray(queryStream<typeof serverQuery>("https://foo.com/bar", null))
+    ).rejects.toThrowError("foo");
   });
 });

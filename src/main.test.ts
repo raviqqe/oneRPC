@@ -2,7 +2,7 @@ import { map, toArray } from "@raviqqe/hidash/promise.js";
 import { toIterable, toStringStream } from "@raviqqe/hidash/stream.js";
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
-import { UserError, mutate, query, queryStream } from "./main.js";
+import { RpcError, mutate, query, queryStream } from "./main.js";
 
 const buildQueryRequest = (value: unknown) =>
   new Request(
@@ -43,20 +43,20 @@ for (const [procedure, buildRequest] of [
       expect(await response.json()).toBe(null);
     });
 
-    it("handles a user error", async () => {
+    it("handles an RPC error", async () => {
       const response = await procedure(z.unknown(), z.never(), () => {
-        throw new UserError();
+        throw new RpcError();
+      })(buildRequest({}));
+
+      expect(response.status).toBe(500);
+    });
+
+    it("handles an RPC error with status", async () => {
+      const response = await procedure(z.unknown(), z.never(), () => {
+        throw new RpcError(undefined, { status: 400 });
       })(buildRequest({}));
 
       expect(response.status).toBe(400);
-    });
-
-    it("handles a user error with status", async () => {
-      const response = await procedure(z.unknown(), z.never(), () => {
-        throw new UserError(undefined, { status: 403 });
-      })(buildRequest({}));
-
-      expect(response.status).toBe(403);
     });
 
     it("handles an unexpected error", async () => {
@@ -95,20 +95,20 @@ describe(queryStream.name, () => {
     ).toEqual([value, value]);
   });
 
-  it("handles a user error", async () => {
+  it("handles an RPC error", async () => {
     const response = await queryStream(z.unknown(), z.never(), () => {
-      throw new UserError();
+      throw new RpcError();
+    })(buildQueryRequest({}));
+
+    expect(response.status).toBe(500);
+  });
+
+  it("handles an RPC error with status", async () => {
+    const response = await queryStream(z.unknown(), z.never(), () => {
+      throw new RpcError(undefined, { status: 400 });
     })(buildQueryRequest({}));
 
     expect(response.status).toBe(400);
-  });
-
-  it("handles a user error with status", async () => {
-    const response = await queryStream(z.unknown(), z.never(), () => {
-      throw new UserError(undefined, { status: 403 });
-    })(buildQueryRequest({}));
-
-    expect(response.status).toBe(403);
   });
 
   it("handles an unexpected error", async () => {

@@ -2,10 +2,11 @@ import { stringifyLines } from "@raviqqe/hidash/json.js";
 import { map } from "@raviqqe/hidash/promise.js";
 import { toByteStream, toStream } from "@raviqqe/hidash/stream.js";
 import { type ZodType } from "zod";
-import { UserError } from "./error.js";
+import { RpcError } from "./error.js";
 import { type ProcedureOptions } from "./options.js";
+import { type ErrorBody, inputParameterName, jsonHeaders } from "./utility.js";
 
-export { UserError } from "./error.js";
+export { RpcError } from "./error.js";
 
 type RawHandler<T, S> = (input: T, request: Request) => S | Promise<S>;
 
@@ -46,7 +47,7 @@ export type MutateRequestHandler<
 
 type Validator<T> = ZodType<T> | ((data: unknown) => T);
 
-const inputParameterName = "input";
+const defaultStatus = 500;
 
 export const query = <T, S, P extends string = string>(
   inputValidator: Validator<T>,
@@ -55,7 +56,7 @@ export const query = <T, S, P extends string = string>(
   options: Partial<ProcedureOptions<P>> = {}
 ): QueryRequestHandler<T, S, P> =>
   jsonProcedure(
-    getSearchParameterInput,
+    getQueryInput,
     inputValidator,
     outputValidator,
     handle,
@@ -77,10 +78,7 @@ export const queryStream = <T, S, P extends string = string>(
             stringifyLines(
               map(
                 handle(
-                  validate(
-                    inputValidator,
-                    await getSearchParameterInput(request)
-                  ),
+                  validate(inputValidator, await getQueryInput(request)),
                   request
                 ),
                 (output) => validate(outputValidator, output)
@@ -133,8 +131,7 @@ const jsonProcedure = <T, S, P extends string, M extends boolean>(
         {
           headers: {
             ...options.headers,
-            // eslint-disable-next-line @typescript-eslint/naming-convention
-            "content-type": "application/json",
+            ...jsonHeaders,
           },
         }
       ),
@@ -159,9 +156,18 @@ const procedure = <
     try {
       return await handle(request);
     } catch (error) {
-      return new Response(undefined, {
-        status: error instanceof UserError ? error.status ?? 400 : 500,
-      });
+      return new Response(
+        JSON.stringify({
+          message: error instanceof Error ? error.message : "Unknown error",
+        } satisfies ErrorBody),
+        {
+          headers: jsonHeaders,
+          status:
+            error instanceof RpcError
+              ? error.status ?? defaultStatus
+              : defaultStatus,
+        }
+      );
     }
   };
 
@@ -174,7 +180,7 @@ const procedure = <
   return handler;
 };
 
-const getSearchParameterInput = (request: Request): unknown => {
+const getQueryInput = (request: Request): unknown => {
   const input = new URL(request.url).searchParams.get(inputParameterName);
 
   if (!input) {

@@ -56,7 +56,7 @@ export const query = <T, S, P extends string = string>(
   options: Partial<ProcedureOptions<P>> = {}
 ): QueryRequestHandler<T, S, P> =>
   jsonProcedure(
-    getSearchParameterInput,
+    getQueryInput,
     inputValidator,
     outputValidator,
     handle,
@@ -78,10 +78,7 @@ export const queryStream = <T, S, P extends string = string>(
             stringifyLines(
               map(
                 handle(
-                  validate(
-                    inputValidator,
-                    await getSearchParameterInput(request)
-                  ),
+                  validate(inputValidator, await getQueryInput(request)),
                   request
                 ),
                 (output) => validate(outputValidator, output)
@@ -160,12 +157,18 @@ const procedure = <
     try {
       return await handle(request);
     } catch (error) {
-      return new Response(undefined, {
-        status:
-          error instanceof RpcError
-            ? error.status ?? defaultStatus
-            : defaultStatus,
-      });
+      return new Response(
+        JSON.stringify({
+          message: error instanceof Error ? error.message : "Unknown error",
+        }),
+        {
+          headers: { "content-type": "application/json" },
+          status:
+            error instanceof RpcError
+              ? error.status ?? defaultStatus
+              : defaultStatus,
+        }
+      );
     }
   };
 
@@ -178,7 +181,7 @@ const procedure = <
   return handler;
 };
 
-const getSearchParameterInput = (request: Request): unknown => {
+const getQueryInput = (request: Request): unknown => {
   const input = new URL(request.url).searchParams.get(inputParameterName);
 
   if (!input) {

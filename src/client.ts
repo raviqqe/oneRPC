@@ -23,7 +23,9 @@ export const queryStream = async function* <
 ): AsyncIterable<T["_output"]> {
   const response = await fetch(buildQueryRequest(path, input, options));
 
-  if (!response.body) {
+  if (response.status !== 200) {
+    throw await buildError(response);
+  } else if (!response.body) {
     throw new Error("Empty stream body");
   }
 
@@ -64,5 +66,12 @@ const procedure = async <T extends MutateRequestHandler<unknown, unknown>>(
 ): Promise<T["_output"]> => {
   const response = await fetch(request);
 
+  if (response.status !== 200) {
+    throw await buildError(response);
+  }
+
   return (await response.json()) as T["_output"];
 };
+
+const buildError = async (response: Response): Promise<Error> =>
+  new Error((await response.json()).message);

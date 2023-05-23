@@ -60,6 +60,22 @@ describe(query.name, () => {
       null
     );
   });
+
+  it("handles an error", async () => {
+    const serverQuery = server.query(
+      z.unknown(),
+      z.any(),
+      () => {
+        throw new Error("foo");
+      },
+      { path: "https://foo.com/bar" }
+    );
+    mockFetch(serverQuery);
+
+    expect(
+      query<typeof serverQuery>("https://foo.com/bar", null)
+    ).rejects.toThrowError("foo");
+  });
 });
 
 describe(mutate.name, () => {

@@ -48,15 +48,15 @@ for (const [procedure, buildRequest] of [
         throw new RpcError();
       })(buildRequest({}));
 
-      expect(response.status).toBe(400);
+      expect(response.status).toBe(500);
     });
 
     it("handles a RPC error with status", async () => {
       const response = await procedure(z.unknown(), z.never(), () => {
-        throw new RpcError(undefined, { status: 403 });
+        throw new RpcError(undefined, { status: 400 });
       })(buildRequest({}));
 
-      expect(response.status).toBe(403);
+      expect(response.status).toBe(400);
     });
 
     it("handles an unexpected error", async () => {
@@ -100,15 +100,15 @@ describe(queryStream.name, () => {
       throw new RpcError();
     })(buildQueryRequest({}));
 
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(500);
   });
 
   it("handles a RPC error with status", async () => {
     const response = await queryStream(z.unknown(), z.never(), () => {
-      throw new RpcError(undefined, { status: 403 });
+      throw new RpcError(undefined, { status: 400 });
     })(buildQueryRequest({}));
 
-    expect(response.status).toBe(403);
+    expect(response.status).toBe(400);
   });
 
   it("handles an unexpected error", async () => {

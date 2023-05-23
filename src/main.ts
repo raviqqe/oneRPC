@@ -22,44 +22,44 @@ interface ProcedureRequestHandler<
   S,
   M extends boolean,
   R extends boolean,
-  P extends string
+  U extends string
 > {
   (request: Request): Promise<Response>;
   _input: T;
   _output: S;
   _mutate: M;
   _stream: R;
-  _url: P;
+  _url: U;
 }
 
 export type QueryRequestHandler<
   T,
   S,
-  P extends string = string
-> = ProcedureRequestHandler<T, S, false, false, P>;
+  U extends string = string
+> = ProcedureRequestHandler<T, S, false, false, U>;
 
 export type QueryStreamRequestHandler<
   T,
   S,
-  P extends string = string
-> = ProcedureRequestHandler<T, S, false, true, P>;
+  U extends string = string
+> = ProcedureRequestHandler<T, S, false, true, U>;
 
 export type MutateRequestHandler<
   T,
   S,
-  P extends string = string
-> = ProcedureRequestHandler<T, S, true, false, P>;
+  U extends string = string
+> = ProcedureRequestHandler<T, S, true, false, U>;
 
 type Validator<T> = ZodType<T> | ((data: unknown) => T);
 
 const defaultStatus = 500;
 
-export const query = <T, S, P extends string = string>(
+export const query = <T, S, U extends string = string>(
   inputValidator: Validator<T>,
   outputValidator: Validator<S>,
   handle: RawHandler<T, S>,
-  options: Partial<ProcedureOptions<P>> = {}
-): QueryRequestHandler<T, S, P> =>
+  options: Partial<ProcedureOptions<U>> = {}
+): QueryRequestHandler<T, S, U> =>
   jsonProcedure(
     getQueryInput,
     inputValidator,
@@ -69,12 +69,12 @@ export const query = <T, S, P extends string = string>(
     resolveOptions(options)
   );
 
-export const queryStream = <T, S, P extends string = string>(
+export const queryStream = <T, S, U extends string = string>(
   inputValidator: Validator<T>,
   outputValidator: Validator<S>,
   handle: RawStreamHandler<T, S>,
-  options: Partial<ProcedureOptions<P>> = {}
-): QueryStreamRequestHandler<T, S, P> =>
+  options: Partial<ProcedureOptions<U>> = {}
+): QueryStreamRequestHandler<T, S, U> =>
   procedure(
     async (request: Request) =>
       new Response(
@@ -98,12 +98,12 @@ export const queryStream = <T, S, P extends string = string>(
     resolveOptions(options)
   );
 
-export const mutate = <T, S, P extends string = string>(
+export const mutate = <T, S, U extends string = string>(
   inputValidator: Validator<T>,
   outputValidator: Validator<S>,
   handle: RawHandler<T, S>,
-  options: Partial<ProcedureOptions<P>> = {}
-): MutateRequestHandler<T, S, P> =>
+  options: Partial<ProcedureOptions<U>> = {}
+): MutateRequestHandler<T, S, U> =>
   jsonProcedure(
     getJsonBody,
     inputValidator,
@@ -113,14 +113,14 @@ export const mutate = <T, S, P extends string = string>(
     resolveOptions(options)
   );
 
-const jsonProcedure = <T, S, P extends string, M extends boolean>(
+const jsonProcedure = <T, S, U extends string, M extends boolean>(
   getInput: (request: Request) => Promise<unknown> | unknown,
   inputValidator: Validator<T>,
   outputValidator: Validator<S>,
   handle: RawHandler<T, S>,
   mutate: M,
-  options: ProcedureOptions<P>
-): ProcedureRequestHandler<T, S, M, false, P> =>
+  options: ProcedureOptions<U>
+): ProcedureRequestHandler<T, S, M, false, U> =>
   procedure(
     async (request: Request) =>
       new Response(
@@ -150,13 +150,13 @@ const procedure = <
   S,
   M extends boolean,
   R extends boolean,
-  P extends string
+  U extends string
 >(
   handle: (request: Request) => Promise<Response>,
   mutate: M,
   stream: R,
-  options: ProcedureOptions<P>
-): ProcedureRequestHandler<T, S, M, R, P> => {
+  options: ProcedureOptions<U>
+): ProcedureRequestHandler<T, S, M, R, U> => {
   const handler = async (request: Request) => {
     try {
       return await handle(request);
@@ -194,9 +194,9 @@ const getQueryInput = (request: Request): unknown => {
 const validate = <T>(validator: Validator<T>, data: unknown): T =>
   validator instanceof Function ? validator(data) : validator.parse(data);
 
-const resolveOptions = <P extends string>(
-  options: Partial<ProcedureOptions<P>>
-): ProcedureOptions<P> => ({
+const resolveOptions = <U extends string>(
+  options: Partial<ProcedureOptions<U>>
+): ProcedureOptions<U> => ({
   headers: options.headers ?? {},
-  url: options.url ?? ("" as P),
+  url: options.url ?? ("" as U),
 });

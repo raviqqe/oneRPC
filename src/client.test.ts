@@ -85,6 +85,15 @@ describe(query.name, () => {
       await query<typeof serverQuery>("https://foo.com/foo", undefined)
     ).toBe(null);
   });
+
+  it("handles undefined output", async () => {
+    const serverQuery = server.query(z.null(), z.void(), () => undefined);
+    mockFetch(serverQuery);
+
+    expect(await query<typeof serverQuery>("https://foo.com/foo", null)).toBe(
+      undefined
+    );
+  });
 });
 
 describe(mutate.name, () => {
@@ -156,6 +165,15 @@ describe(mutate.name, () => {
     expect(
       await mutate<typeof serverMutate>("https://foo.com/foo", undefined)
     ).toBe(null);
+  });
+
+  it("handles undefined output", async () => {
+    const serverMutate = server.mutate(z.null(), z.void(), () => undefined);
+    mockFetch(serverMutate);
+
+    expect(await mutate<typeof serverMutate>("https://foo.com/foo", null)).toBe(
+      undefined
+    );
   });
 });
 

@@ -17,7 +17,7 @@ export const getJsonBody = async (
   } catch (_error) {
     // Even when clients pass `new Request("url", { body: undefined })`,
     // bodies are defined as `ReadableStream` in responses after transferred to
-    // the server side...
+    // the other side...
     // TODO Does inspection of content length headers work in general?
     return undefined;
   }

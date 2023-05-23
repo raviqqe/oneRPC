@@ -48,7 +48,7 @@ export const mutate = async <T extends MutateRequestHandler<unknown, unknown>>(
   options: RequestOptions = {}
 ): Promise<T["_output"]> =>
   procedure(
-    new Request(new URL(path, options.baseUrl), {
+    new Request(resolveUrl(path, options.baseUrl), {
       ...options,
       body: JSON.stringify(input),
       headers: { ...options.headers, ...jsonHeaders },
@@ -61,7 +61,7 @@ const buildQueryRequest = (
   input: unknown,
   options: RequestOptions
 ): Request => {
-  const url = new URL(path, options.baseUrl).toString();
+  const url = resolveUrl(path, options.baseUrl);
   const parameters = new URLSearchParams({
     [inputParameterName]: JSON.stringify(input) || "",
   }).toString();
@@ -80,6 +80,9 @@ const procedure = async <T extends MutateRequestHandler<unknown, unknown>>(
 
   return (await getJsonBody(response)) as T["_output"];
 };
+
+const resolveUrl = (path: string, baseUrl?: string): string =>
+  baseUrl ? new URL(path, baseUrl).toString() : path;
 
 const buildError = async (response: Response): Promise<Error> =>
   new Error(((await response.json()) as ErrorBody).message);

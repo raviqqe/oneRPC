@@ -100,7 +100,7 @@ export const mutate = <T, S, P extends string = string>(
   options: Partial<ProcedureOptions<P>> = {}
 ): MutateRequestHandler<T, S, P> =>
   jsonProcedure(
-    (request) => request.json(),
+    (request) => (request.body ? request.json() : undefined),
     inputValidator,
     outputValidator,
     handle,
@@ -187,7 +187,7 @@ const getQueryInput = (request: Request): unknown => {
     throw new Error("Input parameter not defined");
   }
 
-  return JSON.parse(input);
+  return input === "undefined" ? undefined : JSON.parse(input);
 };
 
 const validate = <T>(validator: Validator<T>, data: unknown): T =>

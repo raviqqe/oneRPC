@@ -76,6 +76,24 @@ describe(query.name, () => {
       query<typeof serverQuery>("https://foo.com/bar", null)
     ).rejects.toThrowError("foo");
   });
+
+  it("handles undefined input", async () => {
+    const serverQuery = server.query(z.void(), z.any(), () => null);
+    mockFetch(serverQuery);
+
+    expect(
+      await query<typeof serverQuery>("https://foo.com/foo", undefined)
+    ).toBe(null);
+  });
+
+  it("handles undefined output", async () => {
+    const serverQuery = server.query(z.null(), z.void(), () => undefined);
+    mockFetch(serverQuery);
+
+    expect(await query<typeof serverQuery>("https://foo.com/foo", null)).toBe(
+      undefined
+    );
+  });
 });
 
 describe(mutate.name, () => {
@@ -138,6 +156,24 @@ describe(mutate.name, () => {
     await expect(
       mutate<typeof serverMutate>("https://foo.com/bar", null)
     ).rejects.toThrowError("foo");
+  });
+
+  it("handles undefined input", async () => {
+    const serverMutate = server.mutate(z.void(), z.any(), () => null);
+    mockFetch(serverMutate);
+
+    expect(
+      await mutate<typeof serverMutate>("https://foo.com/foo", undefined)
+    ).toBe(null);
+  });
+
+  it("handles undefined output", async () => {
+    const serverMutate = server.mutate(z.null(), z.void(), () => undefined);
+    mockFetch(serverMutate);
+
+    expect(await mutate<typeof serverMutate>("https://foo.com/foo", null)).toBe(
+      undefined
+    );
   });
 });
 

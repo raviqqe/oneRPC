@@ -70,7 +70,7 @@ const procedure = async <T extends MutateRequestHandler<unknown, unknown>>(
     throw await buildError(response);
   }
 
-  return (await response.json()) as T["_output"];
+  return (response.body ? await response.json() : undefined) as T["_output"];
 };
 
 const buildError = async (response: Response): Promise<Error> =>

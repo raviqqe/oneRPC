@@ -183,10 +183,6 @@ const procedure = <
 const getQueryInput = (request: Request): unknown => {
   const input = new URL(request.url).searchParams.get(inputParameterName);
 
-  if (!input) {
-    throw new Error("Input parameter not defined");
-  }
-
   return input ? JSON.parse(input) : undefined;
 };
 

@@ -33,6 +33,31 @@ The RPC library for the serverless and TypeScript era.
 
   Stream responses are transferred as [JSON Lines](https://jsonlines.org/) and clients can consume them chunk by chunk.
 
+## Examples
+
+### Next.js with [App Router](https://nextjs.org/docs/app)
+
+`app/api/foo/route.ts`:
+
+```typescript
+import { query } from "onerpc";
+import { z } from "zod";
+
+export const GET = query(z.number(), z.string(), (x) => `Hello, ${x}!`, {
+  path: "/api/foo",
+});
+```
+
+`app/page.tsx`:
+
+```typescript
+import { type GET } from "@/app/api/foo/route";
+
+export default async (): Promise<JSX.Element> => (
+  <div>{await query<typeof GET>("/api/foo", 42))}</div>
+);
+```
+
 ## References
 
 - [tRPC](https://trpc.io/)

@@ -34,7 +34,7 @@ export class Client {
     input: T["_input"],
     options: RequestOptions = {}
   ): AsyncIterable<T["_output"]> {
-    return queryStream(path, input, { ...this.requestOptions, ...options });
+    yield* queryStream(path, input, { ...this.requestOptions, ...options });
   }
 
   public mutate<T extends MutateRequestHandler<unknown, unknown>>(

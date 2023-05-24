@@ -134,6 +134,21 @@ const procedure = async <T extends MutateRequestHandler<unknown, unknown>>(
   return (await getJsonBody(response)) as T["_output"];
 };
 
+const mergeOptions = (
+  one: RequestOptions,
+  other: RequestOptions
+): RequestOptions => {
+  const headers = new Headers();
+
+  for (const initial of [one.headers, other.headers]) {
+    for (const [key, value] of new Headers(initial).entries()) {
+      headers.set(key, value);
+    }
+  }
+
+  return { ...one, ...other, headers };
+};
+
 const resolveUrl = (path: string, baseUrl?: string): string =>
   baseUrl ? new URL(path, baseUrl).toString() : path;
 

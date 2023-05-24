@@ -7,7 +7,7 @@
 
 The RPC library for the serverless and TypeScript era.
 
-oneRPC is a minimal RPC library to convert a server-side function of a type, `(input: T) => Promise<S>` into `(request: Request) => Promise<Response>` and make it callable from the client side.
+oneRPC is a minimal RPC library to convert a server-side function of a type, `(input: T) => Promise<S>` into `(request: Request) => Promise<Response>` and make it callable from the client side in a type-safe way.
 
 ## Features
 

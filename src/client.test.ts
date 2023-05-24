@@ -1,17 +1,37 @@
 import { toArray } from "@raviqqe/hidash/promise.js";
 import { describe, expect, it, vi } from "vitest";
 import { z } from "zod";
-import { mutate, query, queryStream } from "./client.js";
+import { Client, mutate, query, queryStream } from "./client.js";
 import * as server from "./main.js";
 
-describe(query.name, () => {
-  const mockFetch = (query: server.QueryRequestHandler<unknown, unknown>) =>
-    vi
-      .spyOn(global, "fetch")
-      .mockImplementation((request) =>
-        query(request instanceof Request ? request : new Request(request))
-      );
+const mockFetch = (query: server.QueryRequestHandler<unknown, unknown>) =>
+  vi
+    .spyOn(global, "fetch")
+    .mockImplementation((request) =>
+      query(request instanceof Request ? request : new Request(request))
+    );
 
+it("handles dynamic options", async () => {
+  const serverQuery = server.query(
+    z.null(),
+    z.string(),
+    (_: null, request: Request) => request.headers.get("value")
+  );
+  mockFetch(serverQuery);
+
+  let value = 0;
+  const client = new Client(() => ({
+    headers: { value: (value++).toString() },
+  }));
+
+  expect([
+    await client.query<typeof serverQuery>("https://foo.com/foo", null),
+    await client.query<typeof serverQuery>("https://foo.com/foo", null),
+    await client.query<typeof serverQuery>("https://foo.com/foo", null),
+  ]).toEqual(["0", "1", "2"]);
+});
+
+describe(query.name, () => {
   it("handles a JSON object", async () => {
     const value = { foo: 42 };
     const serverQuery = server.query(

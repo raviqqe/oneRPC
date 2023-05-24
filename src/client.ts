@@ -17,14 +17,18 @@ interface RequestOptions extends Omit<RequestInit, "body" | "method"> {
 }
 
 export class Client {
-  constructor(private readonly requestOptions: RequestOptions = {}) {}
+  private readonly getOptions: () => RequestOptions;
+
+  constructor(options: RequestOptions | (() => RequestOptions) = {}) {
+    this.getOptions = typeof options === "function" ? options : () => options;
+  }
 
   public query<T extends QueryRequestHandler<unknown, unknown>>(
     path: T["_path"],
     input: T["_input"],
     options: RequestOptions = {}
   ): Promise<T["_output"]> {
-    return query(path, input, { ...this.requestOptions, ...options });
+    return query(path, input, { ...this.getOptions, ...options });
   }
 
   public async *queryStream<
@@ -34,7 +38,7 @@ export class Client {
     input: T["_input"],
     options: RequestOptions = {}
   ): AsyncIterable<T["_output"]> {
-    yield* queryStream(path, input, { ...this.requestOptions, ...options });
+    yield* queryStream(path, input, { ...this.getOptions, ...options });
   }
 
   public mutate<T extends MutateRequestHandler<unknown, unknown>>(
@@ -42,7 +46,7 @@ export class Client {
     input: T["_input"],
     options: RequestOptions = {}
   ): Promise<T["_output"]> {
-    return mutate(path, input, { ...this.requestOptions, ...options });
+    return mutate(path, input, { ...this.getOptions, ...options });
   }
 }
 

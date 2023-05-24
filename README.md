@@ -7,6 +7,8 @@
 
 The RPC library for the serverless and TypeScript era.
 
+oneRPC is a minimal RPC library to convert a server-side function of a type, `(input: T) => Promise<S>` into `(request: Request) => Promise<Response>` and make it callable from the client side.
+
 ## Features
 
 - 🔮 Seamless client-server communication
@@ -36,6 +38,18 @@ The RPC library for the serverless and TypeScript era.
 ## API
 
 ### `onerpc`
+
+- `query`
+
+  Creates an endpoint of a type `(input: T) => Promise<S>`
+
+- `queryStream`:
+
+  Creates an endpoint of a type `(input: T) => Promise<S>`
+
+- `mutate`:
+
+  Creates an endpoint of a type `(input: T) => Promise<S>`
 
 ### `onerpc/client.js`
 

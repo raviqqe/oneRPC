@@ -29,7 +29,7 @@ The RPC library for the serverless and TypeScript era.
 
   It depends only on [Web APIs](https://developer.mozilla.org/en-US/docs/Web/API). Thus, it works on many platforms including Node.js, Deno, and edges.
 
-- 🌊 Streaming
+- 🌊 Streaming support
 
   Stream responses are transferred as [JSON Lines](https://jsonlines.org/) and clients can consume them chunk by chunk.
 

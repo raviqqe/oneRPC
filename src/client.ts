@@ -17,14 +17,18 @@ interface RequestOptions extends Omit<RequestInit, "body" | "method"> {
 }
 
 export class Client {
-  constructor(private readonly requestOptions: RequestOptions = {}) {}
+  private readonly getOptions: () => RequestOptions;
+
+  constructor(options: RequestOptions | (() => RequestOptions) = {}) {
+    this.getOptions = typeof options === "function" ? options : () => options;
+  }
 
   public query<T extends QueryRequestHandler<unknown, unknown>>(
     path: T["_path"],
     input: T["_input"],
     options: RequestOptions = {}
   ): Promise<T["_output"]> {
-    return query(path, input, { ...this.requestOptions, ...options });
+    return query(path, input, this.resolveOptions(options));
   }
 
   public async *queryStream<
@@ -34,7 +38,7 @@ export class Client {
     input: T["_input"],
     options: RequestOptions = {}
   ): AsyncIterable<T["_output"]> {
-    yield* queryStream(path, input, { ...this.requestOptions, ...options });
+    yield* queryStream(path, input, this.resolveOptions(options));
   }
 
   public mutate<T extends MutateRequestHandler<unknown, unknown>>(
@@ -42,7 +46,20 @@ export class Client {
     input: T["_input"],
     options: RequestOptions = {}
   ): Promise<T["_output"]> {
-    return mutate(path, input, { ...this.requestOptions, ...options });
+    return mutate(path, input, this.resolveOptions(options));
+  }
+
+  private resolveOptions(requestOptions: RequestOptions): RequestOptions {
+    const defaultOptions = this.getOptions();
+    const headers = new Headers();
+
+    for (const initial of [defaultOptions.headers, requestOptions.headers]) {
+      for (const [key, value] of new Headers(initial).entries()) {
+        headers.set(key, value);
+      }
+    }
+
+    return { ...defaultOptions, ...requestOptions, headers };
   }
 }
 

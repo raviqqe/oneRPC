@@ -42,7 +42,6 @@ The RPC library for the serverless and TypeScript era.
 ```typescript
 import { query } from "onerpc";
 import { z } from "zod";
-import { wordsOfTheDayLister } from "@/main/server";
 
 export const GET = query(z.number(), z.string(), (x) => `Hello, ${x}!`, {
   path: "/api/foo",
@@ -55,7 +54,7 @@ export const GET = query(z.number(), z.string(), (x) => `Hello, ${x}!`, {
 import { type GET } from "@/app/api/foo/route";
 
 export default async (): Promise<JSX.Element> => (
-  <div>{await query<typeof GET>("/api/foo", [1, 2, 3]))}</div>
+  <div>{await query<typeof GET>("/api/foo", 42))}</div>
 );
 ```
 

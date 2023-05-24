@@ -7,6 +7,8 @@
 
 The RPC library for the serverless and TypeScript era.
 
+oneRPC is a minimal RPC library to convert a server-side function of a type, `(input: T) => Promise<S>` into `(request: Request) => Promise<Response>` and make it callable from the client side in a type-safe way.
+
 ## Features
 
 - 🔮 Seamless client-server communication
@@ -33,6 +35,36 @@ The RPC library for the serverless and TypeScript era.
 
   Stream responses are transferred as [JSON Lines](https://jsonlines.org/) and clients can consume them chunk by chunk.
 
+## API
+
+### `onerpc` module
+
+#### `query` function
+
+Creates a `GET` endpoint function of a type `(input: T) => Promise<S>`.
+
+#### `queryStream` function
+
+Creates a `GET` endpoint function of a type `(input: T) => AsyncIterable<S>`.
+
+#### `mutate` function
+
+Creates a `POST` endpoint function of a type `(input: T) => Promise<S>`.
+
+### `onerpc/client` module
+
+#### `query` function
+
+Calls a `GET` endpoint function of a type `(input: T) => Promise<S>`.
+
+#### `queryStream` function
+
+Calls a `GET` endpoint function of a type `(input: T) => AsyncIterable<S>`.
+
+#### `mutate` function
+
+Calls a `POST` endpoint function of a type `(input: T) => Promise<S>`.
+
 ## Examples
 
 ### Next.js with [App Router](https://nextjs.org/docs/app)
@@ -52,6 +84,7 @@ export const GET = query(z.number(), z.string(), (x) => `Hello, ${x}!`, {
 
 ```typescript
 import { type GET } from "@/app/api/foo/route";
+import { query } from "onerpc/client";
 
 export default async (): Promise<JSX.Element> => (
   <div>{await query<typeof GET>("/api/foo", 42))}</div>

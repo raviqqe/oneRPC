@@ -72,6 +72,7 @@ export const GET = query(z.number(), z.string(), (x) => `Hello, ${x}!`, {
 
 ```typescript
 import { type GET } from "@/app/api/foo/route";
+import { query } from "onerpc/client";
 
 export default async (): Promise<JSX.Element> => (
   <div>{await query<typeof GET>("/api/foo", 42))}</div>

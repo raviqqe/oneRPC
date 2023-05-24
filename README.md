@@ -52,7 +52,7 @@ export const GET = query(
 );
 ```
 
-`app/page.tsx`
+`app/page.tsx`:
 
 ```typescript
 import { type GET } from "@/app/api/foo/route";

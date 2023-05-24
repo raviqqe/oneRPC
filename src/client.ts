@@ -16,6 +16,36 @@ interface RequestOptions extends Omit<RequestInit, "body" | "method"> {
   baseUrl?: string;
 }
 
+export class Client {
+  constructor(private readonly requestOptions: RequestOptions = {}) {}
+
+  public query<T extends QueryRequestHandler<unknown, unknown>>(
+    path: T["_path"],
+    input: T["_input"],
+    options: RequestOptions = {}
+  ): Promise<T["_output"]> {
+    return query(path, input, { ...this.requestOptions, ...options });
+  }
+
+  public async *queryStream<
+    T extends QueryStreamRequestHandler<unknown, unknown>
+  >(
+    path: T["_path"],
+    input: T["_input"],
+    options: RequestOptions = {}
+  ): AsyncIterable<T["_output"]> {
+    return queryStream(path, input, { ...this.requestOptions, ...options });
+  }
+
+  public mutate<T extends MutateRequestHandler<unknown, unknown>>(
+    path: T["_path"],
+    input: T["_input"],
+    options: RequestOptions = {}
+  ): Promise<T["_output"]> {
+    return mutate(path, input, { ...this.requestOptions, ...options });
+  }
+}
+
 export const query = async <T extends QueryRequestHandler<unknown, unknown>>(
   path: T["_path"],
   input: T["_input"],

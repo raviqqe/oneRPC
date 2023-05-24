@@ -4,6 +4,9 @@
   "description": "The RPC library for the serverless and TypeScript era.",
   "repository": "https://github.com/raviqqe/onerpc",
   "license": "MIT",
+  "publishConfig": {
+    "provenance": true
+  },
   "type": "module",
   "main": "dist/main.js",
   "typesVersions": {

@@ -33,6 +33,12 @@ The RPC library for the serverless and TypeScript era.
 
   Stream responses are transferred as [JSON Lines](https://jsonlines.org/) and clients can consume them chunk by chunk.
 
+## API
+
+### `onerpc`
+
+### `onerpc/client.js`
+
 ## Examples
 
 ### Next.js with [App Router](https://nextjs.org/docs/app)

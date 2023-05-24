@@ -4,34 +4,14 @@ import { z } from "zod";
 import { Client, mutate, query, queryStream } from "./client.js";
 import * as server from "./main.js";
 
-const mockFetch = (query: server.QueryRequestHandler<unknown, unknown>) =>
-  vi
-    .spyOn(global, "fetch")
-    .mockImplementation((request) =>
-      query(request instanceof Request ? request : new Request(request))
-    );
-
-it("handles dynamic options", async () => {
-  const serverQuery = server.query(
-    z.null(),
-    z.string(),
-    (_: null, request: Request) => request.headers.get("value")
-  );
-  mockFetch(serverQuery);
-
-  let value = 0;
-  const client = new Client(() => ({
-    headers: { value: (value++).toString() },
-  }));
-
-  expect([
-    await client.query<typeof serverQuery>("https://foo.com/foo", null),
-    await client.query<typeof serverQuery>("https://foo.com/foo", null),
-    await client.query<typeof serverQuery>("https://foo.com/foo", null),
-  ]).toEqual(["0", "1", "2"]);
-});
-
 describe(query.name, () => {
+  const mockFetch = (query: server.QueryRequestHandler<unknown, unknown>) =>
+    vi
+      .spyOn(global, "fetch")
+      .mockImplementation((request) =>
+        query(request instanceof Request ? request : new Request(request))
+      );
+
   it("handles a JSON object", async () => {
     const value = { foo: 42 };
     const serverQuery = server.query(
@@ -138,6 +118,26 @@ describe(query.name, () => {
       null
     );
   });
+
+  it("handles dynamic options", async () => {
+    const serverQuery = server.query(
+      z.null(),
+      z.string(),
+      (_: null, request: Request) => request.headers.get("value")
+    );
+    mockFetch(serverQuery);
+
+    let value = 0;
+    const client = new Client(() => ({
+      headers: { value: (value++).toString() },
+    }));
+
+    expect([
+      await client.query<typeof serverQuery>("https://foo.com/foo", null),
+      await client.query<typeof serverQuery>("https://foo.com/foo", null),
+      await client.query<typeof serverQuery>("https://foo.com/foo", null),
+    ]).toEqual(["0", "1", "2"]);
+  });
 });
 
 describe(mutate.name, () => {
@@ -242,6 +242,26 @@ describe(mutate.name, () => {
     expect(await mutate<typeof serverMutate>(path, null, { baseUrl })).toEqual(
       null
     );
+  });
+
+  it("handles dynamic options", async () => {
+    const serverMutate = server.mutate(
+      z.null(),
+      z.string(),
+      (_: null, request: Request) => request.headers.get("value")
+    );
+    mockFetch(serverMutate);
+
+    let value = 0;
+    const client = new Client(() => ({
+      headers: { value: (value++).toString() },
+    }));
+
+    expect([
+      await client.mutate<typeof serverMutate>("https://foo.com/foo", null),
+      await client.mutate<typeof serverMutate>("https://foo.com/foo", null),
+      await client.mutate<typeof serverMutate>("https://foo.com/foo", null),
+    ]).toEqual(["0", "1", "2"]);
   });
 });
 

@@ -54,18 +54,9 @@ export class Client {
   }
 
   private async resolveOptions(
-    requestOptions: RequestOptions
+    options: RequestOptions
   ): Promise<RequestOptions> {
-    const defaultOptions = await this.getOptions();
-    const headers = new Headers();
-
-    for (const initial of [defaultOptions.headers, requestOptions.headers]) {
-      for (const [key, value] of new Headers(initial).entries()) {
-        headers.set(key, value);
-      }
-    }
-
-    return { ...defaultOptions, ...requestOptions, headers };
+    return mergeOptions(await this.getOptions(), options);
   }
 }
 
@@ -102,9 +93,8 @@ export const mutate = async <T extends MutateRequestHandler<unknown, unknown>>(
 ): Promise<T["_output"]> =>
   procedure(
     new Request(resolveUrl(path, options.baseUrl), {
-      ...options,
+      ...mergeOptions(options, { headers: jsonHeaders }),
       body: JSON.stringify(input),
-      headers: { ...options.headers, ...jsonHeaders },
       method: "post",
     })
   );

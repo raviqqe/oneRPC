@@ -41,15 +41,15 @@ oneRPC is a minimal RPC library to convert a server-side function of a type, `(i
 
 - `query`
 
-  Creates a `GET` endpoint of a type `(input: T) => Promise<S>`.
+  Creates a `GET` endpoint function of a type `(input: T) => Promise<S>`.
 
 - `queryStream`:
 
-  Creates a `GET` endpoint of a type `(input: T) => AsyncIterable<S>`.
+  Creates a `GET` endpoint function of a type `(input: T) => AsyncIterable<S>`.
 
 - `mutate`:
 
-  Creates a `POST` endpoint of a type `(input: T) => Promise<S>`.
+  Creates a `POST` endpoint function of a type `(input: T) => Promise<S>`.
 
 ### `onerpc/client.js`
 

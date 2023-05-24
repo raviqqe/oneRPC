@@ -44,12 +44,9 @@ import { query } from "onerpc";
 import { z } from "zod";
 import { wordsOfTheDayLister } from "@/main/server";
 
-export const GET = query(
-  z.array(z.number()),
-  z.array(z.string()),
-  (xs) => xs.map((x) => `Hello, ${x}!`),
-  { path: "/api/words-of-the-day" }
-);
+export const GET = query(z.number(), z.string(), (x) => `Hello, ${x}!`, {
+  path: "/api/foo",
+});
 ```
 
 `app/page.tsx`:
@@ -58,7 +55,7 @@ export const GET = query(
 import { type GET } from "@/app/api/foo/route";
 
 export default async (): Promise<JSX.Element> => (
-  <div>{(await query<typeof GET>([1, 2, 3])).join()}</div>
+  <div>{await query<typeof GET>("/api/foo", [1, 2, 3]))}</div>
 );
 ```
 

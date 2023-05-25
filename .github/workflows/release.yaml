@@ -16,4 +16,5 @@ jobs:
         if: github.ref == 'refs/heads/main'
         with:
           access: public
+          provenancce: true
           token: ${{ secrets.NPM_TOKEN }}

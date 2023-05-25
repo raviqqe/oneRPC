@@ -1,6 +1,6 @@
-import { stringifyLines } from "@raviqqe/hidash/json.js";
-import { map } from "@raviqqe/hidash/promise.js";
-import { toByteStream, toStream } from "@raviqqe/hidash/stream.js";
+import { stringifyLines } from "@raviqqe/hidash/json";
+import { map } from "@raviqqe/hidash/promise";
+import { toByteStream, toStream } from "@raviqqe/hidash/stream";
 import { type ZodType } from "zod";
 import { RpcError } from "./error.js";
 import { type ProcedureOptions } from "./options.js";

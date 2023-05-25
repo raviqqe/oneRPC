@@ -1,5 +1,5 @@
-import { parseLines } from "@raviqqe/hidash/json.js";
-import { toIterable, toStringStream } from "@raviqqe/hidash/stream.js";
+import { parseLines } from "@raviqqe/hidash/json";
+import { toIterable, toStringStream } from "@raviqqe/hidash/stream";
 import {
   type QueryRequestHandler,
   type QueryStreamRequestHandler,

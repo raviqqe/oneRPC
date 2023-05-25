@@ -1,9 +1,5 @@
-import { map, toArray } from "@raviqqe/hidash/promise.js";
-import {
-  toIterable,
-  toStream,
-  toStringStream,
-} from "@raviqqe/hidash/stream.js";
+import { map, toArray } from "@raviqqe/hidash/promise";
+import { toIterable, toStream, toStringStream } from "@raviqqe/hidash/stream";
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
 import { RpcError, mutate, query, queryStream } from "./main.js";

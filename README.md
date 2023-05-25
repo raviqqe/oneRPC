@@ -5,7 +5,7 @@
 [![npm](https://img.shields.io/npm/v/onerpc?style=flat-square)](https://www.npmjs.com/package/onerpc)
 [![License](https://img.shields.io/github/license/raviqqe/onerpc.svg?style=flat-square)](LICENSE)
 
-The RPC library for the serverless and TypeScript era.
+The RPC library for [Next.js Route Handlers][route-handlers].
 
 oneRPC is a minimal RPC library to convert a server-side function of a type, `(input: T) => Promise<S>` into `(request: Request) => Promise<Response>` and make it callable from the client side in a type-safe way.
 
@@ -67,7 +67,7 @@ Calls a `POST` endpoint function of a type `(input: T) => Promise<S>`.
 
 ## Examples
 
-### Next.js with [App Router](https://nextjs.org/docs/app)
+### Next.js with [Route Handlers][route-handlers]
 
 `app/api/foo/route.ts`:
 
@@ -100,3 +100,5 @@ export default async (): Promise<JSX.Element> => (
 ## License
 
 [MIT](LICENSE)
+
+[route-handlers]: https://nextjs.org/docs/app/building-your-application/routing/router-handlers

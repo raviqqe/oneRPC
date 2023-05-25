@@ -7,17 +7,14 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      id-token: write
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          registry-url: "https://registry.npmjs.org"
-      - run: npm ci
+      - uses: actions/setup-node@master
+      - run: npm install
       - run: npm run build
-      - run: npm publish
+      - uses: JS-DevTools/npm-publish@v2
         if: github.ref == 'refs/heads/main'
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        with:
+          access: public
+          provenancce: true
+          token: ${{ secrets.NPM_TOKEN }}

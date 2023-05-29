@@ -1,6 +1,6 @@
-import { type MiddlewareFunction } from "./utility.js";
-import { toIterable, toStringStream } from "@raviqqe/hidash/stream";
 import { toArray } from "@raviqqe/hidash/promise";
+import { toIterable, toStringStream } from "@raviqqe/hidash/stream";
+import { type MiddlewareFunction } from "./utility.js";
 
 export const etag: MiddlewareFunction = async (request, handle, { stream }) => {
   const response = await handle(request);
@@ -26,11 +26,10 @@ export const etag: MiddlewareFunction = async (request, handle, { stream }) => {
 
 const collectStream = async (
   stream: ReadableStream<Uint8Array>
-): Promise<ArrayBuffer> => {
-  return new TextEncoder().encode(
+): Promise<ArrayBuffer> =>
+  new TextEncoder().encode(
     (await toArray(toIterable(toStringStream(stream)))).join("")
   );
-};
 
 const decodeTag = (buffer: ArrayBuffer): string =>
   btoa(String.fromCharCode(...new Uint8Array(buffer)));

@@ -200,7 +200,7 @@ const applyMiddlewares = (
   middleware
     ? applyMiddlewares(
         middlewares,
-        (request: Request) => middleware(request, handle, options),
+        (request) => middleware(request, handle, options),
         options
       )
     : handle;

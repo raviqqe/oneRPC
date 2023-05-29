@@ -19,7 +19,19 @@ const generateEtag = async (
   ).headers.get("etag");
 
 it("generates etag", async () => {
-  expect(await generateEtag({})).toBeTruthy();
+  expect(await generateEtag({})).toMatch(/^"[^"]+"$/);
+});
+
+it("generates weak etag", async () => {
+  expect(
+    (
+      await etag({ weak: true })(
+        new Request(url),
+        async () => new Response(JSON.stringify({})),
+        { mutate: false, stream: false }
+      )
+    ).headers.get("etag")
+  ).toMatch(/^W\/"[^"]+"$/);
 });
 
 it("generates etag for the same bodies", async () => {

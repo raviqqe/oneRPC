@@ -1,4 +1,7 @@
-export type MiddlewareOptions = { mutate: boolean; stream: boolean };
+export interface MiddlewareOptions {
+  mutate: boolean;
+  stream: boolean;
+}
 
 export type MiddlewareFunction = (
   request: Request,

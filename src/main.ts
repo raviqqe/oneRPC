@@ -3,6 +3,10 @@ import { map } from "@raviqqe/hidash/promise";
 import { toByteStream, toStream } from "@raviqqe/hidash/stream";
 import { type ZodType } from "zod";
 import { RpcError } from "./error.js";
+import {
+  type MiddlewareFunction,
+  type MiddlewareOptions,
+} from "./middleware.js";
 import { type ProcedureOptions } from "./options.js";
 import {
   type ErrorBody,
@@ -10,7 +14,6 @@ import {
   jsonHeaders,
   getJsonBody,
 } from "./utility.js";
-import { MiddlewareFunction, MiddlewareOptions } from "./middleware.js";
 
 export { RpcError } from "./error.js";
 

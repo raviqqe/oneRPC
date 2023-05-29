@@ -51,6 +51,10 @@ Creates a `GET` endpoint function of a type `(input: T) => AsyncIterable<S>`.
 
 Creates a `POST` endpoint function of a type `(input: T) => Promise<S>`.
 
+#### `Server` class
+
+A utility class to pass the same procedure options to multiple endpoints.
+
 ### `onerpc/client` module
 
 #### `query` function
@@ -64,6 +68,10 @@ Calls a `GET` endpoint function of a type `(input: T) => AsyncIterable<S>`.
 #### `mutate` function
 
 Calls a `POST` endpoint function of a type `(input: T) => Promise<S>`.
+
+#### `Client` class
+
+A utility class to pass the same request options to multiple endpoints.
 
 ## Examples
 

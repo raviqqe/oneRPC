@@ -60,6 +60,30 @@ type Validator<T> = ZodType<T> | ((data: unknown) => T);
 
 const defaultStatus = 500;
 
+export class Server {
+  constructor(
+    options: Partial<Pick<ProcedureOptions, "headers" | "middlewares">>
+  ) {}
+
+  public async query<T, S, P extends string = string>(
+    inputValidator: Validator<T>,
+    outputValidator: Validator<S>,
+    handle: RawHandler<T, S>,
+    options: Partial<ProcedureOptions<P>> = {}
+  ): QueryRequestHandler<T, S, P> {
+    return query(
+      inputValidator,
+      outputValidator,
+      handle,
+      this.resolveOptions(options)
+    );
+  }
+
+  private resolveOptions(options: RequestOptions): RequestOptions {
+    return mergeOptions(this.options, options);
+  }
+}
+
 export const query = <T, S, P extends string = string>(
   inputValidator: Validator<T>,
   outputValidator: Validator<S>,

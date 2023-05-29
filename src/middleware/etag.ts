@@ -11,6 +11,7 @@ export const etag =
       return response;
     }
 
+    const newResponse = response.clone();
     const etag = encodeTag(
       await crypto.subtle.digest("sha-1", await collectStream(response.body))
     );
@@ -22,8 +23,8 @@ export const etag =
       });
     }
 
-    response.headers.set("etag", etag);
-    return response;
+    newResponse.headers.set("etag", etag);
+    return newResponse;
   };
 
 const collectStream = async (

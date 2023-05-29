@@ -10,7 +10,7 @@ export const etag: MiddlewareFunction = async (request, handle, { stream }) => {
   }
 
   const etag = decodeTag(
-    await crypto.subtle.digest("sha1", await collectStream(response.body))
+    await crypto.subtle.digest("sha-1", await collectStream(response.body))
   );
 
   if (etag === request.headers.get("if-none-match")) {

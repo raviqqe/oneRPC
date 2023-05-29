@@ -43,8 +43,10 @@ it("checks an etag in a request", async () => {
     );
 
   const tag = (await generateEtag('""')).headers.get("etag");
+  const response = await generateEtag(tag!);
 
-  expect(await generateEtag(tag)).toMatch(/^W\/"[^"]+"$/);
+  expect(response.status).toBe(304);
+  expect(response.body).toBe(null);
 });
 
 it("generates an etag for the same bodies", async () => {

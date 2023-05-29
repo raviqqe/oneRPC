@@ -16,6 +16,21 @@ it("attaches etag", async () => {
   ).toBeTruthy();
 });
 
+it("attaches etag for mutation", async () => {
+  expect(
+    (
+      await etag(
+        new Request("https:/foo.com"),
+        async () => new Response(JSON.stringify({})),
+        {
+          mutate: true,
+          stream: false,
+        }
+      )
+    ).headers.get("etag")
+  ).toBeTruthy();
+});
+
 it("attaches no etag for stream", async () => {
   expect(
     (

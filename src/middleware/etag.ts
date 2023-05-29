@@ -3,7 +3,7 @@ import { toIterable, toStringStream } from "@raviqqe/hidash/stream";
 import { type MiddlewareFunction } from "./utility.js";
 
 export const etag =
-  (): MiddlewareFunction =>
+  ({ weak }: { weak?: boolean }): MiddlewareFunction =>
   async (request, handle, { stream }) => {
     const response = await handle(request);
 
@@ -23,7 +23,7 @@ export const etag =
       });
     }
 
-    newResponse.headers.set("etag", etag);
+    newResponse.headers.set("etag", (weak ? "W/" : "") + `"${etag}"`);
     return newResponse;
   };
 

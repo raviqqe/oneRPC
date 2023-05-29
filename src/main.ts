@@ -65,7 +65,7 @@ export class Server {
   constructor(
     private readonly options: Partial<
       Pick<ProcedureOptions<string>, "headers" | "middlewares">
-    >
+    > = {}
   ) {}
 
   public query<T, S, P extends string = string>(

@@ -13,6 +13,7 @@ import {
   inputParameterName,
   jsonHeaders,
   getJsonBody,
+  mergeHeaders,
 } from "./utility.js";
 
 export { RpcError } from "./error.js";

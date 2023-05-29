@@ -21,3 +21,18 @@ export const getJsonBody = async (
     return undefined;
   }
 };
+
+export const mergeHeaders = (
+  one?: HeadersInit,
+  other?: HeadersInit
+): Headers => {
+  const headers = new Headers();
+
+  for (const initial of [one, other]) {
+    for (const [key, value] of new Headers(initial).entries()) {
+      headers.set(key, value);
+    }
+  }
+
+  return headers;
+};

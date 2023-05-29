@@ -10,8 +10,7 @@ import {
   jsonHeaders,
   getJsonBody,
 } from "./utility.js";
-import { MiddlewareFunction } from "./middleware.js";
-import { MiddlewareOptions } from "./middleware/utility.js";
+import { MiddlewareFunction, MiddlewareOptions } from "./middleware.js";
 
 export { RpcError } from "./error.js";
 

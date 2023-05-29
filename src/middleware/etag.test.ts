@@ -19,7 +19,7 @@ const generateEtag = async (
   ).headers.get("etag");
 
 it("generates etag", async () => {
-  expect(await generateEtag({})).toBeTruthy();
+  expect(await generateEtag({})).toMatch(/^"[^"]+"$/);
 });
 
 it("generates etag for the same bodies", async () => {

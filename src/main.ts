@@ -78,11 +78,39 @@ export class Server {
       inputValidator,
       outputValidator,
       handle,
-      this.mergeOptions<P>(options)
+      this.resolveOptions<P>(options)
     );
   }
 
-  private mergeOptions<P extends string>(
+  public queryStream<T, S, P extends string = string>(
+    inputValidator: Validator<T>,
+    outputValidator: Validator<S>,
+    handle: RawStreamHandler<T, S>,
+    options: Partial<ProcedureOptions<P>> = {}
+  ): QueryStreamRequestHandler<T, S, P> {
+    return queryStream(
+      inputValidator,
+      outputValidator,
+      handle,
+      this.resolveOptions<P>(options)
+    );
+  }
+
+  public mutate<T, S, P extends string = string>(
+    inputValidator: Validator<T>,
+    outputValidator: Validator<S>,
+    handle: RawHandler<T, S>,
+    options: Partial<ProcedureOptions<P>> = {}
+  ): MutateRequestHandler<T, S, P> {
+    return mutate(
+      inputValidator,
+      outputValidator,
+      handle,
+      this.resolveOptions<P>(options)
+    );
+  }
+
+  private resolveOptions<P extends string>(
     options: Partial<ProcedureOptions<P>>
   ): Partial<ProcedureOptions<P>> {
     return {

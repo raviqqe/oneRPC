@@ -35,15 +35,16 @@ it("generates a weak etag", async () => {
 });
 
 it("checks an etag in a request", async () => {
-  expect(
-    (
-      await etag({ weak: true })(
-        new Request(url),
-        async () => new Response(JSON.stringify({})),
-        { mutate: false, stream: false }
-      )
-    ).headers.get("etag")
-  ).toMatch(/^W\/"[^"]+"$/);
+  const generateEtag = async (tag: string) =>
+    await etag()(
+      new Request(url, { headers: { "if-none-match": tag } }),
+      async () => new Response(JSON.stringify({})),
+      { mutate: false, stream: false }
+    );
+
+  const tag = (await generateEtag('""')).headers.get("etag");
+
+  expect(await generateEtag(tag)).toMatch(/^W\/"[^"]+"$/);
 });
 
 it("generates an etag for the same bodies", async () => {

@@ -35,8 +35,9 @@ it("generates a weak etag", async () => {
 });
 
 it("checks an etag in a request", async () => {
-  const generateEtag = async (tag: string) =>
-    await etag()(
+  const generateEtag = (tag: string) =>
+    etag()(
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       new Request(url, { headers: { "if-none-match": tag } }),
       async () => new Response(JSON.stringify({})),
       { mutate: false, stream: false }

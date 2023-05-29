@@ -55,6 +55,10 @@ Creates a `POST` endpoint function of a type `(input: T) => Promise<S>`.
 
 A utility class to pass the same procedure options to multiple endpoints.
 
+#### `RpcError` class
+
+A custom error class to return a custom status code (default: 500) from an endpoint.
+
 ### `onerpc/client` module
 
 #### `query` function

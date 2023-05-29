@@ -3,6 +3,7 @@ import { toIterable, toStream, toStringStream } from "@raviqqe/hidash/stream";
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
 import { RpcError, mutate, query, queryStream } from "./main.js";
+import { etag } from "./middleware.js";
 
 const buildQueryRequest = (value: unknown) =>
   new Request(
@@ -73,6 +74,22 @@ for (const [procedure, buildRequest] of [
       })(buildRequest({}));
 
       expect(response.headers.get("hello")).toBe("world");
+    });
+
+    it("applies no middleware", async () => {
+      const response = await procedure(z.unknown(), z.string(), () => "foo", {
+        middlewares: [],
+      })(buildRequest({}));
+
+      expect(await response.text()).toBe(JSON.stringify("foo"));
+    });
+
+    it("applies a middleware", async () => {
+      const response = await procedure(z.unknown(), z.string(), () => "foo", {
+        middlewares: [etag()],
+      })(buildRequest({}));
+
+      expect(await response.text()).toBe(JSON.stringify("foo"));
     });
   });
 }

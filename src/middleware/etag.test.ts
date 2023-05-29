@@ -15,3 +15,18 @@ it("attaches etag", async () => {
     ).headers.get("etag")
   ).toBeTruthy();
 });
+
+it("attaches no etag for stream", async () => {
+  expect(
+    (
+      await etag(
+        new Request("https:/foo.com"),
+        async () => new Response(JSON.stringify({})),
+        {
+          mutate: false,
+          stream: true,
+        }
+      )
+    ).headers.get("etag")
+  ).toBeNull();
+});

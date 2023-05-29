@@ -3,31 +3,23 @@ import { etag } from "./etag.js";
 
 const url = "https://foo.com";
 
-const generateEtag = async (body: unknown) =>
+const generateEtag = async (
+  body: unknown,
+  options: { mutate: boolean; stream: boolean } = {
+    mutate: false,
+    stream: false,
+  }
+) =>
   (
     await etag(
       new Request(url),
       async () => new Response(JSON.stringify(body)),
-      {
-        mutate: false,
-        stream: false,
-      }
+      options
     )
   ).headers.get("etag");
 
 it("generates etag", async () => {
-  expect(
-    (
-      await etag(
-        new Request(url),
-        async () => new Response(JSON.stringify({})),
-        {
-          mutate: false,
-          stream: false,
-        }
-      )
-    ).headers.get("etag")
-  ).toBeTruthy();
+  expect(await generateEtag({})).toBeTruthy();
 });
 
 it("generates etag for the same bodies", async () => {
@@ -41,31 +33,9 @@ it("generates etag for different bodies", async () => {
 });
 
 it("generates etag for mutation", async () => {
-  expect(
-    (
-      await etag(
-        new Request(url),
-        async () => new Response(JSON.stringify({})),
-        {
-          mutate: true,
-          stream: false,
-        }
-      )
-    ).headers.get("etag")
-  ).toBeTruthy();
+  expect(await generateEtag({}, { mutate: false, stream: false })).toBeTruthy();
 });
 
 it("generates no etag for stream", async () => {
-  expect(
-    (
-      await etag(
-        new Request(url),
-        async () => new Response(JSON.stringify({})),
-        {
-          mutate: false,
-          stream: true,
-        }
-      )
-    ).headers.get("etag")
-  ).toBeNull();
+  expect(await generateEtag({}, { mutate: false, stream: true })).toBeNull();
 });

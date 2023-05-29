@@ -13,6 +13,7 @@ import {
   inputParameterName,
   jsonHeaders,
   getJsonBody,
+  mergeHeaders,
 } from "./utility.js";
 
 export { RpcError } from "./error.js";
@@ -59,6 +60,69 @@ export type MutateRequestHandler<
 type Validator<T> = ZodType<T> | ((data: unknown) => T);
 
 const defaultStatus = 500;
+
+export class Server {
+  constructor(
+    private readonly options: Partial<
+      Pick<ProcedureOptions<string>, "headers" | "middlewares">
+    > = {}
+  ) {}
+
+  public query<T, S, P extends string = string>(
+    inputValidator: Validator<T>,
+    outputValidator: Validator<S>,
+    handle: RawHandler<T, S>,
+    options: Partial<ProcedureOptions<P>> = {}
+  ): QueryRequestHandler<T, S, P> {
+    return query(
+      inputValidator,
+      outputValidator,
+      handle,
+      this.resolveOptions<P>(options)
+    );
+  }
+
+  public queryStream<T, S, P extends string = string>(
+    inputValidator: Validator<T>,
+    outputValidator: Validator<S>,
+    handle: RawStreamHandler<T, S>,
+    options: Partial<ProcedureOptions<P>> = {}
+  ): QueryStreamRequestHandler<T, S, P> {
+    return queryStream(
+      inputValidator,
+      outputValidator,
+      handle,
+      this.resolveOptions<P>(options)
+    );
+  }
+
+  public mutate<T, S, P extends string = string>(
+    inputValidator: Validator<T>,
+    outputValidator: Validator<S>,
+    handle: RawHandler<T, S>,
+    options: Partial<ProcedureOptions<P>> = {}
+  ): MutateRequestHandler<T, S, P> {
+    return mutate(
+      inputValidator,
+      outputValidator,
+      handle,
+      this.resolveOptions<P>(options)
+    );
+  }
+
+  private resolveOptions<P extends string>(
+    options: Partial<ProcedureOptions<P>>
+  ): Partial<ProcedureOptions<P>> {
+    return {
+      ...options,
+      headers: mergeHeaders(this.options.headers, options.headers),
+      middlewares: [
+        ...(this.options.middlewares ?? []),
+        ...(options.middlewares ?? []),
+      ],
+    };
+  }
+}
 
 export const query = <T, S, P extends string = string>(
   inputValidator: Validator<T>,

@@ -62,7 +62,7 @@ const defaultStatus = 500;
 
 export class Server {
   constructor(
-    options: Partial<Pick<ProcedureOptions, "headers" | "middlewares">>
+    options: Partial<Pick<ProcedureOptions<string>, "headers" | "middlewares">>
   ) {}
 
   public async query<T, S, P extends string = string>(

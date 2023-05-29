@@ -9,19 +9,18 @@ export const etag: MiddlewareFunction = async (request, handle, { stream }) => {
     return response;
   }
 
-  const tag = request.headers.get("if-none-match");
-  const newTag = decodeTag(
+  const tag = decodeTag(
     await crypto.subtle.digest("sha1", await collectStream(response.body))
   );
 
-  if (tag === newTag) {
+  if (tag === request.headers.get("if-none-match")) {
     return new Response(null, {
       headers: response.headers,
       status: 304,
     });
   }
 
-  response.headers.set("etag", newTag);
+  response.headers.set("etag", tag);
   return response;
 };
 

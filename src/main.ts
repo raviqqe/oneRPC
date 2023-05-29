@@ -81,8 +81,17 @@ export class Server {
     );
   }
 
-  private resolveOptions(options: RequestOptions): RequestOptions {
-    return mergeOptions(this.options, options);
+  private resolveOptions<P extends string>(
+    options: ProcedureOptions<P>
+  ): ProcedureOptions<P> {
+    return {
+      ...options,
+      headers: mergeHeaders(this.options.headers, options.headers),
+      middlewares: [
+        ...(this.options.middlewares ?? []),
+        ...options.middlewares,
+      ],
+    };
   }
 }
 

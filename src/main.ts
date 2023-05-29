@@ -77,19 +77,19 @@ export class Server {
       inputValidator,
       outputValidator,
       handle,
-      this.resolveOptions(options)
+      this.mergeOptions<P>(options)
     );
   }
 
-  private resolveOptions<P extends string>(
-    options: ProcedureOptions<P>
-  ): ProcedureOptions<P> {
+  private mergeOptions<P extends string>(
+    options: Partial<ProcedureOptions<P>>
+  ): Partial<ProcedureOptions<P>> {
     return {
       ...options,
       headers: mergeHeaders(this.options.headers, options.headers),
       middlewares: [
         ...(this.options.middlewares ?? []),
-        ...options.middlewares,
+        ...(options.middlewares ?? []),
       ],
     };
   }

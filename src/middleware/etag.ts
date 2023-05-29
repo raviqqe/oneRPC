@@ -9,7 +9,7 @@ export const etag: MiddlewareFunction = async (request, handle, { stream }) => {
     return response;
   }
 
-  const etag = decodeTag(
+  const etag = encodeTag(
     await crypto.subtle.digest("sha-1", await collectStream(response.body))
   );
 
@@ -31,5 +31,5 @@ const collectStream = async (
     (await toArray(toIterable(toStringStream(stream)))).join("")
   );
 
-const decodeTag = (buffer: ArrayBuffer): string =>
+const encodeTag = (buffer: ArrayBuffer): string =>
   btoa(String.fromCharCode(...new Uint8Array(buffer)));

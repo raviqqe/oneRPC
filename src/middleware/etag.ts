@@ -12,9 +12,10 @@ export const etag =
     }
 
     const newResponse = response.clone();
-    const etag = encodeTag(
+    const hash = encodeTag(
       await crypto.subtle.digest("sha-1", await collectStream(response.body))
     );
+    const etag = (weak ? "W/" : "") + `"${hash}"`;
 
     if (etag === request.headers.get("if-none-match")) {
       return new Response(null, {
@@ -23,7 +24,7 @@ export const etag =
       });
     }
 
-    newResponse.headers.set("etag", (weak ? "W/" : "") + `"${etag}"`);
+    newResponse.headers.set("etag", etag);
     return newResponse;
   };
 

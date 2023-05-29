@@ -13,6 +13,9 @@
     "*": {
       "client.js": [
         "dist/client.d.ts"
+      ],
+      "middleware.js": [
+        "dist/middleware.d.ts"
       ]
     }
   },
@@ -28,6 +31,14 @@
     "./client.js": {
       "types": "./dist/client.d.ts",
       "default": "./dist/client.js"
+    },
+    "./middleware": {
+      "types": "./dist/middleware.d.ts",
+      "default": "./dist/middleware.js"
+    },
+    "./middleware.js": {
+      "types": "./dist/middleware.d.ts",
+      "default": "./dist/middleware.js"
     }
   },
   "scripts": {

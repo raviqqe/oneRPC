@@ -3,6 +3,10 @@ import { map } from "@raviqqe/hidash/promise";
 import { toByteStream, toStream } from "@raviqqe/hidash/stream";
 import { type ZodType } from "zod";
 import { RpcError } from "./error.js";
+import {
+  type MiddlewareFunction,
+  type MiddlewareOptions,
+} from "./middleware.js";
 import { type ProcedureOptions } from "./options.js";
 import {
   type ErrorBody,
@@ -16,6 +20,8 @@ export { RpcError } from "./error.js";
 type RawHandler<T, S> = (input: T, request: Request) => S | Promise<S>;
 
 type RawStreamHandler<T, S> = (input: T, request: Request) => AsyncIterable<S>;
+
+type RequestHandler = (request: Request) => Promise<Response>;
 
 interface ProcedureRequestHandler<
   T,
@@ -152,14 +158,17 @@ const procedure = <
   R extends boolean,
   P extends string
 >(
-  handle: (request: Request) => Promise<Response>,
+  handle: RequestHandler,
   mutate: M,
   stream: R,
   options: ProcedureOptions<P>
 ): ProcedureRequestHandler<T, S, M, R, P> => {
   const handler = async (request: Request) => {
     try {
-      return await handle(request);
+      return await applyMiddlewares(options.middlewares, handle, {
+        mutate,
+        stream,
+      })(request);
     } catch (error) {
       return new Response(
         JSON.stringify({
@@ -185,6 +194,19 @@ const procedure = <
   return handler;
 };
 
+const applyMiddlewares = (
+  [middleware, ...middlewares]: MiddlewareFunction[],
+  handle: RequestHandler,
+  options: MiddlewareOptions
+): RequestHandler =>
+  middleware
+    ? applyMiddlewares(
+        middlewares,
+        (request) => middleware(request, handle, options),
+        options
+      )
+    : handle;
+
 const getQueryInput = (request: Request): unknown => {
   const input = new URL(request.url).searchParams.get(inputParameterName);
 
@@ -198,5 +220,6 @@ const resolveOptions = <P extends string>(
   options: Partial<ProcedureOptions<P>>
 ): ProcedureOptions<P> => ({
   headers: options.headers ?? {},
+  middlewares: options.middlewares ?? [],
   path: options.path ?? ("" as P),
 });

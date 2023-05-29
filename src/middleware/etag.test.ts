@@ -11,7 +11,7 @@ const generateEtag = async (
   }
 ) =>
   (
-    await etag(
+    await etag()(
       new Request(url),
       async () => new Response(JSON.stringify(body)),
       options

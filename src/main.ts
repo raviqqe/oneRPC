@@ -198,5 +198,6 @@ const resolveOptions = <P extends string>(
   options: Partial<ProcedureOptions<P>>
 ): ProcedureOptions<P> => ({
   headers: options.headers ?? {},
+  middlewares: options.middlewares ?? [],
   path: options.path ?? ("" as P),
 });

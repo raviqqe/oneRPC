@@ -76,6 +76,14 @@ for (const [procedure, buildRequest] of [
       expect(response.headers.get("hello")).toBe("world");
     });
 
+    it("attaches custom headers in a Headers class", async () => {
+      const response = await procedure(z.unknown(), z.null(), () => null, {
+        headers: new Headers({ hello: "world" }),
+      })(buildRequest({}));
+
+      expect(response.headers.get("hello")).toBe("world");
+    });
+
     it("applies no middleware", async () => {
       const response = await procedure(z.unknown(), z.string(), () => "foo", {
         middlewares: [],

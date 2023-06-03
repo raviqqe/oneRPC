@@ -102,8 +102,8 @@ for (const [procedure, buildRequest] of [
 
     it("applies a middleware and attaches a custom header", async () => {
       const response = await procedure(z.unknown(), z.string(), () => "foo", {
-        middlewares: [etag()],
         headers: { hello: "world" },
+        middlewares: [etag()],
       })(buildRequest({}));
 
       expect(await response.text()).toBe(JSON.stringify("foo"));

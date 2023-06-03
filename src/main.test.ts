@@ -99,6 +99,17 @@ for (const [procedure, buildRequest] of [
 
       expect(await response.text()).toBe(JSON.stringify("foo"));
     });
+
+    it("applies a middleware and attaches a custom header", async () => {
+      const response = await procedure(z.unknown(), z.string(), () => "foo", {
+        middlewares: [etag()],
+        headers: { hello: "world" },
+      })(buildRequest({}));
+
+      expect(await response.text()).toBe(JSON.stringify("foo"));
+      expect(response.headers.get("etag")).toBeTruthy();
+      expect(response.headers.get("hello")).toBe("world");
+    });
   });
 }
 

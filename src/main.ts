@@ -203,12 +203,7 @@ const jsonProcedure = <T, S, P extends string, M extends boolean>(
             )
           )
         ),
-        {
-          headers: {
-            ...options.headers,
-            ...jsonHeaders,
-          },
-        }
+        { headers: mergeHeaders(options.headers, jsonHeaders) }
       ),
     mutate,
     false,

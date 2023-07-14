@@ -6,5 +6,5 @@ export interface MiddlewareOptions {
 export type MiddlewareFunction = (
   request: Request,
   handle: (request: Request) => Promise<Response>,
-  options: MiddlewareOptions
+  options: MiddlewareOptions,
 ) => Promise<Response>;

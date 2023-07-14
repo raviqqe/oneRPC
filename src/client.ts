@@ -23,7 +23,7 @@ export class Client {
   constructor(
     options:
       | RequestOptions
-      | (() => RequestOptions | Promise<RequestOptions>) = {}
+      | (() => RequestOptions | Promise<RequestOptions>) = {},
   ) {
     this.getOptions = typeof options === "function" ? options : () => options;
   }
@@ -31,17 +31,17 @@ export class Client {
   public async query<T extends QueryRequestHandler<unknown, unknown>>(
     path: T["_path"],
     input: T["_input"],
-    options: RequestOptions = {}
+    options: RequestOptions = {},
   ): Promise<T["_output"]> {
     return query(path, input, await this.resolveOptions(options));
   }
 
   public async *queryStream<
-    T extends QueryStreamRequestHandler<unknown, unknown>
+    T extends QueryStreamRequestHandler<unknown, unknown>,
   >(
     path: T["_path"],
     input: T["_input"],
-    options: RequestOptions = {}
+    options: RequestOptions = {},
   ): AsyncIterable<T["_output"]> {
     yield* queryStream(path, input, await this.resolveOptions(options));
   }
@@ -49,13 +49,13 @@ export class Client {
   public async mutate<T extends MutateRequestHandler<unknown, unknown>>(
     path: T["_path"],
     input: T["_input"],
-    options: RequestOptions = {}
+    options: RequestOptions = {},
   ): Promise<T["_output"]> {
     return mutate(path, input, await this.resolveOptions(options));
   }
 
   private async resolveOptions(
-    options: RequestOptions
+    options: RequestOptions,
   ): Promise<RequestOptions> {
     return mergeOptions(await this.getOptions(), options);
   }
@@ -64,15 +64,15 @@ export class Client {
 export const query = async <T extends QueryRequestHandler<unknown, unknown>>(
   path: T["_path"],
   input: T["_input"],
-  options: RequestOptions = {}
+  options: RequestOptions = {},
 ): Promise<T["_output"]> => procedure(buildQueryRequest(path, input, options));
 
 export const queryStream = async function* <
-  T extends QueryStreamRequestHandler<unknown, unknown>
+  T extends QueryStreamRequestHandler<unknown, unknown>,
 >(
   path: T["_path"],
   input: T["_input"],
-  options: RequestOptions = {}
+  options: RequestOptions = {},
 ): AsyncIterable<T["_output"]> {
   const response = await fetch(buildQueryRequest(path, input, options));
 
@@ -90,20 +90,20 @@ export const queryStream = async function* <
 export const mutate = async <T extends MutateRequestHandler<unknown, unknown>>(
   path: T["_path"],
   input: T["_input"],
-  options: RequestOptions = {}
+  options: RequestOptions = {},
 ): Promise<T["_output"]> =>
   procedure(
     new Request(resolveUrl(path, options.baseUrl), {
       ...mergeOptions(options, { headers: jsonHeaders }),
       body: JSON.stringify(input),
       method: "post",
-    })
+    }),
   );
 
 const buildQueryRequest = (
   path: string,
   input: unknown,
-  options: RequestOptions
+  options: RequestOptions,
 ): Request => {
   const url = resolveUrl(path, options.baseUrl);
   const parameters = new URLSearchParams({
@@ -114,7 +114,7 @@ const buildQueryRequest = (
 };
 
 const procedure = async <T extends MutateRequestHandler<unknown, unknown>>(
-  request: Request
+  request: Request,
 ): Promise<T["_output"]> => {
   const response = await fetch(request);
 
@@ -127,7 +127,7 @@ const procedure = async <T extends MutateRequestHandler<unknown, unknown>>(
 
 const mergeOptions = (
   one: RequestOptions,
-  other: RequestOptions
+  other: RequestOptions,
 ): RequestOptions => ({
   ...one,
   ...other,

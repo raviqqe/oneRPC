@@ -10,7 +10,7 @@ export const jsonHeaders = {
 };
 
 export const getJsonBody = async (
-  response: Request | Response
+  response: Request | Response,
 ): Promise<unknown> => {
   try {
     return (await response.json()) as unknown;
@@ -24,7 +24,7 @@ export const getJsonBody = async (
 
 export const mergeHeaders = (
   one?: HeadersInit,
-  other?: HeadersInit
+  other?: HeadersInit,
 ): Headers => {
   const headers = new Headers();
 

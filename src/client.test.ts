@@ -9,7 +9,7 @@ describe(query.name, () => {
     vi
       .spyOn(global, "fetch")
       .mockImplementation((request) =>
-        query(request instanceof Request ? request : new Request(request))
+        query(request instanceof Request ? request : new Request(request)),
       );
 
   it("handles a JSON object", async () => {
@@ -17,12 +17,12 @@ describe(query.name, () => {
     const serverQuery = server.query(
       z.object({ foo: z.number() }),
       z.any(),
-      (x: typeof value) => x
+      (x: typeof value) => x,
     );
     mockFetch(serverQuery);
 
     expect(
-      await query<typeof serverQuery>("https://foo.com/foo", value)
+      await query<typeof serverQuery>("https://foo.com/foo", value),
     ).toEqual(value);
   });
 
@@ -31,7 +31,7 @@ describe(query.name, () => {
     mockFetch(serverQuery);
 
     expect(await query<typeof serverQuery>("https://foo.com/foo", null)).toBe(
-      null
+      null,
     );
   });
 
@@ -39,14 +39,14 @@ describe(query.name, () => {
     const serverQuery = server.query(
       z.null(),
       z.any(),
-      (_: null, request: Request) => ({ hello: request.headers.get("hello") })
+      (_: null, request: Request) => ({ hello: request.headers.get("hello") }),
     );
     mockFetch(serverQuery);
 
     expect(
       await query<typeof serverQuery>("https://foo.com/foo", null, {
         headers: { hello: "world" },
-      })
+      }),
     ).toEqual({ hello: "world" });
   });
 
@@ -57,7 +57,7 @@ describe(query.name, () => {
     mockFetch(serverQuery);
 
     expect(await query<typeof serverQuery>("https://foo.com/bar", null)).toBe(
-      null
+      null,
     );
   });
 
@@ -68,12 +68,12 @@ describe(query.name, () => {
       () => {
         throw new Error("foo");
       },
-      { path: "https://foo.com/bar" }
+      { path: "https://foo.com/bar" },
     );
     mockFetch(serverQuery);
 
     await expect(
-      query<typeof serverQuery>("https://foo.com/bar", null)
+      query<typeof serverQuery>("https://foo.com/bar", null),
     ).rejects.toThrowError("foo");
   });
 
@@ -82,7 +82,7 @@ describe(query.name, () => {
     mockFetch(serverQuery);
 
     expect(
-      await query<typeof serverQuery>("https://foo.com/foo", undefined)
+      await query<typeof serverQuery>("https://foo.com/foo", undefined),
     ).toBe(null);
   });
 
@@ -91,7 +91,7 @@ describe(query.name, () => {
     mockFetch(serverQuery);
 
     expect(await query<typeof serverQuery>("https://foo.com/foo", null)).toBe(
-      undefined
+      undefined,
     );
   });
 
@@ -110,12 +110,12 @@ describe(query.name, () => {
         }
 
         return null;
-      }
+      },
     );
     mockFetch(serverQuery);
 
     expect(await query<typeof serverQuery>(path, null, { baseUrl })).toEqual(
-      null
+      null,
     );
   });
 
@@ -123,7 +123,7 @@ describe(query.name, () => {
     const serverQuery = server.query(
       z.null(),
       z.string(),
-      (_: null, request: Request) => request.headers.get("value")
+      (_: null, request: Request) => request.headers.get("value"),
     );
     mockFetch(serverQuery);
 
@@ -145,7 +145,7 @@ describe(mutate.name, () => {
     vi
       .spyOn(global, "fetch")
       .mockImplementation((request) =>
-        mutate(request instanceof Request ? request : new Request(request))
+        mutate(request instanceof Request ? request : new Request(request)),
       );
 
   it("handles a JSON object", async () => {
@@ -153,12 +153,12 @@ describe(mutate.name, () => {
     const serverMutate = server.mutate(
       z.object({ foo: z.number() }),
       z.any(),
-      (x: typeof value) => x
+      (x: typeof value) => x,
     );
     mockFetch(serverMutate);
 
     expect(
-      await mutate<typeof serverMutate>("https://foo.com/foo", value)
+      await mutate<typeof serverMutate>("https://foo.com/foo", value),
     ).toEqual(value);
   });
 
@@ -167,7 +167,7 @@ describe(mutate.name, () => {
     mockFetch(serverMutate);
 
     expect(await mutate<typeof serverMutate>("https://foo.com/foo", null)).toBe(
-      null
+      null,
     );
   });
 
@@ -175,14 +175,14 @@ describe(mutate.name, () => {
     const serverMutate = server.mutate(
       z.null(),
       z.any(),
-      (_: null, request: Request) => ({ hello: request.headers.get("hello") })
+      (_: null, request: Request) => ({ hello: request.headers.get("hello") }),
     );
     mockFetch(serverMutate);
 
     expect(
       await mutate<typeof serverMutate>("https://foo.com/foo", null, {
         headers: { hello: "world" },
-      })
+      }),
     ).toEqual({ hello: "world" });
   });
 
@@ -193,12 +193,12 @@ describe(mutate.name, () => {
       () => {
         throw new Error("foo");
       },
-      { path: "https://foo.com/bar" }
+      { path: "https://foo.com/bar" },
     );
     mockFetch(serverMutate);
 
     await expect(
-      mutate<typeof serverMutate>("https://foo.com/bar", null)
+      mutate<typeof serverMutate>("https://foo.com/bar", null),
     ).rejects.toThrowError("foo");
   });
 
@@ -207,7 +207,7 @@ describe(mutate.name, () => {
     mockFetch(serverMutate);
 
     expect(
-      await mutate<typeof serverMutate>("https://foo.com/foo", undefined)
+      await mutate<typeof serverMutate>("https://foo.com/foo", undefined),
     ).toBe(null);
   });
 
@@ -216,7 +216,7 @@ describe(mutate.name, () => {
     mockFetch(serverMutate);
 
     expect(await mutate<typeof serverMutate>("https://foo.com/foo", null)).toBe(
-      undefined
+      undefined,
     );
   });
 
@@ -235,12 +235,12 @@ describe(mutate.name, () => {
         }
 
         return null;
-      }
+      },
     );
     mockFetch(serverMutate);
 
     expect(await mutate<typeof serverMutate>(path, null, { baseUrl })).toEqual(
-      null
+      null,
     );
   });
 
@@ -248,7 +248,7 @@ describe(mutate.name, () => {
     const serverMutate = server.mutate(
       z.null(),
       z.string(),
-      (_: null, request: Request) => request.headers.get("value")
+      (_: null, request: Request) => request.headers.get("value"),
     );
     mockFetch(serverMutate);
 
@@ -267,12 +267,12 @@ describe(mutate.name, () => {
 
 describe(queryStream.name, () => {
   const mockFetch = (
-    query: server.QueryStreamRequestHandler<unknown, unknown>
+    query: server.QueryStreamRequestHandler<unknown, unknown>,
   ) =>
     vi
       .spyOn(global, "fetch")
       .mockImplementation((request) =>
-        query(request instanceof Request ? request : new Request(request))
+        query(request instanceof Request ? request : new Request(request)),
       );
 
   it("handles a JSON object", async () => {
@@ -283,14 +283,14 @@ describe(queryStream.name, () => {
       async function* () {
         yield value;
         yield value;
-      }
+      },
     );
     mockFetch(serverQuery);
 
     expect(
       await toArray(
-        queryStream<typeof serverQuery>("https://foo.com/foo", value)
-      )
+        queryStream<typeof serverQuery>("https://foo.com/foo", value),
+      ),
     ).toEqual([value, value]);
   });
 
@@ -300,7 +300,7 @@ describe(queryStream.name, () => {
       z.string(),
       async function* (_: null, request: Request) {
         yield request.headers.get("hello");
-      }
+      },
     );
     mockFetch(serverQuery);
 
@@ -308,8 +308,8 @@ describe(queryStream.name, () => {
       await toArray(
         queryStream<typeof serverQuery>("https://foo.com/foo", null, {
           headers: { hello: "world" },
-        })
-      )
+        }),
+      ),
     ).toEqual(["world"]);
   });
 
@@ -320,12 +320,12 @@ describe(queryStream.name, () => {
       () => {
         throw new Error("foo");
       },
-      { path: "https://foo.com/bar" }
+      { path: "https://foo.com/bar" },
     );
     mockFetch(serverQuery);
 
     await expect(
-      toArray(queryStream<typeof serverQuery>("https://foo.com/bar", null))
+      toArray(queryStream<typeof serverQuery>("https://foo.com/bar", null)),
     ).rejects.toThrowError("foo");
   });
 
@@ -342,12 +342,12 @@ describe(queryStream.name, () => {
         if (url.origin !== baseUrl || url.pathname !== path) {
           throw new Error();
         }
-      }
+      },
     );
     mockFetch(serverQuery);
 
     expect(
-      await toArray(queryStream<typeof serverQuery>(path, null, { baseUrl }))
+      await toArray(queryStream<typeof serverQuery>(path, null, { baseUrl })),
     ).toEqual([]);
   });
 });

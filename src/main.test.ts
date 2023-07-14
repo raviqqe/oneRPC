@@ -7,7 +7,7 @@ import { etag } from "./middleware.js";
 
 const buildQueryRequest = (value: unknown) =>
   new Request(
-    `https://foo.com?input=${encodeURIComponent(JSON.stringify(value))}`
+    `https://foo.com?input=${encodeURIComponent(JSON.stringify(value))}`,
   );
 
 for (const [procedure, buildRequest] of [
@@ -28,7 +28,7 @@ for (const [procedure, buildRequest] of [
       const response = await procedure(
         z.object({ foo: z.number() }),
         z.object({ foo: z.number() }),
-        (value: object) => value
+        (value: object) => value,
       )(buildRequest(value));
 
       expect(await response.json()).toEqual(value);
@@ -38,7 +38,7 @@ for (const [procedure, buildRequest] of [
       const response = await procedure(
         z.unknown(),
         z.null(),
-        () => null
+        () => null,
       )(buildRequest({}));
 
       expect(await response.json()).toBe(null);
@@ -121,7 +121,7 @@ describe(mutate.name, () => {
       method: "post",
     };
     const response = await mutate(z.void(), z.void(), () => {})(
-      new Request("https://foo.com", options)
+      new Request("https://foo.com", options),
     );
 
     expect(response.status).toBe(200);
@@ -138,11 +138,13 @@ describe(queryStream.name, () => {
       async function* () {
         yield value;
         yield value;
-      }
+      },
     )(buildQueryRequest({}));
 
     expect(
-      await toArray(map(toIterable(toStringStream(response.body!)), JSON.parse))
+      await toArray(
+        map(toIterable(toStringStream(response.body!)), JSON.parse),
+      ),
     ).toEqual([value, value]);
   });
 
@@ -175,7 +177,7 @@ describe(queryStream.name, () => {
       z.unknown(),
       z.any(),
       async function* () {},
-      { headers: { hello: "world" } }
+      { headers: { hello: "world" } },
     )(buildQueryRequest({}));
 
     expect(response.headers.get("hello")).toBe("world");
@@ -203,7 +205,7 @@ describe(Server.name, () => {
         const response = await procedure(
           z.object({ foo: z.number() }),
           z.object({ foo: z.number() }),
-          (value: object) => value
+          (value: object) => value,
         )(buildRequest(value));
 
         expect(await response.json()).toEqual(value);
@@ -220,11 +222,13 @@ describe(Server.name, () => {
       async function* () {
         yield value;
         yield value;
-      }
+      },
     )(buildQueryRequest({}));
 
     expect(
-      await toArray(map(toIterable(toStringStream(response.body!)), JSON.parse))
+      await toArray(
+        map(toIterable(toStringStream(response.body!)), JSON.parse),
+      ),
     ).toEqual([value, value]);
   });
 });

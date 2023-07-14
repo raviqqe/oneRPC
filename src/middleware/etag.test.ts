@@ -8,13 +8,13 @@ const generateEtag = async (
   options: { mutate: boolean; stream: boolean } = {
     mutate: false,
     stream: false,
-  }
+  },
 ) =>
   (
     await etag()(
       new Request(url),
       async () => new Response(JSON.stringify(body)),
-      options
+      options,
     )
   ).headers.get("etag");
 
@@ -28,9 +28,9 @@ it("generates a weak etag", async () => {
       await etag({ weak: true })(
         new Request(url),
         async () => new Response(JSON.stringify({})),
-        { mutate: false, stream: false }
+        { mutate: false, stream: false },
       )
-    ).headers.get("etag")
+    ).headers.get("etag"),
   ).toMatch(/^W\/"[^"]+"$/);
 });
 
@@ -40,7 +40,7 @@ it("checks an etag in a request", async () => {
       // eslint-disable-next-line @typescript-eslint/naming-convention
       new Request(url, { headers: { "if-none-match": tag } }),
       async () => new Response(JSON.stringify({})),
-      { mutate: false, stream: false }
+      { mutate: false, stream: false },
     );
 
   const tag = (await generateEtag('""')).headers.get("etag");
@@ -56,7 +56,7 @@ it("generates an etag for the same bodies", async () => {
 
 it("generates an etag for different bodies", async () => {
   expect(await generateEtag({ foo: 0 })).not.toBe(
-    await generateEtag({ foo: 1 })
+    await generateEtag({ foo: 1 }),
   );
 });
 

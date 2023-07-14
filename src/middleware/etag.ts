@@ -13,7 +13,7 @@ export const etag =
 
     const newResponse = response.clone();
     const hash = encodeTag(
-      await crypto.subtle.digest("sha-1", await collectStream(response.body))
+      await crypto.subtle.digest("sha-1", await collectStream(response.body)),
     );
     const etag = (weak ? "W/" : "") + `"${hash}"`;
 
@@ -29,10 +29,10 @@ export const etag =
   };
 
 const collectStream = async (
-  stream: ReadableStream<Uint8Array>
+  stream: ReadableStream<Uint8Array>,
 ): Promise<ArrayBuffer> =>
   new TextEncoder().encode(
-    (await toArray(toIterable(toStringStream(stream)))).join("")
+    (await toArray(toIterable(toStringStream(stream)))).join(""),
   );
 
 const encodeTag = (buffer: ArrayBuffer): string =>

@@ -281,7 +281,9 @@ const validate = <T>(validator: Validator<T>, data: unknown): T => {
     return validator.parse(data);
   }
 
-  return validator(data);
+  const value = validator(data);
+
+  return value instanceof Object && "output" in value ? value.output : value;
 };
 
 const resolveOptions = <P extends string>(

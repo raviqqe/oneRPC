@@ -1,8 +1,8 @@
 import { stringifyLines } from "@raviqqe/hidash/json";
 import { map } from "@raviqqe/hidash/promise";
 import { toByteStream, toStream } from "@raviqqe/hidash/stream";
-import { type ZodType } from "zod";
-import { type PipeResult } from "valibot";
+import { ZodType } from "zod";
+import { type PipeResult, type BaseSchema, parse } from "valibot";
 import { RpcError } from "./error.js";
 import {
   type MiddlewareFunction,
@@ -58,10 +58,7 @@ export type MutateRequestHandler<
   P extends string = string,
 > = ProcedureRequestHandler<T, S, true, false, P>;
 
-type Validator<T> =
-  | ZodType<T>
-  | ((data: unknown) => PipeResult<T>)
-  | ((data: unknown) => T);
+type Validator<T> = BaseSchema<T> | ZodType<T> | ((data: unknown) => T);
 
 const defaultStatus = 500;
 
@@ -277,17 +274,13 @@ const getQueryInput = (request: Request): unknown => {
 };
 
 const validate = <T>(validator: Validator<T>, data: unknown): T => {
-  if (!(validator instanceof Function)) {
+  if (validator instanceof Function) {
+    return validator(data);
+  } else if (validator instanceof ZodType) {
     return validator.parse(data);
   }
 
-  const value = validator(data);
-
-  if (value instanceof Object && "issues" in value) {
-    throw new Error("Failed to parse", { cause: value.issues });
-  }
-
-  return value instanceof Object && "output" in value ? value.output : value;
+  return parse(validator, data);
 };
 
 const resolveOptions = <P extends string>(

@@ -2,6 +2,7 @@ import { map, toArray } from "@raviqqe/hidash/promise";
 import { toIterable, toStream, toStringStream } from "@raviqqe/hidash/stream";
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
+import * as valibot from "valibot";
 import { RpcError, Server, mutate, query, queryStream } from "./main.js";
 import { etag } from "./middleware.js";
 
@@ -233,26 +234,44 @@ describe(Server.name, () => {
   });
 });
 
-describe("zod", () => {
+describe("valibot", () => {
   it("passes validation", async () => {
     const value = 42;
 
-    const response = await query(
-      z.number(),
-      z.unknown(),
-      (value) => value,
+    const response = await query(valibot.number(), valibot.string(), (value) =>
+      value.toString(),
     )(buildQueryRequest(value));
 
-    expect(await response.json()).toEqual(value);
+    expect(await response.json()).toEqual(value.toString());
   });
 
   it("fails validation", async () => {
     const value = "42";
 
-    const response = await query(
-      z.number(),
-      z.unknown(),
-      (value) => value,
+    const response = await query(valibot.number(), valibot.string(), (value) =>
+      value.toString(),
+    )(buildQueryRequest(value));
+
+    expect(await response.json()).toEqual({ message: expect.any(String) });
+  });
+});
+
+describe("zod", () => {
+  it("passes validation", async () => {
+    const value = 42;
+
+    const response = await query(z.number(), z.string(), (value) =>
+      value.toString(),
+    )(buildQueryRequest(value));
+
+    expect(await response.json()).toEqual(value.toString());
+  });
+
+  it("fails validation", async () => {
+    const value = "42";
+
+    const response = await query(z.number(), z.string(), (value) =>
+      value.toString(),
     )(buildQueryRequest(value));
 
     expect(await response.json()).toEqual({ message: expect.any(String) });

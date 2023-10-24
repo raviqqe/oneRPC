@@ -1,7 +1,8 @@
 import { stringifyLines } from "@raviqqe/hidash/json";
 import { map } from "@raviqqe/hidash/promise";
 import { toByteStream, toStream } from "@raviqqe/hidash/stream";
-import { type ZodType } from "zod";
+import { type BaseSchema, parse } from "valibot";
+import { ZodType } from "zod";
 import { RpcError } from "./error.js";
 import {
   type MiddlewareFunction,
@@ -57,7 +58,7 @@ export type MutateRequestHandler<
   P extends string = string,
 > = ProcedureRequestHandler<T, S, true, false, P>;
 
-type Validator<T> = ZodType<T> | ((data: unknown) => T);
+type Validator<T> = BaseSchema<T> | ZodType<T> | ((data: unknown) => T);
 
 const defaultStatus = 500;
 
@@ -272,8 +273,15 @@ const getQueryInput = (request: Request): unknown => {
   return input ? JSON.parse(input) : undefined;
 };
 
-const validate = <T>(validator: Validator<T>, data: unknown): T =>
-  validator instanceof Function ? validator(data) : validator.parse(data);
+const validate = <T>(validator: Validator<T>, data: unknown): T => {
+  if (validator instanceof Function) {
+    return validator(data);
+  } else if (validator instanceof ZodType) {
+    return validator.parse(data);
+  }
+
+  return parse(validator, data);
+};
 
 const resolveOptions = <P extends string>(
   options: Partial<ProcedureOptions<P>>,

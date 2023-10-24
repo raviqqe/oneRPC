@@ -1,5 +1,6 @@
 import { map, toArray } from "@raviqqe/hidash/promise";
 import { toIterable, toStream, toStringStream } from "@raviqqe/hidash/stream";
+import * as valibot from "valibot";
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
 import { RpcError, Server, mutate, query, queryStream } from "./main.js";
@@ -230,5 +231,53 @@ describe(Server.name, () => {
         map(toIterable(toStringStream(response.body!)), JSON.parse),
       ),
     ).toEqual([value, value]);
+  });
+});
+
+describe("valibot", () => {
+  it("passes validation", async () => {
+    const value = 42;
+
+    const response = await query(valibot.number(), valibot.string(), (value) =>
+      value.toString(),
+    )(buildQueryRequest(value));
+
+    expect(await response.json()).toEqual(value.toString());
+  });
+
+  it("fails validation", async () => {
+    const value = "42";
+
+    const response = await query(valibot.number(), valibot.string(), (value) =>
+      value.toString(),
+    )(buildQueryRequest(value));
+
+    expect(await response.json()).toEqual({
+      message: expect.any(String) as unknown,
+    });
+  });
+});
+
+describe("zod", () => {
+  it("passes validation", async () => {
+    const value = 42;
+
+    const response = await query(z.number(), z.string(), (value) =>
+      value.toString(),
+    )(buildQueryRequest(value));
+
+    expect(await response.json()).toEqual(value.toString());
+  });
+
+  it("fails validation", async () => {
+    const value = "42";
+
+    const response = await query(z.number(), z.string(), (value) =>
+      value.toString(),
+    )(buildQueryRequest(value));
+
+    expect(await response.json()).toEqual({
+      message: expect.any(String) as unknown,
+    });
   });
 });

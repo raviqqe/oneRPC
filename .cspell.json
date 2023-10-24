@@ -7,6 +7,7 @@
     "middlewares",
     "onerpc",
     "raviqqe",
-    "typeof"
+    "typeof",
+    "valibot"
   ]
 }

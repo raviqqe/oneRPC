@@ -283,6 +283,10 @@ const validate = <T>(validator: Validator<T>, data: unknown): T => {
 
   const value = validator(data);
 
+  if (value instanceof Object && "issues" in value) {
+    throw new Error("Failed to parse", { cause: value.issues });
+  }
+
   return value instanceof Object && "output" in value ? value.output : value;
 };
 

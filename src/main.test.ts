@@ -1,8 +1,8 @@
 import { map, toArray } from "@raviqqe/hidash/promise";
 import { toIterable, toStream, toStringStream } from "@raviqqe/hidash/stream";
+import * as valibot from "valibot";
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
-import * as valibot from "valibot";
 import { RpcError, Server, mutate, query, queryStream } from "./main.js";
 import { etag } from "./middleware.js";
 
@@ -252,7 +252,9 @@ describe("valibot", () => {
       value.toString(),
     )(buildQueryRequest(value));
 
-    expect(await response.json()).toEqual({ message: expect.any(String) });
+    expect(await response.json()).toEqual({
+      message: expect.any(String) as unknown,
+    });
   });
 });
 
@@ -274,6 +276,8 @@ describe("zod", () => {
       value.toString(),
     )(buildQueryRequest(value));
 
-    expect(await response.json()).toEqual({ message: expect.any(String) });
+    expect(await response.json()).toEqual({
+      message: expect.any(String) as unknown,
+    });
   });
 });

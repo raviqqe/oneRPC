@@ -1,8 +1,8 @@
 import { stringifyLines } from "@raviqqe/hidash/json";
 import { map } from "@raviqqe/hidash/promise";
 import { toByteStream, toStream } from "@raviqqe/hidash/stream";
+import { type BaseSchema, parse } from "valibot";
 import { ZodType } from "zod";
-import { type PipeResult, type BaseSchema, parse } from "valibot";
 import { RpcError } from "./error.js";
 import {
   type MiddlewareFunction,

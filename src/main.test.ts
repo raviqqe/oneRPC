@@ -232,3 +232,29 @@ describe(Server.name, () => {
     ).toEqual([value, value]);
   });
 });
+
+describe("zod", () => {
+  it("passes validation", async () => {
+    const value = 42;
+
+    const response = await query(
+      z.number(),
+      z.unknown(),
+      (value) => value,
+    )(buildQueryRequest(value));
+
+    expect(await response.json()).toEqual(value);
+  });
+
+  it("fails validation", async () => {
+    const value = "42";
+
+    const response = await query(
+      z.number(),
+      z.unknown(),
+      (value) => value,
+    )(buildQueryRequest(value));
+
+    expect(await response.json()).toEqual({ message: expect.any(String) });
+  });
+});

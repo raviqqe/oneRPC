@@ -29,7 +29,7 @@ oneRPC is a minimal RPC library to convert a server-side function of a type, `(i
 
 - 🐁 Minimal dependencies
 
-  It depends only on [Web APIs](https://developer.mozilla.org/en-US/docs/Web/API). Thus, it works on many platforms including Node.js, Deno, and edges.
+  It depends only on [Web APIs](https://developer.mozilla.org/en-US/docs/Web/API). Thus, it works on many platforms including Node.js, Deno, and edge runtimes.
 
 - 🌊 Streaming support
 

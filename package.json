@@ -42,7 +42,8 @@
     }
   },
   "scripts": {
-    "build": "tsc",
+    "build": "npm run build:tsc && npm run build:esbuild",
+    "build:esbuild": "esbuild --bundle --minify --format=esm --sourcemap --outdir=dist src/index.ts",
     "lint": "eslint 'src/**/*.ts'",
     "test": "vitest --coverage"
   },

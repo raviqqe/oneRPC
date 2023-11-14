@@ -1,5 +1,4 @@
-import { toArray } from "@raviqqe/hidash/promise";
-import { toIterable, toStringStream } from "@raviqqe/hidash/stream";
+import { toArray, toIterable, toStringStream } from "@raviqqe/loscore/async";
 import { type MiddlewareFunction } from "./utility.js";
 
 export const etag =

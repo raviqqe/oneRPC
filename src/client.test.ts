@@ -1,4 +1,4 @@
-import { toArray } from "@raviqqe/hidash/promise";
+import { toArray } from "@raviqqe/loscore/async";
 import { describe, expect, it, vi } from "vitest";
 import { z } from "zod";
 import { Client, mutate, query, queryStream } from "./client.js";

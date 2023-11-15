@@ -1,5 +1,5 @@
 import { parseLines } from "@raviqqe/hidash/json";
-import { toIterable, toStringStream } from "@raviqqe/hidash/stream";
+import { toIterable, toStringStream } from "@raviqqe/loscore/async";
 import {
   type QueryRequestHandler,
   type QueryStreamRequestHandler,

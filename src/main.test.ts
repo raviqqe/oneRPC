@@ -1,5 +1,10 @@
-import { map, toArray } from "@raviqqe/hidash/promise";
-import { toIterable, toStream, toStringStream } from "@raviqqe/hidash/stream";
+import {
+  map,
+  toArray,
+  toIterable,
+  toStream,
+  toStringStream,
+} from "@raviqqe/loscore/async";
 import * as valibot from "valibot";
 import { describe, expect, it } from "vitest";
 import { z } from "zod";

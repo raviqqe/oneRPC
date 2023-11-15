@@ -4,6 +4,7 @@
     "deno",
     "hidash",
     "hono",
+    "loscore",
     "middlewares",
     "onerpc",
     "raviqqe",

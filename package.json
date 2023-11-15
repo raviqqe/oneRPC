@@ -49,7 +49,8 @@
     "test": "vitest --coverage"
   },
   "dependencies": {
-    "@raviqqe/hidash": "^1.6.2",
+    "@raviqqe/hidash": "^2.0.0",
+    "@raviqqe/loscore": "^0.1.7",
     "valibot": "^0.20.0",
     "zod": "^3.22.4"
   },

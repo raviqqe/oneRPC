@@ -5,7 +5,7 @@ import { Client, mutate, query, queryStream } from "./client.js";
 import * as server from "./main.js";
 
 const stubFetch = <T>(handle: (request: Request) => T) =>
-  vi.stubGlobal("fetch", ([request]: Parameters<typeof fetch>) =>
+  vi.stubGlobal("fetch", (...[request]: Parameters<typeof fetch>) =>
     handle(request instanceof Request ? request : new Request(request)),
   );
 

@@ -4,13 +4,14 @@ import { z } from "zod";
 import { Client, mutate, query, queryStream } from "./client.js";
 import * as server from "./main.js";
 
+const stubFetch = <T>(handle: (request: Request) => T) =>
+  vi.stubGlobal("fetch", (...[request]: Parameters<typeof fetch>) =>
+    handle(request instanceof Request ? request : new Request(request)),
+  );
+
 describe(query.name, () => {
   const mockFetch = (query: server.QueryRequestHandler<unknown, unknown>) =>
-    vi
-      .spyOn(global, "fetch")
-      .mockImplementation((request) =>
-        query(request instanceof Request ? request : new Request(request)),
-      );
+    stubFetch(query);
 
   it("handles a JSON object", async () => {
     const value = { foo: 42 };
@@ -142,11 +143,7 @@ describe(query.name, () => {
 
 describe(mutate.name, () => {
   const mockFetch = (mutate: server.MutateRequestHandler<unknown, unknown>) =>
-    vi
-      .spyOn(global, "fetch")
-      .mockImplementation((request) =>
-        mutate(request instanceof Request ? request : new Request(request)),
-      );
+    stubFetch(mutate);
 
   it("handles a JSON object", async () => {
     const value = { foo: 42 };
@@ -268,12 +265,7 @@ describe(mutate.name, () => {
 describe(queryStream.name, () => {
   const mockFetch = (
     query: server.QueryStreamRequestHandler<unknown, unknown>,
-  ) =>
-    vi
-      .spyOn(global, "fetch")
-      .mockImplementation((request) =>
-        query(request instanceof Request ? request : new Request(request)),
-      );
+  ) => stubFetch(query);
 
   it("handles a JSON object", async () => {
     const value = { foo: 42 };

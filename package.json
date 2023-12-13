@@ -39,6 +39,14 @@
     "./middleware.js": {
       "types": "./dist/middleware.d.ts",
       "default": "./dist/middleware.js"
+    },
+    "./adapter/*": {
+      "types": "./dist/adapter/*.d.ts",
+      "default": "./dist/adapter/*.js"
+    },
+    "./adapter/*.js": {
+      "types": "./dist/adapter/*.d.ts",
+      "default": "./dist/adapter/*.js"
     }
   },
   "scripts": {
@@ -55,6 +63,7 @@
   "devDependencies": {
     "@raviqqe/eslint-config": "^2.0.2",
     "@raviqqe/tsconfig": "^1.0.1",
+    "@types/aws-lambda": "^8.10.130",
     "@vitest/coverage-v8": "^1.0.1",
     "esbuild": "^0.19.5",
     "eslint": "^8.34.0",

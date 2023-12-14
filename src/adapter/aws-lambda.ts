@@ -5,7 +5,7 @@ import { toString, toStringStream } from "@raviqqe/loscore/async";
 export const awsLambda =
   (handler: RequestHandler): APIGatewayProxyHandlerV2 =>
   async (event) => {
-    const response = await handler(event);
+    const response = await handler(new Request({}));
 
     return {
       statusCode: response.status,

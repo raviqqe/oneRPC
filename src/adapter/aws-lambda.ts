@@ -1,6 +1,10 @@
 import { APIGatewayProxyHandlerV2 } from "aws-lambda";
 import { RequestHandler } from "../main.js";
-import { toString, toStringStream } from "@raviqqe/loscore/async";
+import {
+  collectString,
+  toIterable,
+  toStringStream,
+} from "@raviqqe/loscore/async";
 import { isString, filterValues } from "@raviqqe/loscore";
 
 export const awsLambda =
@@ -18,7 +22,7 @@ export const awsLambda =
       statusCode: response.status,
       headers: Object.fromEntries(response.headers.entries()),
       body: response.body
-        ? await toString(toStringStream(response.body))
+        ? await collectString(toIterable(toStringStream(response.body)))
         : undefined,
     };
   };

@@ -9,9 +9,9 @@ import { isString, filterValues } from "@raviqqe/loscore";
 
 export const awsLambda =
   (handler: RequestHandler): APIGatewayProxyHandlerV2 =>
-  async ({ body, headers, requestContext: { http } }) => {
+  async ({ body, headers, rawPath, requestContext: { http } }) => {
     const response = await handler(
-      new Request(new URL(http.path), {
+      new Request(new URL(rawPath), {
         method: http.method,
         body,
         headers: filterValues(headers, isString),

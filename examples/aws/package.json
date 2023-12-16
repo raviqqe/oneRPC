@@ -1,14 +1,15 @@
 {
   "name": "aws",
   "version": "0.1.0",
-  "bin": {
-    "aws": "bin/aws.js"
-  },
   "scripts": {
     "build": "tsc",
-    "watch": "tsc -w",
-    "test": "jest",
-    "cdk": "cdk"
+    "test": "vitest",
+    "deploy": "cdk deploy"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "2.115.0",
+    "constructs": "^10.0.0",
+    "source-map-support": "^0.5.21"
   },
   "devDependencies": {
     "@raviqqe/eslint-config": "^2.0.4",
@@ -21,10 +22,5 @@
     "ts-node": "^10.9.2",
     "tsx": "^4.6.2",
     "typescript": "~5.3.3"
-  },
-  "dependencies": {
-    "aws-cdk-lib": "2.115.0",
-    "constructs": "^10.0.0",
-    "source-map-support": "^0.5.21"
   }
 }

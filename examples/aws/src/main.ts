@@ -1,6 +1,6 @@
 import { App } from "aws-cdk-lib";
-import { MainStack } from "./main-stack.js";
+import { MainStack } from "./stack.js";
 
 const app = new App();
 
-new MainStack(app, "MainStack");
+new MainStack(app, "Stack");

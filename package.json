@@ -74,5 +74,5 @@
     "valibot": "^0.24.1",
     "zod": "^3.22.4"
   },
-  "workspaces": ["examples/aws"]
+  "workspaces": [".", "examples/aws"]
 }

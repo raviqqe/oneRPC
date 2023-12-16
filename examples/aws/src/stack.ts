@@ -23,7 +23,7 @@ export class MainStack extends Stack {
       defaultBehavior: {
         allowedMethods: AllowedMethods.ALLOW_ALL,
         origin: new HttpOrigin(Fn.parseDomainName(url.url)),
-        originRequestPolicy: OriginRequestPolicy.ALL_VIEWER,
+        originRequestPolicy: OriginRequestPolicy.ALL_VIEWER_EXCEPT_HOST_HEADER,
       },
       enableLogging: true,
     });

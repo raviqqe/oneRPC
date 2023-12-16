@@ -13,6 +13,7 @@ jobs:
         with:
           cache: npm
       - run: npm ci
+      - run: npm run build
       - run: npm run -ws build
       - run: npm run -ws lint
       - run: npm run -ws test

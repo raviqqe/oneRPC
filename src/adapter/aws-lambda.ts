@@ -29,9 +29,9 @@ export const awsLambda =
 
     const response = await handler(
       new Request(new URL(request.uri), {
-        method: request.method,
         body: request.body?.data,
         headers,
+        method: request.method,
       }),
     );
 

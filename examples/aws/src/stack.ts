@@ -1,4 +1,4 @@
-import { CfnOutput, Stack, type StackProps } from "aws-cdk-lib";
+import { CfnOutput, Fn, Stack, type StackProps } from "aws-cdk-lib";
 import { AllowedMethods, Distribution } from "aws-cdk-lib/aws-cloudfront";
 import { HttpOrigin } from "aws-cdk-lib/aws-cloudfront-origins";
 import { Runtime } from "aws-cdk-lib/aws-lambda";
@@ -17,11 +17,13 @@ export class MainStack extends Stack {
     const distribution = new Distribution(this, "Distribution", {
       defaultBehavior: {
         allowedMethods: AllowedMethods.ALLOW_ALL,
-        origin: new HttpOrigin(new URL(lambda.addFunctionUrl().url).hostname),
+        origin: new HttpOrigin(
+          Fn.select(2, Fn.split("/", lambda.addFunctionUrl().url)),
+        ),
       },
     });
 
-    new CfnOutput(this, "DistributionDomain", {
+    new CfnOutput(this, "Domain", {
       value: distribution.domainName,
     });
   }

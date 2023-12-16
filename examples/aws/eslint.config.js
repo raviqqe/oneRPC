@@ -1,7 +1,7 @@
-import configuration from "@raviqqe/eslint-config";
+import configurations from "@raviqqe/eslint-config";
 
 export default [
-  configuration,
+  ...configurations,
   {
     rules: {
       "import/extensions": "off",

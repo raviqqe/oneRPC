@@ -50,9 +50,7 @@
   },
   "dependencies": {
     "@raviqqe/hidash": "^2.0.0",
-    "@raviqqe/loscore": "^0.2.0",
-    "valibot": "^0.24.0",
-    "zod": "^3.22.4"
+    "@raviqqe/loscore": "^0.2.0"
   },
   "devDependencies": {
     "@raviqqe/eslint-config": "^2.0.2",
@@ -62,5 +60,9 @@
     "eslint": "^8.34.0",
     "typescript": "^5.0.2",
     "vitest": "^1.0.1"
+  },
+  "peerDependencies": {
+    "valibot": "^0.24.1",
+    "zod": "^3.22.4"
   }
 }

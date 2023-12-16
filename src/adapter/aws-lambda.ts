@@ -1,11 +1,14 @@
-import { CloudFrontRequestHandler, CloudFrontResultResponse } from "aws-lambda";
-import { RequestHandler } from "../main.js";
+import { map } from "@raviqqe/loscore";
 import {
   collectString,
   toIterable,
   toStringStream,
 } from "@raviqqe/loscore/async";
-import { map } from "@raviqqe/loscore";
+import {
+  type CloudFrontRequestHandler,
+  type CloudFrontResultResponse,
+} from "aws-lambda";
+import { type RequestHandler } from "../main.js";
 
 export const awsLambda =
   (handler: RequestHandler): CloudFrontRequestHandler =>
@@ -33,12 +36,12 @@ export const awsLambda =
     );
 
     return {
-      status: response.status.toString(),
-      headers: Object.fromEntries(
-        map(response.headers.entries(), ([key, value]) => [key, [{ value }]]),
-      ),
       body: response.body
         ? await collectString(toIterable(toStringStream(response.body)))
         : undefined,
+      headers: Object.fromEntries(
+        map(response.headers.entries(), ([key, value]) => [key, [{ value }]]),
+      ),
+      status: response.status.toString(),
     } satisfies CloudFrontResultResponse;
   };

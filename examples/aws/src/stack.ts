@@ -17,7 +17,7 @@ export class MainStack extends Stack {
     const distribution = new Distribution(this, "Distribution", {
       defaultBehavior: {
         allowedMethods: AllowedMethods.ALLOW_ALL,
-        origin: new HttpOrigin(lambda.addFunctionUrl().url),
+        origin: new HttpOrigin(new URL(lambda.addFunctionUrl().url).hostname),
       },
     });
 

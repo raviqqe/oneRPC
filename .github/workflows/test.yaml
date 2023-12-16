@@ -6,11 +6,6 @@ on:
   pull_request:
 jobs:
   test:
-    strategy:
-      matrix:
-        directory:
-          - .
-          - examples/aws
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -18,9 +13,9 @@ jobs:
         with:
           cache: npm
       - run: npm ci
-      - run: npm run build
-      - run: npm run lint
-      - run: npm run test
+      - run: npm run -ws build
+      - run: npm run -ws lint
+      - run: npm run -ws test
       - uses: codecov/codecov-action@v3
   spell_check:
     runs-on: ubuntu-latest

@@ -1,6 +1,7 @@
 import { CfnOutput, Fn, Stack, type StackProps } from "aws-cdk-lib";
 import {
   AllowedMethods,
+  CachePolicy,
   Distribution,
   OriginRequestPolicy,
 } from "aws-cdk-lib/aws-cloudfront";
@@ -22,6 +23,7 @@ export class MainStack extends Stack {
     const distribution = new Distribution(this, "Distribution", {
       defaultBehavior: {
         allowedMethods: AllowedMethods.ALLOW_ALL,
+        cachePolicy: CachePolicy.CACHING_DISABLED,
         origin: new HttpOrigin(Fn.parseDomainName(url.url)),
         originRequestPolicy: OriginRequestPolicy.ALL_VIEWER_EXCEPT_HOST_HEADER,
       },

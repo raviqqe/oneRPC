@@ -14,7 +14,7 @@ export const awsLambda =
       new Request(new URL(http.path), {
         method: http.method,
         body,
-        headers: Object.fromEntries([...filterValues(headers, isString)]),
+        headers: filterValues(headers, isString),
       }),
     );
 

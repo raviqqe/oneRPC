@@ -13,11 +13,12 @@ export class MainStack extends Stack {
       entry: "src/lambda/square.ts",
       runtime: Runtime.NODEJS_LATEST,
     });
+    const url = lambda.addFunctionUrl();
 
     const distribution = new Distribution(this, "Distribution", {
       defaultBehavior: {
         allowedMethods: AllowedMethods.ALLOW_ALL,
-        origin: new HttpOrigin(Fn.parseDomainName(lambda.addFunctionUrl().url)),
+        origin: new HttpOrigin(Fn.parseDomainName(url.url)),
       },
     });
 

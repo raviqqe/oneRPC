@@ -1,9 +1,9 @@
 import { CfnOutput, Stack, type StackProps } from "aws-cdk-lib";
-import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
 import { AllowedMethods, Distribution } from "aws-cdk-lib/aws-cloudfront";
-import { type Construct } from "constructs";
 import { HttpOrigin } from "aws-cdk-lib/aws-cloudfront-origins";
 import { Runtime } from "aws-cdk-lib/aws-lambda";
+import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
+import { type Construct } from "constructs";
 
 export class MainStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
@@ -16,8 +16,8 @@ export class MainStack extends Stack {
 
     const distribution = new Distribution(this, "Distribution", {
       defaultBehavior: {
-        origin: new HttpOrigin(lambda.addFunctionUrl().url),
         allowedMethods: AllowedMethods.ALLOW_ALL,
+        origin: new HttpOrigin(lambda.addFunctionUrl().url),
       },
     });
 

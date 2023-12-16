@@ -71,7 +71,6 @@
     "vitest": "^1.0.1"
   },
   "peerDependencies": {
-    "aws-lambda": "^1.0.7",
     "valibot": "^0.24.1",
     "zod": "^3.22.4"
   }

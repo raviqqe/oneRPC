@@ -4,5 +4,5 @@ import { awsLambda } from "onerpc/adapter/aws-lambda";
 import { number } from "valibot";
 
 export const handler: Handler = awsLambda(
-  query(number(), number(), async (input) => input * input),
+  query(number(), number(), (input) => input * input),
 );

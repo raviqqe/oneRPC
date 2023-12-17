@@ -4,7 +4,7 @@ import {
   toIterable,
   toStringStream,
 } from "@raviqqe/loscore/async";
-import { LambdaFunctionURLHandler } from "aws-lambda";
+import { type LambdaFunctionURLHandler } from "aws-lambda";
 import { type RequestHandler } from "../main.js";
 
 export const awsLambda =

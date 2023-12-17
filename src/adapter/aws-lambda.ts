@@ -9,12 +9,12 @@ import { type RequestHandler } from "../main.js";
 
 export const awsLambda =
   (handler: RequestHandler): LambdaFunctionURLHandler =>
-  async (request) => {
-    console.log(JSON.stringify(request, null, 2));
+  async (request, context) => {
     const url = new URL("http://localhost");
 
-    url.pathname = request.rawPath;
     url.hostname = request.requestContext.domainName;
+    url.pathname = request.rawPath;
+    url.search = request.rawQueryString;
 
     const response = await handler(
       new Request(url, {

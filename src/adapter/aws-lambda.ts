@@ -10,10 +10,14 @@ import { type RequestHandler } from "../main.js";
 export const awsLambda =
   (handler: RequestHandler): LambdaFunctionURLHandler =>
   async (request) => {
-    console.log(request.requestContext.http);
+    console.log(JSON.stringify(request, null, 2));
+    const url = new URL("http://localhost");
+
+    url.pathname = request.rawPath;
+    url.hostname = request.requestContext.domainName;
 
     const response = await handler(
-      new Request(new URL(request.requestContext.http.path), {
+      new Request(url, {
         body: request.body,
         headers: new Headers(filterValues(request.headers, isString)),
         method: request.requestContext.http.method,

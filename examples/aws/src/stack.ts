@@ -17,6 +17,7 @@ export class MainStack extends Stack {
     const lambda = new NodejsFunction(this, "Function", {
       entry: "src/lambda/square.ts",
       runtime: Runtime.NODEJS_LATEST,
+      bundling: { minify: true },
     });
     const url = lambda.addFunctionUrl({ authType: FunctionUrlAuthType.NONE });
 

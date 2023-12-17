@@ -1,37 +1,22 @@
-import { map } from "@raviqqe/loscore";
+import { filterValues, isString } from "@raviqqe/loscore";
 import {
   collectString,
   toIterable,
   toStringStream,
 } from "@raviqqe/loscore/async";
-import {
-  type CloudFrontRequestHandler,
-  type CloudFrontResultResponse,
-} from "aws-lambda";
+import { LambdaFunctionURLHandler } from "aws-lambda";
 import { type RequestHandler } from "../main.js";
 
 export const awsLambda =
-  (handler: RequestHandler): CloudFrontRequestHandler =>
-  async ({ Records: [record] }) => {
-    if (!record) {
-      throw new Error("Invalid record in CloudFront event");
-    }
-
-    const { request } = record.cf;
-
-    const headers = new Headers();
-
-    for (const [key, values] of Object.entries(request.headers)) {
-      for (const value of values) {
-        headers.append(key, value.value);
-      }
-    }
+  (handler: RequestHandler): LambdaFunctionURLHandler =>
+  async (request) => {
+    console.log(request.requestContext.http);
 
     const response = await handler(
-      new Request(new URL(request.uri), {
-        body: request.body?.data,
-        headers,
-        method: request.method,
+      new Request(new URL(request.requestContext.http.path), {
+        body: request.body,
+        headers: new Headers(filterValues(request.headers, isString)),
+        method: request.requestContext.http.method,
       }),
     );
 
@@ -39,9 +24,7 @@ export const awsLambda =
       body: response.body
         ? await collectString(toIterable(toStringStream(response.body)))
         : undefined,
-      headers: Object.fromEntries(
-        map(response.headers.entries(), ([key, value]) => [key, [{ value }]]),
-      ),
+      headers: Object.fromEntries(response.headers.entries()),
       status: response.status.toString(),
-    } satisfies CloudFrontResultResponse;
+    };
   };

@@ -29,6 +29,6 @@ export const awsLambda =
         ? await collectString(toIterable(toStringStream(response.body)))
         : undefined,
       headers: Object.fromEntries(response.headers.entries()),
-      status: response.status.toString(),
+      statusCode: response.status,
     };
   };

@@ -9,7 +9,7 @@ import { type RequestHandler } from "../main.js";
 
 export const awsLambda =
   (handler: RequestHandler): LambdaFunctionURLHandler =>
-  async (request, context) => {
+  async (request) => {
     const url = new URL("http://localhost");
 
     url.hostname = request.requestContext.domainName;

@@ -51,7 +51,7 @@
   },
   "scripts": {
     "build": "npm run build:tsc && npm run build:esbuild",
-    "build:esbuild": "esbuild --minify --format=esm --packages=external --sourcemap --outdir=dist src/**/*.ts",
+    "build:esbuild": "esbuild --minify --format=esm --packages=external --sourcemap --outdir=dist src/**.ts",
     "build:tsc": "tsc --emitDeclarationOnly",
     "lint": "eslint src",
     "test": "vitest --coverage"

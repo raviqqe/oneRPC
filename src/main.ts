@@ -22,7 +22,7 @@ type RawHandler<T, S> = (input: T, request: Request) => S | Promise<S>;
 
 type RawStreamHandler<T, S> = (input: T, request: Request) => AsyncIterable<S>;
 
-type RequestHandler = (request: Request) => Promise<Response>;
+export type RequestHandler = (request: Request) => Promise<Response>;
 
 interface ProcedureRequestHandler<
   T,

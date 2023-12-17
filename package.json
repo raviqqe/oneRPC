@@ -39,11 +39,19 @@
     "./middleware.js": {
       "types": "./dist/middleware.d.ts",
       "default": "./dist/middleware.js"
+    },
+    "./adapter/*": {
+      "types": "./dist/adapter/*.d.ts",
+      "default": "./dist/adapter/*.js"
+    },
+    "./adapter/*.js": {
+      "types": "./dist/adapter/*.d.ts",
+      "default": "./dist/adapter/*.js"
     }
   },
   "scripts": {
     "build": "npm run build:tsc && npm run build:esbuild",
-    "build:esbuild": "esbuild --bundle --minify --format=esm --packages=external --sourcemap --outdir=dist src/*.ts",
+    "build:esbuild": "esbuild --minify --format=esm --packages=external --sourcemap --outdir=dist src/*.ts src/adapter/*.ts",
     "build:tsc": "tsc --emitDeclarationOnly",
     "lint": "eslint src",
     "test": "vitest --coverage"
@@ -55,6 +63,7 @@
   "devDependencies": {
     "@raviqqe/eslint-config": "^2.0.2",
     "@raviqqe/tsconfig": "^1.0.1",
+    "@types/aws-lambda": "^8.10.130",
     "@vitest/coverage-v8": "^1.0.1",
     "esbuild": "^0.19.5",
     "eslint": "^8.34.0",
@@ -64,5 +73,6 @@
   "peerDependencies": {
     "valibot": "^0.24.1",
     "zod": "^3.22.4"
-  }
+  },
+  "workspaces": [".", "examples/aws"]
 }

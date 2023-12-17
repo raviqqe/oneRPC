@@ -11,12 +11,13 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: latest
           cache: npm
       - run: npm ci
       - run: npm run build
-      - run: npm run lint
-      - run: npm run test
+      - run: npm run -ws build
+      - run: npm run -ws lint
+      - run: npm run -ws test
       - uses: codecov/codecov-action@v3
   spell_check:
     runs-on: ubuntu-latest

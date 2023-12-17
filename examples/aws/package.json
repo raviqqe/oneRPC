@@ -1,0 +1,23 @@
+{
+  "name": "aws",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint src",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "^2.115.0",
+    "constructs": "^10.0.0",
+    "onerpc": "../..",
+    "valibot": "^0.24.1"
+  },
+  "devDependencies": {
+    "@raviqqe/eslint-config": "^2.0.4",
+    "@raviqqe/tsconfig": "^1.0.8",
+    "aws-cdk": "^2.115.0",
+    "tsx": "^4.6.2",
+    "typescript": "^5.3.3"
+  }
+}

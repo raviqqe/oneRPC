@@ -6,7 +6,7 @@ import {
   OriginRequestPolicy,
 } from "aws-cdk-lib/aws-cloudfront";
 import { HttpOrigin } from "aws-cdk-lib/aws-cloudfront-origins";
-import { Runtime } from "aws-cdk-lib/aws-lambda";
+import { FunctionUrlAuthType, Runtime } from "aws-cdk-lib/aws-lambda";
 import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
 import { type Construct } from "constructs";
 
@@ -18,7 +18,7 @@ export class MainStack extends Stack {
       entry: "src/lambda/square.ts",
       runtime: Runtime.NODEJS_LATEST,
     });
-    const url = lambda.addFunctionUrl();
+    const url = lambda.addFunctionUrl({ authType: FunctionUrlAuthType.NONE });
 
     const distribution = new Distribution(this, "Distribution", {
       defaultBehavior: {

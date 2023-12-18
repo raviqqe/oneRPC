@@ -79,6 +79,8 @@ A utility class to pass the same request options to multiple procedure calls.
 
 ## Examples
 
+For all examples, see a [`examples`](examples) directory.
+
 ### Next.js with [Route Handlers][route-handlers]
 
 `app/api/foo/route.ts`:

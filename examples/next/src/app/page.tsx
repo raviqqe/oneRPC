@@ -2,7 +2,7 @@ import { Client } from "onerpc/client.js";
 import { type GET } from "./api/foo/route.js";
 
 const client = new Client({
-  baseUrl: process.env.VERCEL_URL ?? "http://localhost:3000",
+  baseUrl: process.env.VERCEL_URL ?? "https://onerpc.vercel.app",
 });
 
 export default async (): Promise<JSX.Element> => (

@@ -5,9 +5,11 @@
 [![npm](https://img.shields.io/npm/v/onerpc?style=flat-square)](https://www.npmjs.com/package/onerpc)
 [![License](https://img.shields.io/github/license/raviqqe/onerpc.svg?style=flat-square)](LICENSE)
 
-The RPC library for [Next.js Route Handlers][route-handlers].
+The router-less serverless RPC framework.
 
 oneRPC is a minimal RPC library to convert a server-side function of a type, `(input: T) => Promise<S>` into `(request: Request) => Promise<Response>` and make it callable from the client side in a type-safe way.
+
+Currently, we support [Next.js Route Handlers][route-handlers] and [AWS Lambda](https://aws.amazon.com/lambda/).
 
 ## Features
 

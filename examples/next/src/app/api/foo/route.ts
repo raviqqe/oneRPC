@@ -1,7 +1,7 @@
 import { mutate, query } from "onerpc";
 import { number } from "valibot";
 
-const path = "/api/foo" as const;
+const path = "/api/foo";
 
 export const runtime = "edge";
 

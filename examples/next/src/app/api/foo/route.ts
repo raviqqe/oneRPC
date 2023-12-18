@@ -1,16 +1,8 @@
 import { mutate, query } from "onerpc";
-import { object, string } from "valibot";
+import { number } from "valibot";
 
 export const runtime = "edge";
 
-export const GET = query(
-  object({ name: string() }),
-  object({ message: string() }),
-  ({ name }) => ({ message: `Hello, ${name}!` }),
-);
+export const GET = query(number(), number(), (input) => input * input);
 
-export const POST = mutate(
-  object({ name: string() }),
-  object({ message: string() }),
-  ({ name }) => ({ message: `こんにちは, ${name}!` }),
-);
+export const POST = mutate(number(), number(), (input) => input * input);

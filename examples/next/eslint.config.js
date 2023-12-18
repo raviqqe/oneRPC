@@ -1,1 +1,12 @@
-export { default } from "@raviqqe/eslint-config";
+import configurations from "@raviqqe/eslint-config";
+
+export default [
+  ...configurations,
+  {
+    files: ["src/app/**/{layout,page}.ts{,x}", "src/pages/api/**/*.ts"],
+    rules: {
+      "import/no-default-export": "off",
+      "react/display-name": "off",
+    },
+  },
+];

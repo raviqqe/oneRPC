@@ -25,5 +25,5 @@ jobs:
     steps:
       - uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::123456789100:role/my-github-actions-role
+          role-to-assume: ${{ secrets.aws_role }}
           aws-region: us-west-2

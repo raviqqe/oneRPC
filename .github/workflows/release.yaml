@@ -6,6 +6,9 @@ on:
   pull_request:
 jobs:
   release:
+    permissions:
+      id-token: write
+      contents: read
     runs-on: ubuntu-latest
     permissions:
       contents: read

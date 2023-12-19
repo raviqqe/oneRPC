@@ -21,6 +21,7 @@ jobs:
           access: public
           token: ${{ secrets.NPM_TOKEN }}
   cdk:
+    runs-on: ubuntu-latest
     steps:
       - uses: aws-actions/configure-aws-credentials@v4
         with:

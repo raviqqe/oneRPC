@@ -20,3 +20,10 @@ jobs:
         with:
           access: public
           token: ${{ secrets.NPM_TOKEN }}
+  cdk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.aws_role }}
+          aws-region: us-west-2

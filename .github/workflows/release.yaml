@@ -20,3 +20,9 @@ jobs:
         with:
           access: public
           token: ${{ secrets.NPM_TOKEN }}
+  cdk:
+    steps:
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::123456789100:role/my-github-actions-role
+          aws-region: us-west-2

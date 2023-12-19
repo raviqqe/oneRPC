@@ -7,7 +7,7 @@ import {
 } from "aws-cdk-lib/aws-cloudfront";
 import { HttpOrigin } from "aws-cdk-lib/aws-cloudfront-origins";
 import { FunctionUrlAuthType, Runtime } from "aws-cdk-lib/aws-lambda";
-import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
+import { NodejsFunction, OutputFormat } from "aws-cdk-lib/aws-lambda-nodejs";
 import { type Construct } from "constructs";
 
 export class MainStack extends Stack {
@@ -15,6 +15,9 @@ export class MainStack extends Stack {
     super(scope, id, props);
 
     const lambda = new NodejsFunction(this, "Function", {
+      bundling: {
+        format: OutputFormat.ESM,
+      },
       entry: "src/lambda/square.ts",
       runtime: Runtime.NODEJS_LATEST,
     });

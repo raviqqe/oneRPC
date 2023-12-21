@@ -30,4 +30,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: raviqqe/markdown-link-check@main
+      - uses: raviqqe/markdown-link-check@v1

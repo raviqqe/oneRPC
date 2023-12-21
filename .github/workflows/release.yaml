@@ -34,4 +34,4 @@ jobs:
       - uses: actions/setup-node@v4
       - run: npm install
       - run: npx cdk deploy
-        working_directory: examples/aws
+        working-directory: examples/aws

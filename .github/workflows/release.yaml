@@ -30,3 +30,8 @@ jobs:
         with:
           role-to-assume: ${{ secrets.aws_role }}
           aws-region: us-west-2
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+      - run: npm install
+      - run: npx cdk deploy
+        working_directory: examples/aws

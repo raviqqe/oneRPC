@@ -51,7 +51,7 @@
   },
   "scripts": {
     "build": "npm run build:tsc && npm run build:esbuild",
-    "build:esbuild": "esbuild --minify --format=esm --packages=external --sourcemap --outdir=dist src/*.ts src/adapter/*.ts",
+    "build:esbuild": "esbuild --minify --format=esm --packages=external --sourcemap --outdir=dist $(git ls-files 'src/*.ts' | grep -v test)",
     "build:tsc": "tsc --emitDeclarationOnly",
     "prepare": "npm run build",
     "lint": "eslint src",

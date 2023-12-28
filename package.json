@@ -72,8 +72,12 @@
     "vitest": "^1.0.1"
   },
   "peerDependencies": {
-    "valibot": "^0.24.1",
+    "valibot": "^0.25.0",
     "zod": "^3.22.4"
   },
-  "workspaces": [".", "examples/aws", "examples/next"]
+  "workspaces": [
+    ".",
+    "examples/aws",
+    "examples/next"
+  ]
 }

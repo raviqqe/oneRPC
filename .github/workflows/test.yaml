@@ -18,7 +18,7 @@ jobs:
       - run: npm run -ws build
       - run: npm run -ws lint
       - run: npm run -ws test
-      - uses: codecov/codecov-action@v3
+      - uses: codecov/codecov-action@v4
   spell_check:
     runs-on: ubuntu-latest
     steps:

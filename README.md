@@ -37,47 +37,9 @@ Currently, we support [Next.js Route Handlers][route-handlers] and [AWS Lambda](
 
   Stream responses are transferred as [JSON Lines](https://jsonlines.org/) and clients can consume them chunk by chunk.
 
-## API
+## Documentation
 
-### `onerpc` module
-
-#### `query` function
-
-Creates a `GET` endpoint function of a type `(input: T) => Promise<S>`.
-
-#### `queryStream` function
-
-Creates a `GET` endpoint function of a type `(input: T) => AsyncIterable<S>`.
-
-#### `mutate` function
-
-Creates a `POST` endpoint function of a type `(input: T) => Promise<S>`.
-
-#### `Server` class
-
-A utility class to pass the same procedure options to multiple procedures.
-
-#### `RpcError` class
-
-A custom error class to return a custom status code (default: 500) from an endpoint.
-
-### `onerpc/client` module
-
-#### `query` function
-
-Calls a `GET` endpoint function of a type `(input: T) => Promise<S>`.
-
-#### `queryStream` function
-
-Calls a `GET` endpoint function of a type `(input: T) => AsyncIterable<S>`.
-
-#### `mutate` function
-
-Calls a `POST` endpoint function of a type `(input: T) => Promise<S>`.
-
-#### `Client` class
-
-A utility class to pass the same request options to multiple procedure calls.
+[Here](https://raviqqe.com/onerpc).
 
 ## Examples
 

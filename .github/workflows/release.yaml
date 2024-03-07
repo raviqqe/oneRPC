@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-      - run: npm install
+      - run: npm ci
       - run: npm run build
       - uses: JS-DevTools/npm-publish@v3
         if: github.ref == 'refs/heads/main'
@@ -32,6 +32,6 @@ jobs:
           aws-region: us-west-2
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-      - run: npm install
+      - run: npm ci
       - run: npx cdk deploy --require-approval never
         working-directory: examples/aws

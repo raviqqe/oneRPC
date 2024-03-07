@@ -39,7 +39,7 @@ Currently, we support [Next.js Route Handlers][route-handlers] and [AWS Lambda](
 
 ## Documentation
 
-<!-- [Here](https://raviqqe.com/onerpc). -->
+[Here](https://raviqqe.com/onerpc).
 
 ## Examples
 

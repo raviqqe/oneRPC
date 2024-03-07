@@ -30,8 +30,12 @@ jobs:
         with:
           role-to-assume: ${{ secrets.aws_role }}
           aws-region: us-west-2
+        if: github.ref == 'refs/heads/main'
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
       - run: npm ci
+      - run: npx cdk synth
+        working-directory: examples/aws
       - run: npx cdk deploy --require-approval never
         working-directory: examples/aws
+        if: github.ref == 'refs/heads/main'

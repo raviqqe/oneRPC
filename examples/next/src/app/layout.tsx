@@ -5,5 +5,10 @@ interface Props {
 }
 
 export default ({ children }: Props): JSX.Element => (
-  <div>Output: {children}</div>
+  <html lang="en">
+    <head>
+      <meta content="en" httpEquiv="content-language" />
+    </head>
+    <body>{children}</body>
+  </html>
 );

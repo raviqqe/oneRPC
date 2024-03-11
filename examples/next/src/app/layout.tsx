@@ -4,4 +4,6 @@ interface Props {
   children: ReactNode;
 }
 
-export default ({ children }: Props): JSX.Element => <>Output: {children}</>;
+export default ({ children }: Props): JSX.Element => (
+  <div>Output: {children}</div>
+);

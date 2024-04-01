@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/configure-pages@v4
+      - uses: actions/configure-pages@v5
       - uses: homebrew/actions/setup-homebrew@master
       - run: brew install deno
       - run: npm ci

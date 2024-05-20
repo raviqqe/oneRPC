@@ -69,8 +69,14 @@
     "vitest": "^1.0.1"
   },
   "peerDependencies": {
+    "aws-lambda": "^1.0.7",
     "valibot": "^0.30.0",
     "zod": "^3.22.4"
+  },
+  "peerDependenciesMeta": {
+    "aws-lambda": {
+      "optional": true
+    }
   },
   "workspaces": [".", "examples/aws", "examples/next"]
 }

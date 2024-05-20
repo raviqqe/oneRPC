@@ -77,6 +77,11 @@
     "valibot": "^0.30.0",
     "zod": "^3.22.4"
   },
+    "peerDependenciesMeta": {
+    "aws-lambda": {
+      "optional": true
+    }
+  }
   "workspaces": [
     ".",
     "examples/aws",

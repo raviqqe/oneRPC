@@ -11,8 +11,12 @@
   "main": "dist/main.js",
   "typesVersions": {
     "*": {
-      "client.js": ["dist/client.d.ts"],
-      "middleware.js": ["dist/middleware.d.ts"]
+      "client.js": [
+        "dist/client.d.ts"
+      ],
+      "middleware.js": [
+        "dist/middleware.d.ts"
+      ]
     }
   },
   "exports": {
@@ -69,8 +73,13 @@
     "vitest": "^1.0.1"
   },
   "peerDependencies": {
+    "aws-lambda": "^1.0.7",
     "valibot": "^0.30.0",
     "zod": "^3.22.4"
   },
-  "workspaces": [".", "examples/aws", "examples/next"]
+  "workspaces": [
+    ".",
+    "examples/aws",
+    "examples/next"
+  ]
 }

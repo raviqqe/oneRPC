@@ -36,6 +36,14 @@
       "types": "./dist/middleware.d.ts",
       "default": "./dist/middleware.js"
     },
+    "./validation": {
+      "types": "./dist/validation.d.ts",
+      "default": "./dist/validation.js"
+    },
+    "./validation.js": {
+      "types": "./dist/validation.d.ts",
+      "default": "./dist/validation.js"
+    },
     "./adapter/*": {
       "types": "./dist/adapter/*.d.ts",
       "default": "./dist/adapter/*.js"
@@ -49,7 +57,7 @@
     "build": "npm run build:tsc && npm run build:esbuild",
     "build:esbuild": "esbuild --minify --format=esm --packages=external --sourcemap --outdir=dist $(git ls-files 'src/*.ts' | grep -v test)",
     "build:tsc": "tsc --emitDeclarationOnly",
-    "build:doc": "deno doc --unstable-sloppy-imports --unstable-byonm --html --name='⚡ oneRPC' src/main.ts src/client.ts src/middleware.ts",
+    "build:doc": "deno doc --unstable-sloppy-imports --unstable-byonm --html --name='⚡ oneRPC' src/main.ts src/client.ts src/middleware.ts src/validation.ts src/adapter/*.ts",
     "prepare": "npm run build",
     "lint": "eslint src",
     "test": "vitest --coverage"

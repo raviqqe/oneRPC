@@ -7,12 +7,7 @@ export const valibot =
     return parse(schema, data);
   };
 
-export const zod = <T>(validator: Validator<T>, data: unknown): T => {
-  if (validator instanceof Function) {
-    return validator(data);
-  } else if (validator instanceof ZodType) {
-    return validator.parse(data);
-  }
-
-  return parse(validator, data);
-};
+export const zod =
+  <T>(type: ZodType<T>): Validator<T> =>
+  (data) =>
+    validator.parse(data);

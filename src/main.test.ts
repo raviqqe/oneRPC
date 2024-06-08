@@ -181,7 +181,7 @@ describe(queryStream.name, () => {
   });
 
   it("handles an RPC error", async () => {
-    const response = await queryStream(zod(z.unknown()), z.never(), () => {
+    const response = await queryStream(zod(z.unknown()), zod(z.never()), () => {
       throw new RpcError();
     })(buildQueryRequest({}));
 
@@ -189,7 +189,7 @@ describe(queryStream.name, () => {
   });
 
   it("handles an RPC error with status", async () => {
-    const response = await queryStream(zod(z.unknown()), z.never(), () => {
+    const response = await queryStream(zod(z.unknown()), zod(z.never()), () => {
       throw new RpcError(undefined, { status: 400 });
     })(buildQueryRequest({}));
 
@@ -197,7 +197,7 @@ describe(queryStream.name, () => {
   });
 
   it("handles an unexpected error", async () => {
-    const response = await queryStream(zod(z.unknown()), z.never(), () => {
+    const response = await queryStream(zod(z.unknown()), zod(z.never()), () => {
       throw new Error();
     })(buildQueryRequest({}));
 

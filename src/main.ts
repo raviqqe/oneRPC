@@ -1,6 +1,6 @@
 import { stringifyLines } from "@raviqqe/hidash/json";
 import { map, toByteStream, toStream } from "@raviqqe/loscore/async";
-import { type BaseSchema, parse, BaseIssue } from "valibot";
+import { type BaseSchema, parse, type BaseIssue } from "valibot";
 import { ZodType } from "zod";
 import { RpcError } from "./error.js";
 import {

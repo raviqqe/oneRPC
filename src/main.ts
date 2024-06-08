@@ -1,6 +1,5 @@
 import { stringifyLines } from "@raviqqe/hidash/json";
 import { map, toByteStream, toStream } from "@raviqqe/loscore/async";
-import { type BaseSchema, parse, type BaseIssue } from "valibot";
 import { ZodType } from "zod";
 import { RpcError } from "./error.js";
 import {
@@ -57,10 +56,7 @@ export type MutateRequestHandler<
   P extends string = string,
 > = ProcedureRequestHandler<T, S, true, false, P>;
 
-type Validator<T> =
-  | BaseSchema<T, T, BaseIssue<unknown>>
-  | ZodType<T>
-  | ((data: unknown) => T);
+export type Validator<T> = (data: unknown) => T;
 
 const defaultStatus = 500;
 

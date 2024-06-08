@@ -70,7 +70,7 @@
   },
   "peerDependencies": {
     "aws-lambda": "^1.0.7",
-    "valibot": "^0.30.0",
+    "valibot": "^0.31.0",
     "zod": "^3.22.4"
   },
   "peerDependenciesMeta": {

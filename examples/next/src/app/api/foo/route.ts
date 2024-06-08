@@ -10,16 +10,12 @@ export const GET = query(
   valibot(number()),
   valibot(number()),
   (input) => input * input,
-  {
-    path,
-  },
+  { path },
 );
 
 export const POST = mutate(
   valibot(number()),
   valibot(number()),
   (input) => input * input,
-  {
-    path,
-  },
+  { path },
 );

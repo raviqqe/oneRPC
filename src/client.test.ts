@@ -3,6 +3,7 @@ import { describe, expect, it, vi } from "vitest";
 import { z } from "zod";
 import { Client, mutate, query, queryStream } from "./client.js";
 import * as server from "./main.js";
+import { zod } from "./validation.js";
 
 const stubFetch = <T>(handle: (request: Request) => T) =>
   vi.stubGlobal("fetch", (...[request]: Parameters<typeof fetch>) =>
@@ -16,8 +17,8 @@ describe(query.name, () => {
   it("handles a JSON object", async () => {
     const value = { foo: 42 };
     const serverQuery = server.query(
-      z.object({ foo: z.number() }),
-      z.any(),
+      zod(z.object({ foo: z.number() })),
+      zod(z.any()),
       (x: typeof value) => x,
     );
     mockFetch(serverQuery);
@@ -28,7 +29,11 @@ describe(query.name, () => {
   });
 
   it("handles null", async () => {
-    const serverQuery = server.query(z.null(), z.any(), (x: null) => x);
+    const serverQuery = server.query(
+      zod(z.null()),
+      zod(z.any()),
+      (x: null) => x,
+    );
     mockFetch(serverQuery);
 
     expect(await query<typeof serverQuery>("https://foo.com/foo", null)).toBe(
@@ -38,8 +43,8 @@ describe(query.name, () => {
 
   it("handles options", async () => {
     const serverQuery = server.query(
-      z.null(),
-      z.any(),
+      zod(z.null()),
+      zod(z.any()),
       (_: null, request: Request) => ({ hello: request.headers.get("hello") }),
     );
     mockFetch(serverQuery);
@@ -52,9 +57,14 @@ describe(query.name, () => {
   });
 
   it("specifies a path", async () => {
-    const serverQuery = server.query(z.null(), z.any(), (x: null) => x, {
-      path: "https://foo.com/bar",
-    });
+    const serverQuery = server.query(
+      zod(z.null()),
+      zod(z.any()),
+      (x: null) => x,
+      {
+        path: "https://foo.com/bar",
+      },
+    );
     mockFetch(serverQuery);
 
     expect(await query<typeof serverQuery>("https://foo.com/bar", null)).toBe(
@@ -64,8 +74,8 @@ describe(query.name, () => {
 
   it("handles an error", async () => {
     const serverQuery = server.query(
-      z.unknown(),
-      z.any(),
+      zod(z.unknown()),
+      zod(z.any()),
       () => {
         throw new Error("foo");
       },
@@ -79,7 +89,7 @@ describe(query.name, () => {
   });
 
   it("handles undefined input", async () => {
-    const serverQuery = server.query(z.void(), z.any(), () => null);
+    const serverQuery = server.query(zod(z.void()), zod(z.any()), () => null);
     mockFetch(serverQuery);
 
     expect(
@@ -88,7 +98,11 @@ describe(query.name, () => {
   });
 
   it("handles undefined output", async () => {
-    const serverQuery = server.query(z.null(), z.void(), () => undefined);
+    const serverQuery = server.query(
+      zod(z.null()),
+      zod(z.void()),
+      () => undefined,
+    );
     mockFetch(serverQuery);
 
     expect(await query<typeof serverQuery>("https://foo.com/foo", null)).toBe(
@@ -101,8 +115,8 @@ describe(query.name, () => {
     const path = "/bar";
 
     const serverQuery = server.query(
-      z.null(),
-      z.null(),
+      zod(z.null()),
+      zod(z.null()),
       async (_: null, request: Request) => {
         const url = new URL(request.url);
 
@@ -122,8 +136,8 @@ describe(query.name, () => {
 
   it("handles dynamic options", async () => {
     const serverQuery = server.query(
-      z.null(),
-      z.string(),
+      zod(z.null()),
+      zod(z.string()),
       (_: null, request: Request) => request.headers.get("value"),
     );
     mockFetch(serverQuery);
@@ -148,8 +162,8 @@ describe(mutate.name, () => {
   it("handles a JSON object", async () => {
     const value = { foo: 42 };
     const serverMutate = server.mutate(
-      z.object({ foo: z.number() }),
-      z.any(),
+      zod(z.object({ foo: z.number() })),
+      zod(z.any()),
       (x: typeof value) => x,
     );
     mockFetch(serverMutate);
@@ -160,7 +174,11 @@ describe(mutate.name, () => {
   });
 
   it("handles null", async () => {
-    const serverMutate = server.mutate(z.null(), z.any(), (x: null) => x);
+    const serverMutate = server.mutate(
+      zod(z.null()),
+      zod(z.any()),
+      (x: null) => x,
+    );
     mockFetch(serverMutate);
 
     expect(await mutate<typeof serverMutate>("https://foo.com/foo", null)).toBe(
@@ -170,8 +188,8 @@ describe(mutate.name, () => {
 
   it("handles options", async () => {
     const serverMutate = server.mutate(
-      z.null(),
-      z.any(),
+      zod(z.null()),
+      zod(z.any()),
       (_: null, request: Request) => ({ hello: request.headers.get("hello") }),
     );
     mockFetch(serverMutate);
@@ -185,8 +203,8 @@ describe(mutate.name, () => {
 
   it("handles an error", async () => {
     const serverMutate = server.mutate(
-      z.unknown(),
-      z.any(),
+      zod(z.unknown()),
+      zod(z.any()),
       () => {
         throw new Error("foo");
       },
@@ -200,7 +218,7 @@ describe(mutate.name, () => {
   });
 
   it("handles undefined input", async () => {
-    const serverMutate = server.mutate(z.void(), z.any(), () => null);
+    const serverMutate = server.mutate(zod(z.void()), zod(z.any()), () => null);
     mockFetch(serverMutate);
 
     expect(
@@ -209,7 +227,11 @@ describe(mutate.name, () => {
   });
 
   it("handles undefined output", async () => {
-    const serverMutate = server.mutate(z.null(), z.void(), () => undefined);
+    const serverMutate = server.mutate(
+      zod(z.null()),
+      zod(z.void()),
+      () => undefined,
+    );
     mockFetch(serverMutate);
 
     expect(await mutate<typeof serverMutate>("https://foo.com/foo", null)).toBe(
@@ -222,8 +244,8 @@ describe(mutate.name, () => {
     const path = "/bar";
 
     const serverMutate = server.mutate(
-      z.null(),
-      z.null(),
+      zod(z.null()),
+      zod(z.null()),
       async (_: null, request: Request) => {
         const url = new URL(request.url);
 
@@ -243,8 +265,8 @@ describe(mutate.name, () => {
 
   it("handles dynamic options", async () => {
     const serverMutate = server.mutate(
-      z.null(),
-      z.string(),
+      zod(z.null()),
+      zod(z.string()),
       (_: null, request: Request) => request.headers.get("value"),
     );
     mockFetch(serverMutate);
@@ -270,8 +292,8 @@ describe(queryStream.name, () => {
   it("handles a JSON object", async () => {
     const value = { foo: 42 };
     const serverQuery = server.queryStream(
-      z.object({ foo: z.number() }),
-      z.any(),
+      zod(z.object({ foo: z.number() })),
+      zod(z.any()),
       async function* () {
         yield value;
         yield value;
@@ -288,8 +310,8 @@ describe(queryStream.name, () => {
 
   it("handles options", async () => {
     const serverQuery = server.queryStream(
-      z.null(),
-      z.string(),
+      zod(z.null()),
+      zod(z.string()),
       async function* (_: null, request: Request) {
         yield request.headers.get("hello");
       },
@@ -307,8 +329,8 @@ describe(queryStream.name, () => {
 
   it("handles an error", async () => {
     const serverQuery = server.queryStream(
-      z.unknown(),
-      z.any(),
+      zod(z.unknown()),
+      zod(z.any()),
       () => {
         throw new Error("foo");
       },
@@ -326,8 +348,8 @@ describe(queryStream.name, () => {
     const path = "/bar";
 
     const serverQuery = server.queryStream(
-      z.null(),
-      z.null(),
+      zod(z.null()),
+      zod(z.null()),
       async function* (_: null, request: Request) {
         const url = new URL(request.url);
 

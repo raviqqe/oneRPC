@@ -1,7 +1,5 @@
 import { stringifyLines } from "@raviqqe/hidash/json";
 import { map, toByteStream, toStream } from "@raviqqe/loscore/async";
-import { type BaseSchema, parse, type BaseIssue } from "valibot";
-import { ZodType } from "zod";
 import { RpcError } from "./error.js";
 import {
   type MiddlewareFunction,
@@ -57,10 +55,7 @@ export type MutateRequestHandler<
   P extends string = string,
 > = ProcedureRequestHandler<T, S, true, false, P>;
 
-type Validator<T> =
-  | BaseSchema<T, T, BaseIssue<unknown>>
-  | ZodType<T>
-  | ((data: unknown) => T);
+export type Validator<T> = (data: unknown) => T;
 
 const defaultStatus = 500;
 
@@ -155,11 +150,8 @@ export const queryStream = <T, S, P extends string = string>(
           toStream(
             stringifyLines(
               map(
-                handle(
-                  validate(inputValidator, await getQueryInput(request)),
-                  request,
-                ),
-                (output) => validate(outputValidator, output),
+                handle(inputValidator(await getQueryInput(request)), request),
+                (output) => outputValidator(output),
               ),
             ),
           ),
@@ -198,12 +190,8 @@ const jsonProcedure = <T, S, P extends string, M extends boolean>(
     async (request: Request) =>
       new Response(
         JSON.stringify(
-          validate(
-            outputValidator,
-            await handle(
-              validate(inputValidator, await getInput(request)),
-              request,
-            ),
+          outputValidator(
+            await handle(inputValidator(await getInput(request)), request),
           ),
         ),
         { headers: mergeHeaders(options.headers, jsonHeaders) },
@@ -273,16 +261,6 @@ const getQueryInput = (request: Request): unknown => {
   const input = new URL(request.url).searchParams.get(inputParameterName);
 
   return input ? JSON.parse(input) : undefined;
-};
-
-const validate = <T>(validator: Validator<T>, data: unknown): T => {
-  if (validator instanceof Function) {
-    return validator(data);
-  } else if (validator instanceof ZodType) {
-    return validator.parse(data);
-  }
-
-  return parse(validator, data);
 };
 
 const resolveOptions = <P extends string>(

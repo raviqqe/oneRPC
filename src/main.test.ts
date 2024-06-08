@@ -5,11 +5,12 @@ import {
   toStream,
   toStringStream,
 } from "@raviqqe/loscore/async";
-import * as valibot from "valibot";
+import * as v from "valibot";
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
 import { RpcError, Server, mutate, query, queryStream } from "./main.js";
 import { etag } from "./middleware.js";
+import { zod, valibot } from "./validation.js";
 
 const buildQueryRequest = (value: unknown) =>
   new Request(
@@ -32,8 +33,8 @@ for (const [procedure, buildRequest] of [
       const value = { foo: 42 };
 
       const response = await procedure(
-        z.object({ foo: z.number() }),
-        z.object({ foo: z.number() }),
+        zod(z.object({ foo: z.number() })),
+        zod(z.object({ foo: z.number() })),
         (value: object) => value,
       )(buildRequest(value));
 
@@ -42,8 +43,8 @@ for (const [procedure, buildRequest] of [
 
     it("handles null", async () => {
       const response = await procedure(
-        z.unknown(),
-        z.null(),
+        zod(z.unknown()),
+        zod(z.null()),
         () => null,
       )(buildRequest({}));
 
@@ -51,7 +52,7 @@ for (const [procedure, buildRequest] of [
     });
 
     it("handles an RPC error", async () => {
-      const response = await procedure(z.unknown(), z.never(), () => {
+      const response = await procedure(zod(z.unknown()), zod(z.never()), () => {
         throw new RpcError();
       })(buildRequest({}));
 
@@ -59,7 +60,7 @@ for (const [procedure, buildRequest] of [
     });
 
     it("handles an RPC error with status", async () => {
-      const response = await procedure(z.unknown(), z.never(), () => {
+      const response = await procedure(zod(z.unknown()), zod(z.never()), () => {
         throw new RpcError(undefined, { status: 400 });
       })(buildRequest({}));
 
@@ -67,7 +68,7 @@ for (const [procedure, buildRequest] of [
     });
 
     it("handles an unexpected error", async () => {
-      const response = await procedure(z.unknown(), z.never(), () => {
+      const response = await procedure(zod(z.unknown()), zod(z.never()), () => {
         throw new Error();
       })(buildRequest({}));
 
@@ -75,42 +76,67 @@ for (const [procedure, buildRequest] of [
     });
 
     it("attaches custom headers", async () => {
-      const response = await procedure(z.unknown(), z.null(), () => null, {
-        headers: { hello: "world" },
-      })(buildRequest({}));
+      const response = await procedure(
+        zod(z.unknown()),
+        zod(z.null()),
+        () => null,
+        {
+          headers: { hello: "world" },
+        },
+      )(buildRequest({}));
 
       expect(response.headers.get("hello")).toBe("world");
     });
 
     it("attaches custom headers in a Headers class", async () => {
-      const response = await procedure(z.unknown(), z.null(), () => null, {
-        headers: new Headers({ hello: "world" }),
-      })(buildRequest({}));
+      const response = await procedure(
+        zod(z.unknown()),
+        zod(z.null()),
+        () => null,
+        {
+          headers: new Headers({ hello: "world" }),
+        },
+      )(buildRequest({}));
 
       expect(response.headers.get("hello")).toBe("world");
     });
 
     it("applies no middleware", async () => {
-      const response = await procedure(z.unknown(), z.string(), () => "foo", {
-        middlewares: [],
-      })(buildRequest({}));
+      const response = await procedure(
+        zod(z.unknown()),
+        zod(z.string()),
+        () => "foo",
+        {
+          middlewares: [],
+        },
+      )(buildRequest({}));
 
       expect(await response.text()).toBe(JSON.stringify("foo"));
     });
 
     it("applies a middleware", async () => {
-      const response = await procedure(z.unknown(), z.string(), () => "foo", {
-        middlewares: [etag()],
-      })(buildRequest({}));
+      const response = await procedure(
+        zod(z.unknown()),
+        zod(z.string()),
+        () => "foo",
+        {
+          middlewares: [etag()],
+        },
+      )(buildRequest({}));
 
       expect(await response.text()).toBe(JSON.stringify("foo"));
     });
 
     it("applies a middleware and attaches a custom header", async () => {
-      const response = await procedure(z.unknown(), z.string(), () => "foo", {
-        headers: { hello: "world" },
-        middlewares: [etag()],
-      })(buildRequest({}));
+      const response = await procedure(
+        zod(z.unknown()),
+        zod(z.string()),
+        () => "foo",
+        {
+          headers: { hello: "world" },
+          middlewares: [etag()],
+        },
+      )(buildRequest({}));
 
       expect(await response.text()).toBe(JSON.stringify("foo"));
       expect(response.headers.get("etag")).toBeTruthy();
@@ -126,7 +152,7 @@ describe(mutate.name, () => {
       duplex: "half",
       method: "post",
     };
-    const response = await mutate(z.void(), z.void(), () => {})(
+    const response = await mutate(zod(z.void()), zod(z.void()), () => {})(
       new Request("https://foo.com", options),
     );
 
@@ -139,8 +165,8 @@ describe(queryStream.name, () => {
     const value = { foo: 42 };
 
     const response = await queryStream(
-      z.unknown(),
-      z.any(),
+      zod(z.unknown()),
+      zod(z.any()),
       async function* () {
         yield value;
         yield value;
@@ -155,7 +181,7 @@ describe(queryStream.name, () => {
   });
 
   it("handles an RPC error", async () => {
-    const response = await queryStream(z.unknown(), z.never(), () => {
+    const response = await queryStream(zod(z.unknown()), zod(z.never()), () => {
       throw new RpcError();
     })(buildQueryRequest({}));
 
@@ -163,7 +189,7 @@ describe(queryStream.name, () => {
   });
 
   it("handles an RPC error with status", async () => {
-    const response = await queryStream(z.unknown(), z.never(), () => {
+    const response = await queryStream(zod(z.unknown()), zod(z.never()), () => {
       throw new RpcError(undefined, { status: 400 });
     })(buildQueryRequest({}));
 
@@ -171,7 +197,7 @@ describe(queryStream.name, () => {
   });
 
   it("handles an unexpected error", async () => {
-    const response = await queryStream(z.unknown(), z.never(), () => {
+    const response = await queryStream(zod(z.unknown()), zod(z.never()), () => {
       throw new Error();
     })(buildQueryRequest({}));
 
@@ -180,8 +206,8 @@ describe(queryStream.name, () => {
 
   it("attaches custom headers", async () => {
     const response = await queryStream(
-      z.unknown(),
-      z.any(),
+      zod(z.unknown()),
+      zod(z.any()),
       async function* () {},
       { headers: { hello: "world" } },
     )(buildQueryRequest({}));
@@ -209,8 +235,8 @@ describe(Server.name, () => {
         const value = { foo: 42 };
 
         const response = await procedure(
-          z.object({ foo: z.number() }),
-          z.object({ foo: z.number() }),
+          zod(z.object({ foo: z.number() })),
+          zod(z.object({ foo: z.number() })),
           (value: object) => value,
         )(buildRequest(value));
 
@@ -223,8 +249,8 @@ describe(Server.name, () => {
     const value = { foo: 42 };
 
     const response = await server.queryStream(
-      z.unknown(),
-      z.any(),
+      zod(z.unknown()),
+      zod(z.any()),
       async function* () {
         yield value;
         yield value;
@@ -243,8 +269,10 @@ describe("valibot", () => {
   it("passes validation", async () => {
     const value = 42;
 
-    const response = await query(valibot.number(), valibot.string(), (value) =>
-      value.toString(),
+    const response = await query(
+      valibot(v.number()),
+      valibot(v.string()),
+      (value) => value.toString(),
     )(buildQueryRequest(value));
 
     expect(await response.json()).toEqual(value.toString());
@@ -253,8 +281,10 @@ describe("valibot", () => {
   it("fails validation", async () => {
     const value = "42";
 
-    const response = await query(valibot.number(), valibot.string(), (value) =>
-      value.toString(),
+    const response = await query(
+      valibot(v.number()),
+      valibot(v.string()),
+      (value) => value.toString(),
     )(buildQueryRequest(value));
 
     expect(await response.json()).toEqual({
@@ -267,7 +297,7 @@ describe("zod", () => {
   it("passes validation", async () => {
     const value = 42;
 
-    const response = await query(z.number(), z.string(), (value) =>
+    const response = await query(zod(z.number()), zod(z.string()), (value) =>
       value.toString(),
     )(buildQueryRequest(value));
 
@@ -277,7 +307,7 @@ describe("zod", () => {
   it("fails validation", async () => {
     const value = "42";
 
-    const response = await query(z.number(), z.string(), (value) =>
+    const response = await query(zod(z.number()), zod(z.string()), (value) =>
       value.toString(),
     )(buildQueryRequest(value));
 

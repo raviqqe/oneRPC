@@ -1,4 +1,4 @@
-import { Client } from "onerpc/client.js";
+import { Client } from "onerpc/client";
 import { type GET } from "./api/foo/route.js";
 
 const client = new Client({

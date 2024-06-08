@@ -1,4 +1,5 @@
 import { type BaseSchema, parse, type BaseIssue } from "valibot";
+import { type ZodType } from "zod";
 import { Validator } from "./main.js";
 
 export const valibot =
@@ -10,4 +11,4 @@ export const valibot =
 export const zod =
   <T>(type: ZodType<T>): Validator<T> =>
   (data) =>
-    validator.parse(data);
+    type.parse(data);

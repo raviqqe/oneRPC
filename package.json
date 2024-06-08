@@ -24,15 +24,7 @@
       "types": "./dist/client.d.ts",
       "default": "./dist/client.js"
     },
-    "./client.js": {
-      "types": "./dist/client.d.ts",
-      "default": "./dist/client.js"
-    },
     "./middleware": {
-      "types": "./dist/middleware.d.ts",
-      "default": "./dist/middleware.js"
-    },
-    "./middleware.js": {
       "types": "./dist/middleware.d.ts",
       "default": "./dist/middleware.js"
     },
@@ -40,15 +32,7 @@
       "types": "./dist/validation.d.ts",
       "default": "./dist/validation.js"
     },
-    "./validation.js": {
-      "types": "./dist/validation.d.ts",
-      "default": "./dist/validation.js"
-    },
     "./adapter/*": {
-      "types": "./dist/adapter/*.d.ts",
-      "default": "./dist/adapter/*.js"
-    },
-    "./adapter/*.js": {
       "types": "./dist/adapter/*.d.ts",
       "default": "./dist/adapter/*.js"
     }

@@ -58,7 +58,7 @@ export type MutateRequestHandler<
 > = ProcedureRequestHandler<T, S, true, false, P>;
 
 type Validator<T> =
-  | BaseSchema<T, T, BaseIssue<T>>
+  | BaseSchema<T, T, BaseIssue<unknown>>
   | ZodType<T>
   | ((data: unknown) => T);
 

@@ -1,6 +1,6 @@
 {
   "name": "onerpc",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "The RPC library for the serverless and TypeScript era.",
   "repository": "https://github.com/raviqqe/onerpc",
   "license": "MIT",
@@ -42,7 +42,6 @@
     "build:esbuild": "esbuild --minify --format=esm --packages=external --sourcemap --outdir=dist $(git ls-files 'src/*.ts' | grep -v test)",
     "build:tsc": "tsc --emitDeclarationOnly",
     "build:doc": "deno doc --unstable-sloppy-imports --unstable-byonm --html --name='⚡ oneRPC' src/main.ts src/client.ts src/middleware.ts src/validation.ts src/adapter/*.ts",
-    "prepare": "npm run build",
     "lint": "eslint src",
     "test": "vitest --coverage"
   },

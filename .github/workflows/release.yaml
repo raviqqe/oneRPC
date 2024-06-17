@@ -34,6 +34,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
       - run: npm ci
+      - run: npm -ws run build
       - run: npx cdk synth
         working-directory: examples/aws
       - run: npx cdk deploy --require-approval never

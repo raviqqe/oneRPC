@@ -55,7 +55,7 @@
     "@types/aws-lambda": "^8.10.130",
     "@vitest/coverage-v8": "^1.0.1",
     "esbuild": "^0.21.0",
-    "eslint": "^8.34.0",
+    "eslint": "^9.5.0",
     "typescript": "^5.0.2",
     "vitest": "^1.0.1"
   },

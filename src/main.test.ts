@@ -142,6 +142,20 @@ for (const [procedure, buildRequest] of [
       expect(response.headers.get("etag")).toBeTruthy();
       expect(response.headers.get("hello")).toBe("world");
     });
+
+    it("sets a content length", async () => {
+      const value = { foo: 42 };
+
+      const response = await procedure(
+        zod(z.unknown()),
+        zod(z.unknown()),
+        (value) => value,
+      )(buildRequest(value));
+
+      expect(response.headers.get("content-length")).toEqual(
+        new TextEncoder().encode(JSON.stringify(value)).length.toString(),
+      );
+    });
   });
 }
 

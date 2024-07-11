@@ -188,13 +188,11 @@ const jsonProcedure = <T, S, P extends string, M extends boolean>(
 ): ProcedureRequestHandler<T, S, M, false, P> =>
   procedure(
     async (request: Request) =>
-      new Response(
-        JSON.stringify(
-          outputValidator(
-            await handle(inputValidator(await getInput(request)), request),
-          ),
+      buildJsonResponse(
+        outputValidator(
+          await handle(inputValidator(await getInput(request)), request),
         ),
-        { headers: mergeHeaders(options.headers, jsonHeaders) },
+        options.headers,
       ),
     mutate,
     false,
@@ -220,17 +218,14 @@ const procedure = <
         stream,
       })(request);
     } catch (error) {
-      return new Response(
-        JSON.stringify({
-          message: error instanceof Error ? error.message : "Unknown error",
-        } satisfies ErrorBody),
+      return buildJsonResponse(
         {
-          headers: jsonHeaders,
-          status:
-            error instanceof RpcError
-              ? error.status ?? defaultStatus
-              : defaultStatus,
-        },
+          message: error instanceof Error ? error.message : "Unknown error",
+        } satisfies ErrorBody,
+        {},
+        error instanceof RpcError
+          ? error.status ?? defaultStatus
+          : defaultStatus,
       );
     }
   };
@@ -242,6 +237,24 @@ const procedure = <
   handler._path = options.path;
 
   return handler;
+};
+
+const buildJsonResponse = (
+  json: unknown,
+  headers: HeadersInit,
+  status?: number,
+): Response => {
+  const body = JSON.stringify(json);
+  const length = new TextEncoder().encode(body).length;
+
+  return new Response(body, {
+    headers: mergeHeaders(headers, {
+      ...jsonHeaders,
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      "content-length": length.toString(),
+    }),
+    status,
+  });
 };
 
 const applyMiddlewares = (

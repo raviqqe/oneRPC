@@ -18,7 +18,7 @@
     "vitest": "^2.0.1"
   },
   "devDependencies": {
-    "@raviqqe/eslint-config": "^3.0.4",
+    "@raviqqe/eslint-config": "^4.0.2",
     "@raviqqe/react-tsconfig": "^1.0.19",
     "@types/node": "^22.0.0",
     "@types/react": "^18.0.0",

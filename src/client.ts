@@ -1,15 +1,15 @@
 import { parseLines } from "@raviqqe/hidash/json";
 import { toIterable, toStringStream } from "@raviqqe/loscore/async";
 import {
+  type MutateRequestHandler,
   type QueryRequestHandler,
   type QueryStreamRequestHandler,
-  type MutateRequestHandler,
 } from "./main.js";
 import {
   type ErrorBody,
+  getJsonBody,
   inputParameterName,
   jsonHeaders,
-  getJsonBody,
   mergeHeaders,
 } from "./utility.js";
 
@@ -18,12 +18,12 @@ interface RequestOptions extends Omit<RequestInit, "body" | "method"> {
 }
 
 export class Client {
-  private readonly getOptions: () => RequestOptions | Promise<RequestOptions>;
+  private readonly getOptions: () => Promise<RequestOptions> | RequestOptions;
 
   constructor(
     options:
-      | RequestOptions
-      | (() => RequestOptions | Promise<RequestOptions>) = {},
+      | (() => Promise<RequestOptions> | RequestOptions)
+      | RequestOptions = {},
   ) {
     this.getOptions = typeof options === "function" ? options : () => options;
   }

@@ -1,4 +1,4 @@
-import { type BaseSchema, parse, type BaseIssue } from "valibot";
+import { type BaseIssue, type BaseSchema, parse } from "valibot";
 import { type ZodType } from "zod";
 import { type Validator } from "./main.js";
 

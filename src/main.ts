@@ -8,15 +8,15 @@ import {
 import { type ProcedureOptions } from "./options.js";
 import {
   type ErrorBody,
+  getJsonBody,
   inputParameterName,
   jsonHeaders,
-  getJsonBody,
   mergeHeaders,
 } from "./utility.js";
 
 export { RpcError } from "./error.js";
 
-type RawHandler<T, S> = (input: T, request: Request) => S | Promise<S>;
+type RawHandler<T, S> = (input: T, request: Request) => Promise<S> | S;
 
 type RawStreamHandler<T, S> = (input: T, request: Request) => AsyncIterable<S>;
 
@@ -31,10 +31,10 @@ interface ProcedureRequestHandler<
 > {
   (request: Request): Promise<Response>;
   _input: T;
-  _output: S;
   _mutate: M;
-  _stream: R;
+  _output: S;
   _path: P;
+  _stream: R;
 }
 
 export type QueryRequestHandler<

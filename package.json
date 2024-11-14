@@ -8,13 +8,6 @@
     "provenance": true
   },
   "type": "module",
-  "main": "dist/main.js",
-  "typesVersions": {
-    "*": {
-      "client.js": ["dist/client.d.ts"],
-      "middleware.js": ["dist/middleware.d.ts"]
-    }
-  },
   "exports": {
     ".": {
       "types": "./dist/main.d.ts",

@@ -1,6 +1,6 @@
 {
   "name": "onerpc",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "The RPC library for the serverless and TypeScript era.",
   "repository": "https://github.com/raviqqe/onerpc",
   "license": "MIT",

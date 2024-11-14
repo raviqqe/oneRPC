@@ -62,5 +62,5 @@
       "optional": true
     }
   },
-  "workspaces": [".", "examples/aws", "examples/next"]
+  "workspaces": [".", "examples/aws"]
 }

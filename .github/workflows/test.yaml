@@ -13,7 +13,7 @@ jobs:
         with:
           node-version: latest
           cache: npm
-      - run: npm install
+      - run: npm ci
       - run: npm run build
       - run: npm run -ws build
       - run: npm run -ws lint

@@ -16,11 +16,27 @@ import {
 
 export { RpcError } from "./error.js";
 
-type RawHandler<T, S> = (input: T, request: Request) => Promise<S> | S;
+export type MutateRequestHandler<
+  T,
+  S,
+  P extends string = string,
+> = ProcedureRequestHandler<T, S, true, false, P>;
 
-type RawStreamHandler<T, S> = (input: T, request: Request) => AsyncIterable<S>;
+export type QueryRequestHandler<
+  T,
+  S,
+  P extends string = string,
+> = ProcedureRequestHandler<T, S, false, false, P>;
+
+export type QueryStreamRequestHandler<
+  T,
+  S,
+  P extends string = string,
+> = ProcedureRequestHandler<T, S, false, true, P>;
 
 export type RequestHandler = (request: Request) => Promise<Response>;
+
+export type Validator<T> = (data: unknown) => T;
 
 interface ProcedureRequestHandler<
   T,
@@ -37,25 +53,9 @@ interface ProcedureRequestHandler<
   _stream: R;
 }
 
-export type QueryRequestHandler<
-  T,
-  S,
-  P extends string = string,
-> = ProcedureRequestHandler<T, S, false, false, P>;
+type RawHandler<T, S> = (input: T, request: Request) => Promise<S> | S;
 
-export type QueryStreamRequestHandler<
-  T,
-  S,
-  P extends string = string,
-> = ProcedureRequestHandler<T, S, false, true, P>;
-
-export type MutateRequestHandler<
-  T,
-  S,
-  P extends string = string,
-> = ProcedureRequestHandler<T, S, true, false, P>;
-
-export type Validator<T> = (data: unknown) => T;
+type RawStreamHandler<T, S> = (input: T, request: Request) => AsyncIterable<S>;
 
 const defaultStatus = 500;
 
@@ -224,7 +224,7 @@ const procedure = <
         } satisfies ErrorBody,
         {},
         error instanceof RpcError
-          ? error.status ?? defaultStatus
+          ? (error.status ?? defaultStatus)
           : defaultStatus,
       );
     }

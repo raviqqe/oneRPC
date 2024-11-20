@@ -4,7 +4,8 @@ import { type Validator } from "./main.js";
 
 export const valibot =
   <T>(schema: BaseSchema<T, T, BaseIssue<unknown>>): Validator<T> =>
-  (data) => parse(schema, data);
+  (data) =>
+    parse(schema, data);
 
 export const zod =
   <T>(type: ZodType<T>): Validator<T> =>

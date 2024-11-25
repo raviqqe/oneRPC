@@ -29,7 +29,7 @@ export const etag =
 
 const collectStream = async (
   stream: ReadableStream<Uint8Array>,
-): Promise<ArrayBuffer> =>
+): Promise<Uint8Array> =>
   new TextEncoder().encode(
     (await toArray(toIterable(toStringStream(stream)))).join(""),
   );

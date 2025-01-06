@@ -9,6 +9,6 @@ updates:
     schedule:
       interval: daily
     groups:
-      react:
+      aws_cdk:
         patterns:
           - "aws-cdk*"

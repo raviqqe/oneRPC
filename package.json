@@ -50,7 +50,7 @@
     "esbuild": "^0.24.0",
     "eslint": "^9.11.0",
     "typescript": "^5.0.2",
-    "vitest": "^2.0.1"
+    "vitest": "^3.0.2"
   },
   "peerDependencies": {
     "valibot": "~0",

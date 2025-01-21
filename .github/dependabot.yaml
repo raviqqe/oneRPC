@@ -12,3 +12,7 @@ updates:
       aws_cdk:
         patterns:
           - "aws-cdk*"
+      vitest:
+        patterns:
+          - vitest
+          - "@vitest/*"

@@ -60,11 +60,15 @@ type RawStreamHandler<T, S> = (input: T, request: Request) => AsyncIterable<S>;
 const defaultStatus = 500;
 
 export class Server {
+  private readonly options;
+
   constructor(
-    private readonly options: Partial<
+    options: Partial<
       Pick<ProcedureOptions<string>, "headers" | "middlewares">
     > = {},
-  ) {}
+  ) {
+    this.options = options;
+  }
 
   public query<T, S, P extends string = string>(
     inputValidator: Validator<T>,

@@ -11,7 +11,7 @@
     "aws-cdk-lib": "^2.115.0",
     "constructs": "^10.0.0",
     "onerpc": "file:../..",
-    "valibot": "~0"
+    "valibot": "~1"
   },
   "devDependencies": {
     "@raviqqe/eslint-config": "^4.0.2",

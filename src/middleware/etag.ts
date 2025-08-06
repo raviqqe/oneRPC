@@ -28,8 +28,8 @@ export const etag =
   };
 
 const collectStream = async (
-  stream: ReadableStream<Uint8Array>,
-): Promise<Uint8Array> =>
+  stream: ReadableStream<Uint8Array<ArrayBuffer>>,
+): Promise<Uint8Array<ArrayBuffer>> =>
   new TextEncoder().encode(
     (await toArray(toIterable(toStringStream(stream)))).join(""),
   );

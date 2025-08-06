@@ -1,6 +1,6 @@
 {
   "name": "onerpc",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "The RPC library for the serverless and TypeScript era.",
   "repository": "https://github.com/raviqqe/onerpc",
   "license": "MIT",
@@ -56,5 +56,8 @@
     "valibot": "^1.0.0",
     "zod": "^3.22.4"
   },
-  "workspaces": [".", "examples/aws"]
+  "workspaces": [
+    ".",
+    "examples/aws"
+  ]
 }

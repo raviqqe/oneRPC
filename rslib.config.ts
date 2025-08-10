@@ -14,6 +14,7 @@ export default defineConfig({
     entry: {
       client: "./src/client.ts",
       index: "./src/index.ts",
+      middleware: "./src/middleware.ts",
     },
   },
 });

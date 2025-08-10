@@ -4,7 +4,6 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "lint": "eslint src",
     "test": "cdk synth && vitest"
   },
   "dependencies": {

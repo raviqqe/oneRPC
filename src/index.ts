@@ -251,7 +251,7 @@ const buildJsonResponse = (
   return new Response(body, {
     headers: mergeHeaders(headers, {
       ...jsonHeaders,
-      // eslint-disable-next-line @typescript-eslint/naming-convention
+
       "content-length": length.toString(),
     }),
     status,

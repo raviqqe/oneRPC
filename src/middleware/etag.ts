@@ -1,5 +1,5 @@
 import { toArray, toIterable, toStringStream } from "@raviqqe/loscore/async";
-import { type MiddlewareFunction } from "./utility.js";
+import type { MiddlewareFunction } from "./utility.js";
 
 export const etag =
   ({ weak }: { weak?: boolean } = {}): MiddlewareFunction =>
@@ -14,7 +14,7 @@ export const etag =
     const hash = encodeTag(
       await crypto.subtle.digest("sha-1", await collectStream(response.body)),
     );
-    const etag = (weak ? "W/" : "") + `"${hash}"`;
+    const etag = `${weak ? "W/" : ""}"${hash}"`;
 
     if (etag === request.headers.get("if-none-match")) {
       return new Response(null, {

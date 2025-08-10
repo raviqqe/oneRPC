@@ -1,4 +1,4 @@
-import { type MiddlewareFunction } from "./middleware.js";
+import type { MiddlewareFunction } from "./middleware.js";
 
 export interface ProcedureOptions<T extends string> {
   headers: HeadersInit;

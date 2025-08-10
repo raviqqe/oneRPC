@@ -8,9 +8,9 @@ import {
 import * as v from "valibot";
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
+import { mutate, query, queryStream, RpcError, Server } from "./index.js";
 import { etag } from "./middleware.js";
 import { valibot, zod } from "./validation.js";
-import { mutate, query, queryStream, RpcError, Server } from "./index.js";
 
 const buildQueryRequest = (value: unknown) =>
   new Request(

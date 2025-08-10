@@ -8,7 +8,7 @@ import {
 import { HttpOrigin } from "aws-cdk-lib/aws-cloudfront-origins";
 import { FunctionUrlAuthType, Runtime } from "aws-cdk-lib/aws-lambda";
 import { NodejsFunction, OutputFormat } from "aws-cdk-lib/aws-lambda-nodejs";
-import { type Construct } from "constructs";
+import type { Construct } from "constructs";
 
 export class MainStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {

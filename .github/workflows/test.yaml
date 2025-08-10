@@ -16,7 +16,7 @@ jobs:
       - run: npm ci
       - run: npm run build
       - run: npm run -ws build
-      - run: npm run -ws lint
+      - run: npm run lint
       - run: npm run -ws test
       - uses: codecov/codecov-action@v5
   spell_check:

@@ -12,9 +12,11 @@ export default defineConfig({
   ],
   source: {
     entry: {
+      awsLambda: "./src/adapter/aws-lambda.ts",
       client: "./src/client.ts",
       index: "./src/index.ts",
       middleware: "./src/middleware.ts",
+      validation: "./src/validation.ts",
     },
   },
 });

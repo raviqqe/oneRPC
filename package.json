@@ -10,8 +10,8 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/main.d.ts",
-      "default": "./dist/main.js"
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
     },
     "./client": {
       "types": "./dist/client.d.ts",
@@ -33,7 +33,7 @@
   "scripts": {
     "build": "rslib build",
     "build:tsc": "tsc --emitDeclarationOnly",
-    "build:doc": "deno doc --unstable-sloppy-imports --unstable-byonm --html --name='⚡ oneRPC' src/main.ts src/client.ts src/middleware.ts src/validation.ts src/adapter/*.ts",
+    "build:doc": "deno doc --unstable-sloppy-imports --unstable-byonm --html --name='⚡ oneRPC' src/index.ts src/client.ts src/middleware.ts src/validation.ts src/adapter/*.ts",
     "lint": "eslint src",
     "test": "vitest --coverage"
   },

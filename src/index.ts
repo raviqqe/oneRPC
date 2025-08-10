@@ -1,11 +1,8 @@
 import { stringifyLines } from "@raviqqe/hidash/json";
 import { map, toByteStream, toStream } from "@raviqqe/loscore/async";
 import { RpcError } from "./error.js";
-import {
-  type MiddlewareFunction,
-  type MiddlewareOptions,
-} from "./middleware.js";
-import { type ProcedureOptions } from "./options.js";
+import type { MiddlewareFunction, MiddlewareOptions } from "./middleware.js";
+import type { ProcedureOptions } from "./options.js";
 import {
   type ErrorBody,
   getJsonBody,

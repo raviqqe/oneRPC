@@ -2,8 +2,8 @@ import { toArray } from "@raviqqe/loscore/async";
 import { describe, expect, it, vi } from "vitest";
 import { z } from "zod";
 import { Client, mutate, query, queryStream } from "./client.js";
-import { zod } from "./validation.js";
 import * as server from "./index.js";
+import { zod } from "./validation.js";
 
 const stubFetch = <T>(handle: (request: Request) => T) =>
   vi.stubGlobal("fetch", (...[request]: Parameters<typeof fetch>) =>
@@ -350,6 +350,7 @@ describe(queryStream.name, () => {
     const serverQuery = server.queryStream(
       zod(z.null()),
       zod(z.null()),
+      // biome-ignore lint/correctness/useYield: A test function
       async function* (_: null, request: Request) {
         const url = new URL(request.url);
 

@@ -34,7 +34,7 @@
     "build": "rslib build",
     "build:tsc": "tsc --emitDeclarationOnly",
     "build:doc": "deno doc --unstable-sloppy-imports --unstable-byonm --html --name='⚡ oneRPC' src/index.ts src/client.ts src/middleware.ts src/validation.ts src/adapter/*.ts",
-    "lint": "eslint src",
+    "lint": "biome ci",
     "test": "vitest --coverage"
   },
   "dependencies": {
@@ -42,6 +42,8 @@
     "@raviqqe/loscore": "^0.2.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.1.4",
+    "@raviqqe/biome-config": "^2.0.10",
     "@raviqqe/eslint-config": "^4.0.2",
     "@raviqqe/tsconfig": "^2.0.0",
     "@rslib/core": "^0.11.2",

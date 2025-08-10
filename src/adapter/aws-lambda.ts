@@ -5,8 +5,8 @@ import {
   toStringStream,
 } from "@raviqqe/loscore/async";
 
-import { type LambdaFunctionURLHandler } from "aws-lambda";
-import { type RequestHandler } from "../index.js";
+import type { LambdaFunctionURLHandler } from "aws-lambda";
+import type { RequestHandler } from "../index.js";
 
 export const awsLambda =
   (handler: RequestHandler): LambdaFunctionURLHandler =>

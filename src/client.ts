@@ -4,7 +4,7 @@ import {
   type MutateRequestHandler,
   type QueryRequestHandler,
   type QueryStreamRequestHandler,
-} from "./main.js";
+} from "./index.js";
 import {
   type ErrorBody,
   getJsonBody,

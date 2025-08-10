@@ -2,7 +2,7 @@ import { toArray } from "@raviqqe/loscore/async";
 import { describe, expect, it, vi } from "vitest";
 import { z } from "zod";
 import { Client, mutate, query, queryStream } from "./client.js";
-import * as server from "./main.js";
+import * as server from "./index.js";
 import { zod } from "./validation.js";
 
 const stubFetch = <T>(handle: (request: Request) => T) =>

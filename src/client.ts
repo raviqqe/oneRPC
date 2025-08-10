@@ -1,17 +1,17 @@
 import { parseLines } from "@raviqqe/hidash/json";
 import { toIterable, toStringStream } from "@raviqqe/loscore/async";
 import {
-  type MutateRequestHandler,
-  type QueryRequestHandler,
-  type QueryStreamRequestHandler,
-} from "./index.js";
-import {
   type ErrorBody,
   getJsonBody,
   inputParameterName,
   jsonHeaders,
   mergeHeaders,
 } from "./utility.js";
+import {
+  type MutateRequestHandler,
+  type QueryRequestHandler,
+  type QueryStreamRequestHandler,
+} from "./index.js";
 
 interface RequestOptions extends Omit<RequestInit, "body" | "method"> {
   baseUrl?: string;

@@ -4,9 +4,9 @@ import {
   toIterable,
   toStringStream,
 } from "@raviqqe/loscore/async";
-// eslint-disable-next-line import-x/no-unresolved
+
 import { type LambdaFunctionURLHandler } from "aws-lambda";
-import { type RequestHandler } from "../main.js";
+import { type RequestHandler } from "../index.js";
 
 export const awsLambda =
   (handler: RequestHandler): LambdaFunctionURLHandler =>

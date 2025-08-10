@@ -10,8 +10,8 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/main.d.ts",
-      "default": "./dist/main.js"
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
     },
     "./client": {
       "types": "./dist/client.d.ts",
@@ -31,10 +31,9 @@
     }
   },
   "scripts": {
-    "build": "npm run build:tsc && npm run build:esbuild",
-    "build:esbuild": "esbuild --minify --format=esm --packages=external --sourcemap --outdir=dist $(git ls-files 'src/*.ts' | grep -v test)",
+    "build": "rslib build",
     "build:tsc": "tsc --emitDeclarationOnly",
-    "build:doc": "deno doc --unstable-sloppy-imports --unstable-byonm --html --name='⚡ oneRPC' src/main.ts src/client.ts src/middleware.ts src/validation.ts src/adapter/*.ts",
+    "build:doc": "deno doc --unstable-sloppy-imports --unstable-byonm --html --name='⚡ oneRPC' src/index.ts src/client.ts src/middleware.ts src/validation.ts src/adapter/*.ts",
     "lint": "eslint src",
     "test": "vitest --coverage"
   },
@@ -45,9 +44,9 @@
   "devDependencies": {
     "@raviqqe/eslint-config": "^4.0.2",
     "@raviqqe/tsconfig": "^2.0.0",
+    "@rslib/core": "^0.11.2",
     "@types/aws-lambda": "^8.10.130",
     "@vitest/coverage-v8": "^3.0.2",
-    "esbuild": "^0.25.0",
     "eslint": "^9.11.0",
     "typescript": "^5.0.2",
     "vitest": "^3.0.2"

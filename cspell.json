@@ -8,6 +8,7 @@
     "middlewares",
     "onerpc",
     "raviqqe",
+    "rslib",
     "runtimes",
     "typeof",
     "valibot"

@@ -12,7 +12,7 @@ export default defineConfig({
   ],
   source: {
     entry: {
-      async: "./src/async.ts",
+      async: "./src/client.ts",
       index: "./src/index.ts",
     },
   },

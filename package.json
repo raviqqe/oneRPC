@@ -31,7 +31,7 @@
     }
   },
   "scripts": {
-    "build": "rslib",
+    "build": "rslib build",
     "build:tsc": "tsc --emitDeclarationOnly",
     "build:doc": "deno doc --unstable-sloppy-imports --unstable-byonm --html --name='⚡ oneRPC' src/main.ts src/client.ts src/middleware.ts src/validation.ts src/adapter/*.ts",
     "lint": "eslint src",

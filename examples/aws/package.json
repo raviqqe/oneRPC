@@ -13,7 +13,6 @@
     "valibot": "^1.0.0"
   },
   "devDependencies": {
-    "@raviqqe/eslint-config": "^4.0.2",
     "@raviqqe/tsconfig": "^2.0.0",
     "aws-cdk": "^2.115.0",
     "tsx": "^4.6.2",

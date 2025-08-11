@@ -20,7 +20,7 @@ interface RequestOptions extends Omit<RequestInit, "body" | "method"> {
 export class Client {
   private readonly getOptions: () => Promise<RequestOptions> | RequestOptions;
 
-  constructor(
+  public constructor(
     options:
       | (() => Promise<RequestOptions> | RequestOptions)
       | RequestOptions = {},

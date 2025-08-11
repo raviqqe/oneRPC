@@ -39,7 +39,9 @@
   },
   "dependencies": {
     "@raviqqe/hidash": "^2.0.0",
-    "@raviqqe/loscore": "^0.2.0"
+    "@raviqqe/loscore": "^0.2.0",
+    "valibot": "^1.1.0",
+    "zod": "^4.0.17"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.1.4",
@@ -50,10 +52,6 @@
     "@vitest/coverage-v8": "^3.0.2",
     "typescript": "^5.0.2",
     "vitest": "^3.0.2"
-  },
-  "peerDependencies": {
-    "valibot": "^1.0.0",
-    "zod": "^3.22.4"
   },
   "workspaces": [
     ".",

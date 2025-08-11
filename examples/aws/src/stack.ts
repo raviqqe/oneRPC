@@ -11,7 +11,7 @@ import { NodejsFunction, OutputFormat } from "aws-cdk-lib/aws-lambda-nodejs";
 import type { Construct } from "constructs";
 
 export class MainStack extends Stack {
-  constructor(scope: Construct, id: string, props?: StackProps) {
+  public constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
     const lambda = new NodejsFunction(this, "Function", {

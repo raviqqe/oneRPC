@@ -59,7 +59,7 @@ const defaultStatus = 500;
 export class Server {
   private readonly options;
 
-  constructor(
+  public constructor(
     options: Partial<
       Pick<ProcedureOptions<string>, "headers" | "middlewares">
     > = {},

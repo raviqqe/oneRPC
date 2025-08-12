@@ -11,7 +11,7 @@ jobs:
       id-token: write
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-node@v4
       - run: npm ci
       - run: npm run build
@@ -31,7 +31,7 @@ jobs:
           role-to-assume: ${{ secrets.aws_role }}
           aws-region: us-west-2
         if: github.ref == 'refs/heads/main'
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-node@v4
       - run: npm ci
       - run: npm --workspace onerpc --workspace aws run build

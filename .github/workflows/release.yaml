@@ -24,6 +24,9 @@ jobs:
       contents: read
       id-token: write
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: examples/aws
     steps:
       - uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -34,7 +37,5 @@ jobs:
       - uses: ./.github/actions/setup
       - run: pnpm -r build
       - run: pnpx cdk synth
-        working-directory: examples/aws
       - run: pnpx cdk deploy --require-approval never
-        working-directory: examples/aws
         if: github.ref == 'refs/heads/main'

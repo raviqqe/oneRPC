@@ -12,10 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - uses: actions/setup-node@v4
-      - run: npm ci
-      - run: npm run build
-      - uses: JS-DevTools/npm-publish@v3
+      - uses: ./.github/actions/setup
+      - run: node --run build
+      - uses: js-devtools/npm-publish@v3
         if: github.ref == 'refs/heads/main'
         with:
           access: public
@@ -32,11 +31,10 @@ jobs:
           aws-region: us-west-2
         if: github.ref == 'refs/heads/main'
       - uses: actions/checkout@v5
-      - uses: actions/setup-node@v4
-      - run: npm ci
-      - run: npm --workspace onerpc --workspace aws run build
-      - run: npx cdk synth
+      - uses: ./.github/actions/setup
+      - run: pnpm -r build
+      - run: pnpx cdk synth
         working-directory: examples/aws
-      - run: npx cdk deploy --require-approval never
+      - run: pnpx cdk deploy --require-approval never
         working-directory: examples/aws
         if: github.ref == 'refs/heads/main'

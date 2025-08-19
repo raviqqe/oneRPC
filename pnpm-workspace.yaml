@@ -1,3 +1,4 @@
+includeWorkspaceRoot: true
 packages:
   - .
   - examples/aws

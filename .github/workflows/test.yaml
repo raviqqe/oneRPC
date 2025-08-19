@@ -13,7 +13,7 @@ jobs:
       - run: node --run build
       - run: pnpm -r build
       - run: node --run lint
-      - run: node --run -ws test
+      - run: node --run test
       - uses: codecov/codecov-action@v5
   spell_check:
     runs-on: ubuntu-latest

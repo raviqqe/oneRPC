@@ -17,9 +17,9 @@ jobs:
       - run: npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - run: git status
       - run: >
           pnpm -r publish --access public
+          ${{ github.ref != 'refs/heads/main' && '--dry-run --no-git-checks' || '' }}
   cdk:
     permissions:
       contents: read

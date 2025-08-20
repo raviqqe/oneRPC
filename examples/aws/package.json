@@ -16,7 +16,6 @@
   "devDependencies": {
     "@raviqqe/tsconfig": "^2.0.0",
     "aws-cdk": "^2.115.0",
-    "esbuild": "^0.25.9",
     "tsx": "^4.6.2",
     "typescript": "^5.3.3"
   }

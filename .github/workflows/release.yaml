@@ -12,19 +12,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - uses: actions/setup-node@v4
-      - run: npm ci
-      - run: npm run build
-      - uses: JS-DevTools/npm-publish@v3
-        if: github.ref == 'refs/heads/main'
-        with:
-          access: public
-          token: ${{ secrets.NPM_TOKEN }}
+      - uses: ./.github/actions/setup
+      - run: node --run build
+      - run: npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - run: >
+          pnpm -r publish --access public
+          ${{ github.ref != 'refs/heads/main' && '--dry-run --no-git-checks' || '' }}
   cdk:
     permissions:
       contents: read
       id-token: write
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: examples/aws
     steps:
       - uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -32,11 +35,8 @@ jobs:
           aws-region: us-west-2
         if: github.ref == 'refs/heads/main'
       - uses: actions/checkout@v5
-      - uses: actions/setup-node@v4
-      - run: npm ci
-      - run: npm --workspace onerpc --workspace aws run build
-      - run: npx cdk synth
-        working-directory: examples/aws
-      - run: npx cdk deploy --require-approval never
-        working-directory: examples/aws
+      - uses: ./.github/actions/setup
+      - run: pnpm -r build
+      - run: pnpm exec cdk synth
+      - run: pnpm exec cdk deploy --require-approval never
         if: github.ref == 'refs/heads/main'

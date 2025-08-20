@@ -1,6 +1,7 @@
 {
   "name": "aws-app",
   "version": "0.1.0",
+  "private": true,
   "type": "module",
   "scripts": {
     "build": "tsc",
@@ -9,8 +10,8 @@
   "dependencies": {
     "aws-cdk-lib": "^2.115.0",
     "constructs": "^10.0.0",
-    "onerpc": "file:../..",
-    "valibot": "^1.0.0"
+    "onerpc": "workspace:*",
+    "valibot": "^1.1.0"
   },
   "devDependencies": {
     "@raviqqe/tsconfig": "^2.0.0",

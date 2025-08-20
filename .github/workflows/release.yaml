@@ -14,11 +14,12 @@ jobs:
       - uses: actions/checkout@v5
       - uses: ./.github/actions/setup
       - run: node --run build
-      - uses: js-devtools/npm-publish@v3
-        if: github.ref == 'refs/heads/main'
-        with:
-          access: public
-          token: ${{ secrets.NPM_TOKEN }}
+      - run: npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - run: >
+          pnpm -r publish --access public
+          ${{ github.ref != 'refs/heads/main' && '--dry-run --no-git-checks' || '' }}
   cdk:
     permissions:
       contents: read

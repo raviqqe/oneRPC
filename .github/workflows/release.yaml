@@ -5,7 +5,7 @@ on:
       - main
   pull_request:
 jobs:
-  release:
+  npm:
     permissions:
       contents: read
       id-token: write
@@ -40,3 +40,11 @@ jobs:
       - run: pnpm exec cdk synth
       - run: pnpm exec cdk deploy --require-approval never
         if: github.ref == 'refs/heads/main'
+  release:
+    needs:
+      - npm
+      - cdk
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - run: for result in ${{ join(needs.*.result, ' ') }}; do [ $result = success ]; done

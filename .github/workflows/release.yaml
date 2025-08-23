@@ -14,13 +14,9 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - uses: ./.github/actions/setup
-      - run: node --run build
-      - run: npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - run: >
-          pnpm -r publish --access public
-          ${{ github.ref != 'refs/heads/main' && '--dry-run --no-git-checks' || '' }}
+      - uses: raviqqe/pnpm-publish@v1
+        with:
+          npm_token: ${{ github.ref == 'refs/heads/main' && secrets.NPM_TOKEN || '' }}
   cdk:
     permissions:
       contents: read

@@ -21,7 +21,7 @@ jobs:
       - uses: homebrew/actions/setup-homebrew@master
       - run: brew install deno
       - run: node --run build:doc
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v4
         with:
           path: docs
       - uses: actions/deploy-pages@v4

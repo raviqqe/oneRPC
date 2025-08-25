@@ -13,7 +13,7 @@ importers:
         version: 2.0.3
       '@raviqqe/loscore':
         specifier: ^0.2.12
-        version: 0.2.12
+        version: 0.2.14
       valibot:
         specifier: ^1.1.0
         version: 1.1.0(typescript@5.9.2)
@@ -447,8 +447,9 @@ packages:
   '@raviqqe/hidash@2.0.3':
     resolution: {integrity: sha512-7cytW1yXaoXeOZ5y4eT+hLZdApGGIyOVyH6AA6pXfX8kII/GbOYuMnocbnGQljeS6NPwv4SERmChaYm8W2F7rA==}
 
-  '@raviqqe/loscore@0.2.12':
-    resolution: {integrity: sha512-ycCNIjmgPfXcm5RBJC3eqxzsFtnijZ0NpUmGVqnpnXoXZqW05WafONwmRAIfnFyQaqUHMQ8Sq35WmX3PsPzONw==}
+  '@raviqqe/loscore@0.2.14':
+    resolution: {integrity: sha512-f+Fkg0Jnv/O1UqLDDYeqpkn+do45nXx8rgwEZiQywwPf+fO0ewiSw26ka0DejRZ6dXUi3G1pxYYX/n2W7qHUKw==}
+    engines: {node: '>=24.6.0'}
 
   '@raviqqe/tsconfig@2.0.1':
     resolution: {integrity: sha512-Pr3F3/Jd4CQbzQwiFG75pmzh9sZHngip9lgEaUUO2E6Wub06OsCS6MAcC0Wb6+RTc+3zXGz5iS1oczDoFXFmcQ==}
@@ -1434,9 +1435,9 @@ snapshots:
 
   '@raviqqe/hidash@2.0.3':
     dependencies:
-      '@raviqqe/loscore': 0.2.12
+      '@raviqqe/loscore': 0.2.14
 
-  '@raviqqe/loscore@0.2.12': {}
+  '@raviqqe/loscore@0.2.14': {}
 
   '@raviqqe/tsconfig@2.0.1':
     dependencies:

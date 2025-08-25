@@ -10,7 +10,7 @@ importers:
     dependencies:
       '@raviqqe/hidash':
         specifier: ^2.0.3
-        version: 2.0.3
+        version: 2.0.5
       '@raviqqe/loscore':
         specifier: ^0.2.12
         version: 0.2.14
@@ -444,8 +444,9 @@ packages:
     peerDependencies:
       '@biomejs/biome': ^2.1.4
 
-  '@raviqqe/hidash@2.0.3':
-    resolution: {integrity: sha512-7cytW1yXaoXeOZ5y4eT+hLZdApGGIyOVyH6AA6pXfX8kII/GbOYuMnocbnGQljeS6NPwv4SERmChaYm8W2F7rA==}
+  '@raviqqe/hidash@2.0.5':
+    resolution: {integrity: sha512-CL33/YLLOO8DuvGEx8+I6/yk1cTMyTMJYjoRfYf25aPbilpnedznPll+ScjJqo0vjK9nsC3lK8DimegKc6zwFw==}
+    engines: {node: '>=24.6.0'}
 
   '@raviqqe/loscore@0.2.14':
     resolution: {integrity: sha512-f+Fkg0Jnv/O1UqLDDYeqpkn+do45nXx8rgwEZiQywwPf+fO0ewiSw26ka0DejRZ6dXUi3G1pxYYX/n2W7qHUKw==}
@@ -1433,7 +1434,7 @@ snapshots:
     dependencies:
       '@biomejs/biome': 2.2.2
 
-  '@raviqqe/hidash@2.0.3':
+  '@raviqqe/hidash@2.0.5':
     dependencies:
       '@raviqqe/loscore': 0.2.14
 

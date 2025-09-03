@@ -4,19 +4,20 @@ on:
     branches:
       - main
   pull_request:
-permissions: {}
+permissions:
 jobs:
   npm:
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       id-token: write
-    runs-on: ubuntu-latest
+    environment: ${{ github.ref == 'refs/heads/main' && 'release' || '' }}
     steps:
       - uses: actions/checkout@v5
       - uses: ./.github/actions/setup
       - uses: raviqqe/pnpm-publish@v2
         with:
-          npm_token: ${{ github.ref == 'refs/heads/main' && secrets.NPM_TOKEN || '' }}
+          release: ${{ github.ref == 'refs/heads/main' }}
   cdk:
     permissions:
       contents: read

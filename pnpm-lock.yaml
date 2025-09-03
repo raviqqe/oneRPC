@@ -26,7 +26,7 @@ importers:
         version: 2.2.2
       '@raviqqe/biome-config':
         specifier: ^2.0.16
-        version: 2.0.16(@biomejs/biome@2.2.2)
+        version: 2.0.17(@biomejs/biome@2.2.2)
       '@raviqqe/tsconfig':
         specifier: ^2.0.1
         version: 2.0.1
@@ -439,8 +439,9 @@ packages:
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
     engines: {node: '>=14'}
 
-  '@raviqqe/biome-config@2.0.16':
-    resolution: {integrity: sha512-glVr+58zq/OEHYCz3TFnBGdl9Sz9qCNOA9FlvnvlL5P6t8j17QrGup+eoP+mm/TToi81A0vaH50sVialG5450g==}
+  '@raviqqe/biome-config@2.0.17':
+    resolution: {integrity: sha512-vy1mF4n6TUAxZz9GePousmdZuxMR6zKYrnblBG/vFnFtvh26q8DHHF4hjqiBw+HCckaTlcQFsX0ZBI4/O79MLA==}
+    engines: {node: ^24.6.0}
     peerDependencies:
       '@biomejs/biome': ^2.1.4
 
@@ -1430,7 +1431,7 @@ snapshots:
   '@pkgjs/parseargs@0.11.0':
     optional: true
 
-  '@raviqqe/biome-config@2.0.16(@biomejs/biome@2.2.2)':
+  '@raviqqe/biome-config@2.0.17(@biomejs/biome@2.2.2)':
     dependencies:
       '@biomejs/biome': 2.2.2
 

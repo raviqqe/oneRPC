@@ -69,7 +69,7 @@ importers:
         version: 2.0.2
       aws-cdk:
         specifier: ^2.115.0
-        version: 2.1029.0
+        version: 2.1029.1
       tsx:
         specifier: ^4.6.2
         version: 4.20.5
@@ -565,6 +565,7 @@ packages:
   '@rslib/core@0.13.1':
     resolution: {integrity: sha512-XDyTHHXtLs9Cki5vzaabgFXbn/EksCmR571SVbIxJZB05zD7LwbbpcyTXgXk2DrW/6nOm7aTceh/mQHF5qq9gQ==}
     engines: {node: '>=18.12.0'}
+    deprecated: deprecated due to bug, please consider using 0.12.2 or >= 0.13.2
     hasBin: true
     peerDependencies:
       '@microsoft/api-extractor': ^7
@@ -737,8 +738,8 @@ packages:
       - yaml
       - mime-types
 
-  aws-cdk@2.1029.0:
-    resolution: {integrity: sha512-TYJGMs1QVYgOTqt0MnbykZvKXMThevjg/m16MuERlWK3fQErhKcUkMmJ8uUY0SBf70FvT7tQdBq9dnsa34TM2A==}
+  aws-cdk@2.1029.1:
+    resolution: {integrity: sha512-etMnV7xwm1pBKOXl5zZKtNRt7ZIMocEe+GrZHVVp6oHsXqpPDi7iyPm7HR3CV1xe9yFjs3hZiHDebg+ONpccuw==}
     engines: {node: '>= 18.0.0'}
     hasBin: true
 
@@ -1694,7 +1695,7 @@ snapshots:
       '@aws-cdk/cloud-assembly-schema': 48.6.0
       constructs: 10.4.2
 
-  aws-cdk@2.1029.0:
+  aws-cdk@2.1029.1:
     optionalDependencies:
       fsevents: 2.3.2
 

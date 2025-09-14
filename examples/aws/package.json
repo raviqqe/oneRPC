@@ -10,6 +10,7 @@
   "dependencies": {
     "aws-cdk-lib": "^2.115.0",
     "constructs": "^10.0.0",
+    "es-toolkit": "^1.39.10",
     "onerpc": "workspace:*",
     "valibot": "^1.1.0"
   },

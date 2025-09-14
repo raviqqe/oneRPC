@@ -14,6 +14,9 @@ importers:
       '@raviqqe/loscore':
         specifier: ^0.2.12
         version: 0.2.17
+      es-toolkit:
+        specifier: ^1.39.10
+        version: 1.39.10
       valibot:
         specifier: ^1.1.0
         version: 1.1.0(typescript@5.9.2)
@@ -57,6 +60,9 @@ importers:
       constructs:
         specifier: ^10.0.0
         version: 10.4.2
+      es-toolkit:
+        specifier: ^1.39.10
+        version: 1.39.10
       onerpc:
         specifier: workspace:*
         version: link:../..
@@ -802,6 +808,9 @@ packages:
 
   es-module-lexer@1.7.0:
     resolution: {integrity: sha512-jEQoCwk8hyb2AZziIOLhDqpm5+2ww5uIE6lkO/6jcOCusfk6LhMHpXXfBLXTZ7Ydyt0j4VoUQv6uGNYbdW+kBA==}
+
+  es-toolkit@1.39.10:
+    resolution: {integrity: sha512-E0iGnTtbDhkeczB0T+mxmoVlT4YNweEKBLq7oaU4p11mecdsZpNWOglI4895Vh4usbQ+LsJiuLuI2L0Vdmfm2w==}
 
   esbuild@0.25.9:
     resolution: {integrity: sha512-CRbODhYyQx3qp7ZEwzxOk4JBqmD/seJrzPa/cGjY1VtIn5E09Oi9/dB4JwctnfZ8Q8iT7rioVv5k/FNT/uf54g==}
@@ -1746,6 +1755,8 @@ snapshots:
   emoji-regex@9.2.2: {}
 
   es-module-lexer@1.7.0: {}
+
+  es-toolkit@1.39.10: {}
 
   esbuild@0.25.9:
     optionalDependencies:

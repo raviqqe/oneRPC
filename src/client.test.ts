@@ -338,7 +338,9 @@ describe(queryStream.name, () => {
     mockFetch(serverQuery);
 
     await expect(
-      toArray(queryStream<typeof serverQuery>("https://foo.com/bar", null)),
+      Array.fromAsync(
+        queryStream<typeof serverQuery>("https://foo.com/bar", null),
+      ),
     ).rejects.toThrowError("foo");
   });
 
@@ -361,7 +363,9 @@ describe(queryStream.name, () => {
     mockFetch(serverQuery);
 
     expect(
-      await toArray(queryStream<typeof serverQuery>(path, null, { baseUrl })),
+      await Array.fromAsync(
+        queryStream<typeof serverQuery>(path, null, { baseUrl }),
+      ),
     ).toEqual([]);
   });
 });

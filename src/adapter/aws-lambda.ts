@@ -1,5 +1,4 @@
 import { filterValues } from "@raviqqe/loscore";
-import { toIterable } from "@raviqqe/loscore/async";
 import type { LambdaFunctionURLHandler } from "aws-lambda";
 import { isString } from "es-toolkit";
 import type { RequestHandler } from "../index.js";
@@ -25,7 +24,7 @@ export const awsLambda =
       body: response.body
         ? (
             await Array.fromAsync(
-              toIterable(response.body.pipeThrough(new TextDecoderStream())),
+              response.body.pipeThrough(new TextDecoderStream()),
             )
           ).join("")
         : undefined,

@@ -263,10 +263,10 @@ const applyMiddlewares = (
 ): RequestHandler =>
   middleware
     ? applyMiddlewares(
-      middlewares,
-      (request) => middleware(request, handle, options),
-      options,
-    )
+        middlewares,
+        (request) => middleware(request, handle, options),
+        options,
+      )
     : handle;
 
 const getQueryInput = (request: Request): unknown => {

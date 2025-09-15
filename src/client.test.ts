@@ -293,7 +293,7 @@ describe(queryStream.name, () => {
     const serverQuery = server.queryStream(
       zod(z.object({ foo: z.number() })),
       zod(z.any()),
-      async function*() {
+      async function* () {
         yield value;
         yield value;
       },
@@ -311,7 +311,7 @@ describe(queryStream.name, () => {
     const serverQuery = server.queryStream(
       zod(z.null()),
       zod(z.string()),
-      async function*(_: null, request: Request) {
+      async function* (_: null, request: Request) {
         yield request.headers.get("hello");
       },
     );
@@ -352,7 +352,7 @@ describe(queryStream.name, () => {
       zod(z.null()),
       zod(z.null()),
       // biome-ignore lint/correctness/useYield: A test function
-      async function*(_: null, request: Request) {
+      async function* (_: null, request: Request) {
         const url = new URL(request.url);
 
         if (url.origin !== baseUrl || url.pathname !== path) {

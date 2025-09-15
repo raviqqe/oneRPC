@@ -1,4 +1,4 @@
-import { map, toIterable, toStream } from "@raviqqe/loscore/async";
+import { map, toStream } from "@raviqqe/loscore/async";
 import * as v from "valibot";
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
@@ -183,10 +183,7 @@ describe(queryStream.name, () => {
 
     expect(
       await Array.fromAsync(
-        map(
-          toIterable(response.body!.pipeThrough(new TextDecoderStream())),
-          JSON.parse,
-        ),
+        map(response.body!.pipeThrough(new TextDecoderStream()), JSON.parse),
       ),
     ).toEqual([value, value]);
   });
@@ -270,10 +267,7 @@ describe(Server.name, () => {
 
     expect(
       await Array.fromAsync(
-        map(
-          toIterable(response.body!.pipeThrough(new TextDecoderStream())),
-          JSON.parse,
-        ),
+        map(response.body!.pipeThrough(new TextDecoderStream()), JSON.parse),
       ),
     ).toEqual([value, value]);
   });

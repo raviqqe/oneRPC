@@ -1,8 +1,7 @@
 import { filterValues } from "@raviqqe/loscore";
-import { isString } from "es-toolkit";
 import { toIterable } from "@raviqqe/loscore/async";
-
 import type { LambdaFunctionURLHandler } from "aws-lambda";
+import { isString } from "es-toolkit";
 import type { RequestHandler } from "../index.js";
 
 export const awsLambda =

@@ -1,4 +1,3 @@
-import { toArray } from "@raviqqe/loscore/async";
 import { describe, expect, it, vi } from "vitest";
 import { z } from "zod";
 import { Client, mutate, query, queryStream } from "./client.js";
@@ -294,7 +293,7 @@ describe(queryStream.name, () => {
     const serverQuery = server.queryStream(
       zod(z.object({ foo: z.number() })),
       zod(z.any()),
-      async function* () {
+      async function*() {
         yield value;
         yield value;
       },
@@ -302,7 +301,7 @@ describe(queryStream.name, () => {
     mockFetch(serverQuery);
 
     expect(
-      await toArray(
+      await Array.fromAsync(
         queryStream<typeof serverQuery>("https://foo.com/foo", value),
       ),
     ).toEqual([value, value]);
@@ -312,14 +311,14 @@ describe(queryStream.name, () => {
     const serverQuery = server.queryStream(
       zod(z.null()),
       zod(z.string()),
-      async function* (_: null, request: Request) {
+      async function*(_: null, request: Request) {
         yield request.headers.get("hello");
       },
     );
     mockFetch(serverQuery);
 
     expect(
-      await toArray(
+      await Array.fromAsync(
         queryStream<typeof serverQuery>("https://foo.com/foo", null, {
           headers: { hello: "world" },
         }),
@@ -351,7 +350,7 @@ describe(queryStream.name, () => {
       zod(z.null()),
       zod(z.null()),
       // biome-ignore lint/correctness/useYield: A test function
-      async function* (_: null, request: Request) {
+      async function*(_: null, request: Request) {
         const url = new URL(request.url);
 
         if (url.origin !== baseUrl || url.pathname !== path) {

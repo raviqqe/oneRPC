@@ -1,5 +1,5 @@
 import { parseLines } from "@raviqqe/hidash/json";
-import { toIterable, toStringStream } from "@raviqqe/loscore/async";
+import { toIterable } from "@raviqqe/loscore/async";
 import type {
   MutateRequestHandler,
   QueryRequestHandler,
@@ -82,9 +82,9 @@ export const queryStream = async function* <
     throw new Error("Empty stream body");
   }
 
-  yield* parseLines(toIterable(toStringStream(response.body))) as AsyncIterable<
-    T["_output"]
-  >;
+  yield* parseLines(
+    toIterable(response.body.pipeThrough(new TextDecoderStream())),
+  ) as AsyncIterable<T["_output"]>;
 };
 
 export const mutate = async <T extends MutateRequestHandler<unknown, unknown>>(

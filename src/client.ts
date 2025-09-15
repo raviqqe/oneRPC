@@ -1,5 +1,4 @@
 import { parseLines } from "@raviqqe/hidash/json";
-import { toIterable } from "@raviqqe/loscore/async";
 import type {
   MutateRequestHandler,
   QueryRequestHandler,
@@ -83,7 +82,7 @@ export const queryStream = async function* <
   }
 
   yield* parseLines(
-    toIterable(response.body.pipeThrough(new TextDecoderStream())),
+    response.body.pipeThrough(new TextDecoderStream()),
   ) as AsyncIterable<T["_output"]>;
 };
 

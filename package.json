@@ -43,6 +43,7 @@
   "dependencies": {
     "@raviqqe/hidash": "^2.0.3",
     "@raviqqe/loscore": "^0.2.12",
+    "es-toolkit": "^1.39.10",
     "valibot": "^1.1.0",
     "zod": "^4.1.0"
   },

@@ -1,5 +1,5 @@
 import { stringifyLines } from "@raviqqe/hidash/json";
-import { map, toByteStream, toStream } from "@raviqqe/loscore/async";
+import { map, toStream } from "@raviqqe/loscore/async";
 import { RpcError } from "./error.js";
 import type { MiddlewareFunction, MiddlewareOptions } from "./middleware.js";
 import type { ProcedureOptions } from "./options.js";
@@ -147,16 +147,14 @@ export const queryStream = <T, S, P extends string = string>(
   procedure(
     async (request: Request) =>
       new Response(
-        toByteStream(
-          toStream(
-            stringifyLines(
-              map(
-                handle(inputValidator(await getQueryInput(request)), request),
-                (output) => outputValidator(output),
-              ),
+        toStream(
+          stringifyLines(
+            map(
+              handle(inputValidator(await getQueryInput(request)), request),
+              (output) => outputValidator(output),
             ),
           ),
-        ),
+        ).pipeThrough(new TextEncoderStream()),
         { headers: options.headers },
       ),
     false,

@@ -1,4 +1,4 @@
-import { toArray, toIterable, toStringStream } from "@raviqqe/loscore/async";
+import { toIterable } from "@raviqqe/loscore/async";
 import type { MiddlewareFunction } from "./utility.js";
 
 export const etag =
@@ -31,7 +31,11 @@ const collectStream = async (
   stream: ReadableStream<Uint8Array<ArrayBuffer>>,
 ): Promise<Uint8Array<ArrayBuffer>> =>
   new TextEncoder().encode(
-    (await toArray(toIterable(toStringStream(stream)))).join(""),
+    (
+      await Array.fromAsync(
+        toIterable(stream.pipeThrough(new TextDecoderStream())),
+      )
+    ).join(""),
   );
 
 const encodeTag = (buffer: ArrayBuffer): string =>

@@ -1,4 +1,3 @@
-import { toArray } from "@raviqqe/loscore/async";
 import { describe, expect, it, vi } from "vitest";
 import { z } from "zod";
 import { Client, mutate, query, queryStream } from "./client.js";
@@ -302,7 +301,7 @@ describe(queryStream.name, () => {
     mockFetch(serverQuery);
 
     expect(
-      await toArray(
+      await Array.fromAsync(
         queryStream<typeof serverQuery>("https://foo.com/foo", value),
       ),
     ).toEqual([value, value]);
@@ -319,7 +318,7 @@ describe(queryStream.name, () => {
     mockFetch(serverQuery);
 
     expect(
-      await toArray(
+      await Array.fromAsync(
         queryStream<typeof serverQuery>("https://foo.com/foo", null, {
           headers: { hello: "world" },
         }),
@@ -339,7 +338,9 @@ describe(queryStream.name, () => {
     mockFetch(serverQuery);
 
     await expect(
-      toArray(queryStream<typeof serverQuery>("https://foo.com/bar", null)),
+      Array.fromAsync(
+        queryStream<typeof serverQuery>("https://foo.com/bar", null),
+      ),
     ).rejects.toThrowError("foo");
   });
 
@@ -362,7 +363,9 @@ describe(queryStream.name, () => {
     mockFetch(serverQuery);
 
     expect(
-      await toArray(queryStream<typeof serverQuery>(path, null, { baseUrl })),
+      await Array.fromAsync(
+        queryStream<typeof serverQuery>(path, null, { baseUrl }),
+      ),
     ).toEqual([]);
   });
 });

@@ -22,7 +22,7 @@ importers:
         version: 1.1.0(typescript@5.9.2)
       zod:
         specifier: ^4.1.0
-        version: 4.1.9
+        version: 4.1.11
     devDependencies:
       '@biomejs/biome':
         specifier: ^2.2.2
@@ -1330,8 +1330,8 @@ packages:
     resolution: {integrity: sha512-si7QWI6zUMq56bESFvagtmzMdGOtoxfR+Sez11Mobfc7tm+VkUckk9bW2UeffTGVUbOksxmSw0AA2gs8g71NCQ==}
     engines: {node: '>=12'}
 
-  zod@4.1.9:
-    resolution: {integrity: sha512-HI32jTq0AUAC125z30E8bQNz0RQ+9Uc+4J7V97gLYjZVKRjeydPgGt6dvQzFrav7MYOUGFqqOGiHpA/fdbd0cQ==}
+  zod@4.1.11:
+    resolution: {integrity: sha512-WPsqwxITS2tzx1bzhIKsEs19ABD5vmCVa4xBo2tq/SrV4RNZtfws1EnCWQXM6yh8bD08a1idvkB5MZSBiZsjwg==}
 
 snapshots:
 
@@ -2365,4 +2365,4 @@ snapshots:
       string-width: 5.1.2
       strip-ansi: 7.1.0
 
-  zod@4.1.9: {}
+  zod@4.1.11: {}

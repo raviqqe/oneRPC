@@ -19,7 +19,7 @@ importers:
         version: 1.39.10
       valibot:
         specifier: ^1.1.0
-        version: 1.1.0(typescript@5.9.2)
+        version: 1.1.0(typescript@5.9.3)
       zod:
         specifier: ^4.1.0
         version: 4.1.11
@@ -35,7 +35,7 @@ importers:
         version: 2.0.3
       '@rslib/core':
         specifier: ^0.15.0
-        version: 0.15.0(typescript@5.9.2)
+        version: 0.15.0(typescript@5.9.3)
       '@types/aws-lambda':
         specifier: ^8.10.152
         version: 8.10.152
@@ -47,7 +47,7 @@ importers:
         version: 0.25.10
       typescript:
         specifier: ^5.9.2
-        version: 5.9.2
+        version: 5.9.3
       vitest:
         specifier: ^3.2.4
         version: 3.2.4(jiti@2.6.0)(tsx@4.20.6)
@@ -68,7 +68,7 @@ importers:
         version: link:../..
       valibot:
         specifier: ^1.1.0
-        version: 1.1.0(typescript@5.9.2)
+        version: 1.1.0(typescript@5.9.3)
     devDependencies:
       '@raviqqe/tsconfig':
         specifier: ^2.0.0
@@ -81,7 +81,7 @@ importers:
         version: 4.20.6
       typescript:
         specifier: ^5.3.3
-        version: 5.9.2
+        version: 5.9.3
 
 packages:
 
@@ -1065,8 +1065,8 @@ packages:
     engines: {node: '>=18.0.0'}
     hasBin: true
 
-  typescript@5.9.2:
-    resolution: {integrity: sha512-CWBzXQrc/qOkhidw1OzBTQuYRbfyxDXJMVJ1XNwUHGROVmuaeiEm3OslpZ1RV96d7SKKjZKrSJu3+t/xlw3R9A==}
+  typescript@5.9.3:
+    resolution: {integrity: sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -1440,7 +1440,7 @@ snapshots:
 
   '@raviqqe/tsconfig@2.0.3':
     dependencies:
-      typescript: 5.9.2
+      typescript: 5.9.3
 
   '@rollup/rollup-android-arm-eabi@4.48.0':
     optional: true
@@ -1510,12 +1510,12 @@ snapshots:
       core-js: 3.45.1
       jiti: 2.6.0
 
-  '@rslib/core@0.15.0(typescript@5.9.2)':
+  '@rslib/core@0.15.0(typescript@5.9.3)':
     dependencies:
       '@rsbuild/core': 1.5.13
-      rsbuild-plugin-dts: 0.15.0(@rsbuild/core@1.5.13)(typescript@5.9.2)
+      rsbuild-plugin-dts: 0.15.0(@rsbuild/core@1.5.13)(typescript@5.9.3)
     optionalDependencies:
-      typescript: 5.9.2
+      typescript: 5.9.3
     transitivePeerDependencies:
       - '@typescript/native-preview'
 
@@ -1914,12 +1914,12 @@ snapshots:
       '@rollup/rollup-win32-x64-msvc': 4.48.0
       fsevents: 2.3.3
 
-  rsbuild-plugin-dts@0.15.0(@rsbuild/core@1.5.13)(typescript@5.9.2):
+  rsbuild-plugin-dts@0.15.0(@rsbuild/core@1.5.13)(typescript@5.9.3):
     dependencies:
       '@ast-grep/napi': 0.37.0
       '@rsbuild/core': 1.5.13
     optionalDependencies:
-      typescript: 5.9.2
+      typescript: 5.9.3
 
   semver@7.7.2: {}
 
@@ -1997,11 +1997,11 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.3
 
-  typescript@5.9.2: {}
+  typescript@5.9.3: {}
 
-  valibot@1.1.0(typescript@5.9.2):
+  valibot@1.1.0(typescript@5.9.3):
     optionalDependencies:
-      typescript: 5.9.2
+      typescript: 5.9.3
 
   vite-node@3.2.4(jiti@2.6.0)(tsx@4.20.6):
     dependencies:

@@ -15,7 +15,7 @@ jobs:
   document:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/setup
       - uses: actions/configure-pages@v5
       - uses: homebrew/actions/setup-homebrew@master

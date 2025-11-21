@@ -13,7 +13,7 @@ jobs:
       id-token: write
     environment: ${{ github.ref == 'refs/heads/main' && 'release' || '' }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/setup
       - uses: raviqqe/pnpm-publish@v2
         with:
@@ -32,7 +32,7 @@ jobs:
           role-to-assume: ${{ secrets.aws_role }}
           aws-region: us-west-2
         if: github.ref == 'refs/heads/main'
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/setup
       - run: pnpm -r build
       - run: pnpm exec cdk synth

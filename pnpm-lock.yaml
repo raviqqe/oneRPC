@@ -56,7 +56,7 @@ importers:
     dependencies:
       aws-cdk-lib:
         specifier: ^2.115.0
-        version: 2.227.0(constructs@10.4.3)
+        version: 2.229.0(constructs@10.4.3)
       constructs:
         specifier: ^10.0.0
         version: 10.4.3
@@ -1014,8 +1014,8 @@ packages:
   ast-v8-to-istanbul@0.3.8:
     resolution: {integrity: sha512-szgSZqUxI5T8mLKvS7WTjF9is+MVbOeLADU73IseOcrqhxr/VAvy6wfoVE39KnKzA7JRhjF5eUagNlHwvZPlKQ==}
 
-  aws-cdk-lib@2.227.0:
-    resolution: {integrity: sha512-55zrZrlmtV9IDwciqrqBfy4lV/ZbwZY4nKQosjKJmWC+Y+DYQbK3qO/NbaoeywNFxM5xHZ/bNFYdWqKXNkImWQ==}
+  aws-cdk-lib@2.229.0:
+    resolution: {integrity: sha512-Wsopzi0rf5oWxv+GDhO8+OYEsu2CAj+uuYxSqTO4LYqRsHoWCepWHK7q4tUFBRzo/j2YcVh2ezuSlaSA+41kQw==}
     engines: {node: '>= 18.0.0'}
     peerDependencies:
       constructs: ^10.0.0
@@ -1960,7 +1960,7 @@ snapshots:
       estree-walker: 3.0.3
       js-tokens: 9.0.1
 
-  aws-cdk-lib@2.227.0(constructs@10.4.3):
+  aws-cdk-lib@2.229.0(constructs@10.4.3):
     dependencies:
       '@aws-cdk/asset-awscli-v1': 2.2.242
       '@aws-cdk/asset-node-proxy-agent-v6': 2.1.0

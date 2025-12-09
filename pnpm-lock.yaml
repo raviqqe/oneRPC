@@ -29,7 +29,7 @@ importers:
         version: 2.3.8
       '@raviqqe/biome-config':
         specifier: ^2.0.16
-        version: 2.0.22(@biomejs/biome@2.3.8)
+        version: 2.0.23(@biomejs/biome@2.3.8)
       '@raviqqe/tsconfig':
         specifier: ^2.0.1
         version: 2.0.3
@@ -738,8 +738,8 @@ packages:
   '@napi-rs/wasm-runtime@1.0.7':
     resolution: {integrity: sha512-SeDnOO0Tk7Okiq6DbXmmBODgOAb9dp9gjlphokTUxmt8U3liIP1ZsozBahH69j/RJv+Rfs6IwUKHTgQYJ/HBAw==}
 
-  '@raviqqe/biome-config@2.0.22':
-    resolution: {integrity: sha512-LLd9laE0pfcUl+tB/hUadU7Z6uZsg9XCWbn/roeYM/mWh8LwtTj2h663jDQXgKPnnzdawRygdLCS5eBe7taG5Q==}
+  '@raviqqe/biome-config@2.0.23':
+    resolution: {integrity: sha512-swKaDXeNoV7r+/x1OOioobWFHxHU72cgVLIAlFEKHZZMS7hSg9Z4zViKhqI/SM69/pjtl0k4AlfOp82X3M5O2w==}
     engines: {node: ^25.2.1}
     peerDependencies:
       '@biomejs/biome': ^2.1.4
@@ -1723,7 +1723,7 @@ snapshots:
       '@tybys/wasm-util': 0.10.1
     optional: true
 
-  '@raviqqe/biome-config@2.0.22(@biomejs/biome@2.3.8)':
+  '@raviqqe/biome-config@2.0.23(@biomejs/biome@2.3.8)':
     dependencies:
       '@biomejs/biome': 2.3.8
 

@@ -75,7 +75,7 @@ importers:
         version: 2.0.3
       aws-cdk:
         specifier: ^2.115.0
-        version: 2.1100.0
+        version: 2.1100.1
       tsx:
         specifier: ^4.6.2
         version: 4.21.0
@@ -876,10 +876,9 @@ packages:
       - yaml
       - mime-types
 
-  aws-cdk@2.1100.0:
-    resolution: {integrity: sha512-EadIbrhBodY6Sl+7ujTgZGCyUdcDpbWdDEqq9HsAtYW4CiB/Idu30O7mwITXCqiMAGreko/clMttVh/XfgEbJA==}
+  aws-cdk@2.1100.1:
+    resolution: {integrity: sha512-q2poFrQh90TK6eqeI0zznA8r1JkDI63WVOSqC7gFGo6qjQjAnvFk/utxHoNRgAC0RL0CLd19uCcHh3jfX9NiSg==}
     engines: {node: '>= 18.0.0'}
-    deprecated: This version collects invalid command path
     hasBin: true
 
   chai@6.2.1:
@@ -1730,7 +1729,7 @@ snapshots:
       '@aws-cdk/cloud-assembly-schema': 48.20.0
       constructs: 10.4.4
 
-  aws-cdk@2.1100.0:
+  aws-cdk@2.1100.1:
     optionalDependencies:
       fsevents: 2.3.2
 
@@ -1966,7 +1965,7 @@ snapshots:
 
   vite@7.3.0(jiti@2.6.1)(tsx@4.21.0):
     dependencies:
-      esbuild: 0.27.1
+      esbuild: 0.27.2
       fdir: 6.5.0(picomatch@4.0.3)
       picomatch: 4.0.3
       postcss: 8.5.6

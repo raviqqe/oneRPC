@@ -27,7 +27,7 @@ jobs:
       run:
         working-directory: examples/aws
     steps:
-      - uses: aws-actions/configure-aws-credentials@v5
+      - uses: aws-actions/configure-aws-credentials@v6
         with:
           role-to-assume: ${{ secrets.aws_role }}
           aws-region: us-west-2

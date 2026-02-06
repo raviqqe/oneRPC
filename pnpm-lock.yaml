@@ -42,6 +42,9 @@ importers:
       '@vitest/coverage-v8':
         specifier: ^4.0.1
         version: 4.0.18(vitest@4.0.18(jiti@2.6.1)(tsx@4.21.0))
+      esbuild:
+        specifier: ^0.27.3
+        version: 0.27.3
       typescript:
         specifier: ^5.9.2
         version: 5.9.3
@@ -73,9 +76,6 @@ importers:
       aws-cdk:
         specifier: ^2.115.0
         version: 2.1105.0
-      esbuild:
-        specifier: ^0.27.3
-        version: 0.27.3
       tsx:
         specifier: ^4.6.2
         version: 4.21.0

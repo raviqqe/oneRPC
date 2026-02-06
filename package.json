@@ -2,14 +2,8 @@
   "name": "onerpc",
   "version": "0.6.8",
   "description": "The RPC library for the serverless and TypeScript era.",
-  "repository": "https://github.com/raviqqe/onerpc",
   "license": "MIT",
-  "publishConfig": {
-    "provenance": true
-  },
-  "engines": {
-    "node": ">=24.5.0"
-  },
+  "repository": "https://github.com/raviqqe/onerpc",
   "type": "module",
   "exports": {
     ".": {
@@ -33,6 +27,9 @@
       "default": "./dist/adapter/*.js"
     }
   },
+  "publishConfig": {
+    "provenance": true
+  },
   "scripts": {
     "build": "rslib build",
     "build:tsc": "tsc --emitDeclarationOnly",
@@ -54,9 +51,12 @@
     "@rslib/core": "^0.19.0",
     "@types/aws-lambda": "^8.10.152",
     "@vitest/coverage-v8": "^4.0.1",
-    "esbuild": "^0.27.0",
+    "esbuild": "^0.27.3",
     "typescript": "^5.9.2",
     "vitest": "^4.0.1"
   },
-  "packageManager": "pnpm@10.14.0+sha512.ad27a79641b49c3e481a16a805baa71817a04bbe06a38d17e60e2eaee83f6a146c6a688125f5792e48dd5ba30e7da52a5cda4c3992b9ccf333f9ce223af84748"
+  "engines": {
+    "node": ">=24.5.0"
+  },
+  "packageManager": "pnpm@10.28.2+sha512.41872f037ad22f7348e3b1debbaf7e867cfd448f2726d9cf74c08f19507c31d2c8e7a11525b983febc2df640b5438dee6023ebb1f84ed43cc2d654d2bc326264"
 }

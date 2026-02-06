@@ -35,8 +35,8 @@ jobs:
       - uses: actions/checkout@v6
       - uses: ./.github/actions/setup
       - run: pnpm -r build
-      - run: pnpm exec cdk synth
-      - run: pnpm exec cdk deploy --require-approval never
+      - run: pnpm cdk synth
+      - run: pnpm cdk deploy --require-approval never
         if: github.ref == 'refs/heads/main'
   release:
     needs:

@@ -75,7 +75,7 @@ importers:
         version: 2.0.3
       aws-cdk:
         specifier: ^2.115.0
-        version: 2.1108.0
+        version: 2.1109.0
       tsx:
         specifier: ^4.6.2
         version: 4.21.0
@@ -761,8 +761,8 @@ packages:
       - yaml
       - mime-types
 
-  aws-cdk@2.1108.0:
-    resolution: {integrity: sha512-FHnyhnYZoRc2W0C9mNzhNn6fO2vH4xNINsKfJaA7AFDuymgQ39JhEnrM4AHaoikIBqXYeNLWElvvkusY9l3ulw==}
+  aws-cdk@2.1109.0:
+    resolution: {integrity: sha512-K0jvr5ne9kvDrFfdzbPee/s2rH/iXdGoMHTp/0jaj1qFMOh49RkLWTnURa0sBpJJ0uB2sMzIx7YRmAn55wAy1Q==}
     engines: {node: '>= 18.0.0'}
     hasBin: true
 
@@ -1516,7 +1516,7 @@ snapshots:
       '@aws-cdk/cloud-assembly-schema': 52.2.0
       constructs: 10.5.1
 
-  aws-cdk@2.1108.0: {}
+  aws-cdk@2.1109.0: {}
 
   chai@6.2.2: {}
 

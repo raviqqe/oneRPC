@@ -31,8 +31,8 @@ importers:
         specifier: ^2.0.16
         version: 2.0.24(@biomejs/biome@2.4.8)
       '@raviqqe/tsconfig':
-        specifier: ^2.0.1
-        version: 2.0.3
+        specifier: ^3.0.0
+        version: 3.0.0
       '@rslib/core':
         specifier: ^0.20.0
         version: 0.20.0(core-js@3.47.0)(typescript@5.9.3)
@@ -71,8 +71,8 @@ importers:
         version: 1.3.1(typescript@5.9.3)
     devDependencies:
       '@raviqqe/tsconfig':
-        specifier: ^2.0.0
-        version: 2.0.3
+        specifier: ^3.0.0
+        version: 3.0.0
       aws-cdk:
         specifier: ^2.115.0
         version: 2.1113.0
@@ -586,9 +586,9 @@ packages:
     resolution: {integrity: sha512-lOJxKYn1pZqFsbKgJ7pKY/P5Dv+jgvuVUKbjYR70N3GbjHjWl+Q+K6kWY4/FQJakJd1cHTl2glL8IO+wIDU4OA==}
     engines: {node: '>=24.6.0'}
 
-  '@raviqqe/tsconfig@2.0.3':
-    resolution: {integrity: sha512-9eTFd1ye3CcD0vfoPVkLzBr+cOTx/Vk5+feJb9KM4rWxEx3zGtXvAr2v3Er2DOdP8w0c2KhwKXFB/By2NffIHA==}
-    engines: {node: '>=24.6.0'}
+  '@raviqqe/tsconfig@3.0.0':
+    resolution: {integrity: sha512-axoa5/vjOV/BoPQCyOpfdQr+/vjT9HKo9fxhUB2yvh6I9oRKntcHlht5kTbTndQVBgyreHfaa1STKoFqziZ+dg==}
+    engines: {node: '>=25.8.0'}
 
   '@rollup/rollup-android-arm-eabi@4.60.0':
     resolution: {integrity: sha512-WOhNW9K8bR3kf4zLxbfg6Pxu2ybOUbB2AjMDHSQx86LIF4rH4Ft7vmMwNt0loO0eonglSNy4cpD3MKXXKQu0/A==}
@@ -1020,6 +1020,10 @@ packages:
     resolution: {integrity: sha512-QP88BAKvMam/3NxH6vj2o21R6MjxZUAd6nlwAS/pnGvN9IVLocLHxGYIzFhg6fUQ+5th6P4dv4eW9jX3DSIj7A==}
     engines: {node: '>=12'}
 
+  picomatch@4.0.4:
+    resolution: {integrity: sha512-QP88BAKvMam/3NxH6vj2o21R6MjxZUAd6nlwAS/pnGvN9IVLocLHxGYIzFhg6fUQ+5th6P4dv4eW9jX3DSIj7A==}
+    engines: {node: '>=12'}
+
   postcss@8.5.8:
     resolution: {integrity: sha512-OW/rX8O/jXnm82Ey1k44pObPtdblfiuWnrd8X7GJ7emImCOstunGbXUpp7HdBrFQX6rJzn3sPT397Wp5aCwCHg==}
     engines: {node: ^10 || ^12 || >=14}
@@ -1095,6 +1099,11 @@ packages:
 
   typescript@5.9.3:
     resolution: {integrity: sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+
+  typescript@6.0.2:
+    resolution: {integrity: sha512-bGdAIrZ0wiGDo5l8c++HWtbaNCWTS4UTv7RaTH/ThVIgjkveJt83m74bBHMJkuCbslY8ixgLBVZJIOiQlQTjfQ==}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -1484,9 +1493,9 @@ snapshots:
 
   '@raviqqe/loscore@0.3.1': {}
 
-  '@raviqqe/tsconfig@2.0.3':
+  '@raviqqe/tsconfig@3.0.0':
     dependencies:
-      typescript: 5.9.3
+      typescript: 6.0.2
 
   '@rollup/rollup-android-arm-eabi@4.60.0':
     optional: true
@@ -1813,6 +1822,10 @@ snapshots:
     optionalDependencies:
       picomatch: 4.0.4
 
+  fdir@6.5.0(picomatch@4.0.4):
+    optionalDependencies:
+      picomatch: 4.0.4
+
   fsevents@2.3.3:
     optional: true
 
@@ -1863,6 +1876,8 @@ snapshots:
   pathe@2.0.3: {}
 
   picocolors@1.1.1: {}
+
+  picomatch@4.0.4: {}
 
   picomatch@4.0.4: {}
 
@@ -1949,6 +1964,8 @@ snapshots:
       fsevents: 2.3.3
 
   typescript@5.9.3: {}
+
+  typescript@6.0.2: {}
 
   valibot@1.3.1(typescript@5.9.3):
     optionalDependencies:

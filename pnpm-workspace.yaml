@@ -1,4 +1,8 @@
-includeWorkspaceRoot: true
 packages:
   - .
   - examples/aws
+
+ignoredBuiltDependencies:
+  - esbuild
+
+includeWorkspaceRoot: true

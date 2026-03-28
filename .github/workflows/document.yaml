@@ -18,7 +18,7 @@ jobs:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - uses: ./.github/actions/setup
       - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
-      - uses: homebrew/actions/setup-homebrew@master
+      - uses: raviqqe/enable-homebrew@70f0031499e58d68b205c69e67a8a42db68d81c9 # v1.0.2
       - run: brew install deno
       - run: node --run build:doc
       - uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4.0.0

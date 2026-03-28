@@ -14,6 +14,7 @@
     "rslib",
     "runtimes",
     "typeof",
-    "valibot"
+    "valibot",
+    "vitest"
   ]
 }

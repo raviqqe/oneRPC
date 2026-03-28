@@ -1,5 +1,5 @@
 {
-  "extends": "@raviqqe/tsconfig/tsconfig.json",
+  "extends": "@raviqqe/tsconfig",
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "src"

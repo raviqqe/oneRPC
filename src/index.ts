@@ -77,7 +77,7 @@ export class Server {
       inputValidator,
       outputValidator,
       handle,
-      this.resolveOptions<P>(options),
+      this.#resolveOptions<P>(options),
     );
   }
 
@@ -91,7 +91,7 @@ export class Server {
       inputValidator,
       outputValidator,
       handle,
-      this.resolveOptions<P>(options),
+      this.#resolveOptions<P>(options),
     );
   }
 
@@ -105,18 +105,18 @@ export class Server {
       inputValidator,
       outputValidator,
       handle,
-      this.resolveOptions<P>(options),
+      this.#resolveOptions<P>(options),
     );
   }
 
-  private resolveOptions<P extends string>(
+  #resolveOptions<P extends string>(
     options: Partial<ProcedureOptions<P>>,
   ): Partial<ProcedureOptions<P>> {
     return {
       ...options,
-      headers: mergeHeaders(this.options.headers, options.headers),
+      headers: mergeHeaders(this.#options.headers, options.headers),
       middlewares: [
-        ...(this.options.middlewares ?? []),
+        ...(this.#options.middlewares ?? []),
         ...(options.middlewares ?? []),
       ],
     };

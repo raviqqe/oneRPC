@@ -17,14 +17,14 @@ interface RequestOptions extends Omit<RequestInit, "body" | "method"> {
 }
 
 export class Client {
-  private readonly getOptions: () => Promise<RequestOptions> | RequestOptions;
+  readonly #getOptions: () => Promise<RequestOptions> | RequestOptions;
 
   constructor(
     options:
       | (() => Promise<RequestOptions> | RequestOptions)
       | RequestOptions = {},
   ) {
-    this.getOptions = typeof options === "function" ? options : () => options;
+    this.#getOptions = typeof options === "function" ? options : () => options;
   }
 
   async query<T extends QueryRequestHandler<unknown, unknown>>(
@@ -32,7 +32,7 @@ export class Client {
     input: T["_input"],
     options: RequestOptions = {},
   ): Promise<T["_output"]> {
-    return query(path, input, await this.resolveOptions(options));
+    return query(path, input, await this.#resolveOptions(options));
   }
 
   async *queryStream<T extends QueryStreamRequestHandler<unknown, unknown>>(
@@ -40,7 +40,7 @@ export class Client {
     input: T["_input"],
     options: RequestOptions = {},
   ): AsyncIterable<T["_output"]> {
-    yield* queryStream(path, input, await this.resolveOptions(options));
+    yield* queryStream(path, input, await this.#resolveOptions(options));
   }
 
   async mutate<T extends MutateRequestHandler<unknown, unknown>>(
@@ -48,13 +48,11 @@ export class Client {
     input: T["_input"],
     options: RequestOptions = {},
   ): Promise<T["_output"]> {
-    return mutate(path, input, await this.resolveOptions(options));
+    return mutate(path, input, await this.#resolveOptions(options));
   }
 
-  private async resolveOptions(
-    options: RequestOptions,
-  ): Promise<RequestOptions> {
-    return mergeOptions(await this.getOptions(), options);
+  async #resolveOptions(options: RequestOptions): Promise<RequestOptions> {
+    return mergeOptions(await this.#getOptions(), options);
   }
 }
 

@@ -57,17 +57,17 @@ type RawStreamHandler<T, S> = (input: T, request: Request) => AsyncIterable<S>;
 const defaultStatus = 500;
 
 export class Server {
-  private readonly options;
+  readonly #options;
 
-  public constructor(
+  constructor(
     options: Partial<
       Pick<ProcedureOptions<string>, "headers" | "middlewares">
     > = {},
   ) {
-    this.options = options;
+    this.#options = options;
   }
 
-  public query<T, S, P extends string = string>(
+  query<T, S, P extends string = string>(
     inputValidator: Validator<T>,
     outputValidator: Validator<S>,
     handle: RawHandler<T, S>,
@@ -77,11 +77,11 @@ export class Server {
       inputValidator,
       outputValidator,
       handle,
-      this.resolveOptions<P>(options),
+      this.#resolveOptions<P>(options),
     );
   }
 
-  public queryStream<T, S, P extends string = string>(
+  queryStream<T, S, P extends string = string>(
     inputValidator: Validator<T>,
     outputValidator: Validator<S>,
     handle: RawStreamHandler<T, S>,
@@ -91,11 +91,11 @@ export class Server {
       inputValidator,
       outputValidator,
       handle,
-      this.resolveOptions<P>(options),
+      this.#resolveOptions<P>(options),
     );
   }
 
-  public mutate<T, S, P extends string = string>(
+  mutate<T, S, P extends string = string>(
     inputValidator: Validator<T>,
     outputValidator: Validator<S>,
     handle: RawHandler<T, S>,
@@ -105,18 +105,18 @@ export class Server {
       inputValidator,
       outputValidator,
       handle,
-      this.resolveOptions<P>(options),
+      this.#resolveOptions<P>(options),
     );
   }
 
-  private resolveOptions<P extends string>(
+  #resolveOptions<P extends string>(
     options: Partial<ProcedureOptions<P>>,
   ): Partial<ProcedureOptions<P>> {
     return {
       ...options,
-      headers: mergeHeaders(this.options.headers, options.headers),
+      headers: mergeHeaders(this.#options.headers, options.headers),
       middlewares: [
-        ...(this.options.middlewares ?? []),
+        ...(this.#options.middlewares ?? []),
         ...(options.middlewares ?? []),
       ],
     };

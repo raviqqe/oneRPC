@@ -17,46 +17,42 @@ interface RequestOptions extends Omit<RequestInit, "body" | "method"> {
 }
 
 export class Client {
-  private readonly getOptions: () => Promise<RequestOptions> | RequestOptions;
+  readonly #getOptions: () => Promise<RequestOptions> | RequestOptions;
 
-  public constructor(
+  constructor(
     options:
       | (() => Promise<RequestOptions> | RequestOptions)
       | RequestOptions = {},
   ) {
-    this.getOptions = typeof options === "function" ? options : () => options;
+    this.#getOptions = typeof options === "function" ? options : () => options;
   }
 
-  public async query<T extends QueryRequestHandler<unknown, unknown>>(
+  async query<T extends QueryRequestHandler<unknown, unknown>>(
     path: T["_path"],
     input: T["_input"],
     options: RequestOptions = {},
   ): Promise<T["_output"]> {
-    return query(path, input, await this.resolveOptions(options));
+    return query(path, input, await this.#resolveOptions(options));
   }
 
-  public async *queryStream<
-    T extends QueryStreamRequestHandler<unknown, unknown>,
-  >(
+  async *queryStream<T extends QueryStreamRequestHandler<unknown, unknown>>(
     path: T["_path"],
     input: T["_input"],
     options: RequestOptions = {},
   ): AsyncIterable<T["_output"]> {
-    yield* queryStream(path, input, await this.resolveOptions(options));
+    yield* queryStream(path, input, await this.#resolveOptions(options));
   }
 
-  public async mutate<T extends MutateRequestHandler<unknown, unknown>>(
+  async mutate<T extends MutateRequestHandler<unknown, unknown>>(
     path: T["_path"],
     input: T["_input"],
     options: RequestOptions = {},
   ): Promise<T["_output"]> {
-    return mutate(path, input, await this.resolveOptions(options));
+    return mutate(path, input, await this.#resolveOptions(options));
   }
 
-  private async resolveOptions(
-    options: RequestOptions,
-  ): Promise<RequestOptions> {
-    return mergeOptions(await this.getOptions(), options);
+  async #resolveOptions(options: RequestOptions): Promise<RequestOptions> {
+    return mergeOptions(await this.#getOptions(), options);
   }
 }
 

@@ -19,7 +19,7 @@ interface RequestOptions extends Omit<RequestInit, "body" | "method"> {
 export class Client {
   private readonly getOptions: () => Promise<RequestOptions> | RequestOptions;
 
-  public constructor(
+  constructor(
     options:
       | (() => Promise<RequestOptions> | RequestOptions)
       | RequestOptions = {},
@@ -27,7 +27,7 @@ export class Client {
     this.getOptions = typeof options === "function" ? options : () => options;
   }
 
-  public async query<T extends QueryRequestHandler<unknown, unknown>>(
+  async query<T extends QueryRequestHandler<unknown, unknown>>(
     path: T["_path"],
     input: T["_input"],
     options: RequestOptions = {},
@@ -35,9 +35,7 @@ export class Client {
     return query(path, input, await this.resolveOptions(options));
   }
 
-  public async *queryStream<
-    T extends QueryStreamRequestHandler<unknown, unknown>,
-  >(
+  async *queryStream<T extends QueryStreamRequestHandler<unknown, unknown>>(
     path: T["_path"],
     input: T["_input"],
     options: RequestOptions = {},
@@ -45,7 +43,7 @@ export class Client {
     yield* queryStream(path, input, await this.resolveOptions(options));
   }
 
-  public async mutate<T extends MutateRequestHandler<unknown, unknown>>(
+  async mutate<T extends MutateRequestHandler<unknown, unknown>>(
     path: T["_path"],
     input: T["_input"],
     options: RequestOptions = {},

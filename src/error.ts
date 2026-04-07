@@ -1,10 +1,7 @@
 export class RpcError extends Error {
-  public readonly status?: number;
+  readonly status?: number;
 
-  public constructor(
-    message?: string,
-    options?: ErrorOptions & { status?: number },
-  ) {
+  constructor(message?: string, options?: ErrorOptions & { status?: number }) {
     super(message, options);
 
     this.status = options?.status;

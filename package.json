@@ -46,7 +46,7 @@
     "@biomejs/biome": "^2.2.2",
     "@raviqqe/biome-config": "^2.0.16",
     "@raviqqe/tsconfig": "^3.0.0",
-    "@rslib/core": "^0.20.0",
+    "@rslib/core": "^0.21.0",
     "@types/aws-lambda": "^8.10.152",
     "@vitest/coverage-v8": "^4.0.1",
     "esbuild": "^0.28.0",

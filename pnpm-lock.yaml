@@ -26,7 +26,7 @@ importers:
         version: 2.0.26(@biomejs/biome@2.4.10)
       '@raviqqe/tsconfig':
         specifier: ^3.0.0
-        version: 3.0.0
+        version: 3.0.1
       '@rslib/core':
         specifier: ^0.22.0
         version: 0.22.0(typescript@6.0.2)
@@ -72,7 +72,7 @@ importers:
     devDependencies:
       '@raviqqe/tsconfig':
         specifier: ^3.0.0
-        version: 3.0.0
+        version: 3.0.1
       aws-cdk:
         specifier: ^2.115.0
         version: 2.1126.0
@@ -436,8 +436,8 @@ packages:
     resolution: {integrity: sha512-lOJxKYn1pZqFsbKgJ7pKY/P5Dv+jgvuVUKbjYR70N3GbjHjWl+Q+K6kWY4/FQJakJd1cHTl2glL8IO+wIDU4OA==}
     engines: {node: '>=24.6.0'}
 
-  '@raviqqe/tsconfig@3.0.0':
-    resolution: {integrity: sha512-axoa5/vjOV/BoPQCyOpfdQr+/vjT9HKo9fxhUB2yvh6I9oRKntcHlht5kTbTndQVBgyreHfaa1STKoFqziZ+dg==}
+  '@raviqqe/tsconfig@3.0.1':
+    resolution: {integrity: sha512-gz/7bBrBrqHIqAlaT0TXb8RaQOTCo272urCs89UlSRBPj13OwqHSw5ilhOWW+daLBoQT3ULku3Rahy+Nm9Cy5A==}
     engines: {node: '>=25.8.0'}
 
   '@rolldown/binding-android-arm64@1.0.0-rc.12':
@@ -1281,7 +1281,7 @@ snapshots:
 
   '@raviqqe/loscore@0.3.1': {}
 
-  '@raviqqe/tsconfig@3.0.0':
+  '@raviqqe/tsconfig@3.0.1':
     dependencies:
       typescript: 6.0.2
 

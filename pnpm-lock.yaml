@@ -56,10 +56,10 @@ importers:
     dependencies:
       aws-cdk-lib:
         specifier: ^2.115.0
-        version: 2.261.0(constructs@10.6.0)
+        version: 2.261.0(constructs@10.7.0)
       constructs:
         specifier: ^10.0.0
-        version: 10.6.0
+        version: 10.7.0
       es-toolkit:
         specifier: ^1.39.10
         version: 1.49.0
@@ -854,8 +854,8 @@ packages:
     resolution: {integrity: sha512-NUPRluOfOiTKBKvWPtSD4PhFvWCqOi0BGStNWs57X9js7XGTprSmFoz5F0tWhR4WPjNeR9jXqdC7/UpSJTnlRg==}
     engines: {node: '>=18'}
 
-  constructs@10.6.0:
-    resolution: {integrity: sha512-TxHOnBO5zMo/G76ykzGF/wMpEHu257TbWiIxP9K0Yv/+t70UzgBQiTqjkAsWOPC6jW91DzJI0+ehQV6xDRNBuQ==}
+  constructs@10.7.0:
+    resolution: {integrity: sha512-Vzwc30bMywc7DCzX8XOyuZbsBmfXTCrn6HHmhhELZK1J5dnUWwJ5uL7hBXGGq7xFPVOOO6cs9FwaxOshAxgcWQ==}
 
   convert-source-map@2.0.0:
     resolution: {integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==}
@@ -1700,18 +1700,18 @@ snapshots:
       estree-walker: 3.0.3
       js-tokens: 10.0.0
 
-  aws-cdk-lib@2.261.0(constructs@10.6.0):
+  aws-cdk-lib@2.261.0(constructs@10.7.0):
     dependencies:
       '@aws-cdk/asset-awscli-v1': 2.2.282
       '@aws-cdk/asset-node-proxy-agent-v6': 2.1.2
       '@aws-cdk/cloud-assembly-schema': 54.8.0
-      constructs: 10.6.0
+      constructs: 10.7.0
 
   aws-cdk@2.1131.0: {}
 
   chai@6.2.2: {}
 
-  constructs@10.6.0: {}
+  constructs@10.7.0: {}
 
   convert-source-map@2.0.0: {}
 

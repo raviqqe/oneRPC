@@ -26,7 +26,7 @@ importers:
         version: 2.0.27(@biomejs/biome@2.5.5)
       '@raviqqe/tsconfig':
         specifier: ^3.0.0
-        version: 3.0.1
+        version: 3.0.2
       '@rslib/core':
         specifier: ^0.23.0
         version: 0.23.2(typescript@7.0.2)
@@ -72,7 +72,7 @@ importers:
     devDependencies:
       '@raviqqe/tsconfig':
         specifier: ^3.0.0
-        version: 3.0.1
+        version: 3.0.2
       aws-cdk:
         specifier: ^2.115.0
         version: 2.1132.1
@@ -436,8 +436,8 @@ packages:
     resolution: {integrity: sha512-lOJxKYn1pZqFsbKgJ7pKY/P5Dv+jgvuVUKbjYR70N3GbjHjWl+Q+K6kWY4/FQJakJd1cHTl2glL8IO+wIDU4OA==}
     engines: {node: '>=24.6.0'}
 
-  '@raviqqe/tsconfig@3.0.1':
-    resolution: {integrity: sha512-gz/7bBrBrqHIqAlaT0TXb8RaQOTCo272urCs89UlSRBPj13OwqHSw5ilhOWW+daLBoQT3ULku3Rahy+Nm9Cy5A==}
+  '@raviqqe/tsconfig@3.0.2':
+    resolution: {integrity: sha512-san+p1rO62JSKwb7F2hbjoY3EtPhC4qiQM9DNpE+pAIguQRlNurfVpm6KNlIuc+WY0e2cS3X7H2EMJ+PZaRtZw==}
     engines: {node: '>=25.8.0'}
 
   '@rolldown/binding-android-arm64@1.0.0-rc.12':
@@ -1092,11 +1092,6 @@ packages:
     engines: {node: '>=18.0.0'}
     hasBin: true
 
-  typescript@6.0.3:
-    resolution: {integrity: sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw==}
-    engines: {node: '>=14.17'}
-    hasBin: true
-
   typescript@7.0.2:
     resolution: {integrity: sha512-8FYau96o3NKOhbjKi/qNvG/W5jhzxkbdm5sj9AbZ/5T5sWqn3hJgLfGx27sRKZWTvyzCP8dLRBTf5tBTSRVUNA==}
     engines: {node: '>=16.20.0'}
@@ -1421,9 +1416,9 @@ snapshots:
 
   '@raviqqe/loscore@0.3.1': {}
 
-  '@raviqqe/tsconfig@3.0.1':
+  '@raviqqe/tsconfig@3.0.2':
     dependencies:
-      typescript: 6.0.3
+      typescript: 7.0.2
 
   '@rolldown/binding-android-arm64@1.0.0-rc.12':
     optional: true
@@ -1925,8 +1920,6 @@ snapshots:
       esbuild: 0.28.1
     optionalDependencies:
       fsevents: 2.3.3
-
-  typescript@6.0.3: {}
 
   typescript@7.0.2:
     optionalDependencies:

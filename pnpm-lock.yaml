@@ -56,10 +56,10 @@ importers:
     dependencies:
       aws-cdk-lib:
         specifier: ^2.115.0
-        version: 2.262.2(constructs@10.7.2)
+        version: 2.262.2(constructs@10.8.0)
       constructs:
         specifier: ^10.0.0
-        version: 10.7.2
+        version: 10.8.0
       es-toolkit:
         specifier: ^1.39.10
         version: 1.50.0
@@ -419,8 +419,8 @@ packages:
       '@emnapi/core': ^1.7.1
       '@emnapi/runtime': ^1.7.1
 
-  '@napi-rs/wasm-runtime@1.2.1':
-    resolution: {integrity: sha512-KjZdi8Q1wh89gsVmghvbrMgWl6ZWmRmHV6wjB7/g4Zf0dyO+hH3neZUtuDNPO00qq5YE5RITVWvrIZKRaAmzGQ==}
+  '@napi-rs/wasm-runtime@1.2.2':
+    resolution: {integrity: sha512-JfB4kuJQjaoHuCTseIINHtHWeJnvgEcxjwA5t/Y00ZgaOO1Crz3fjT/p8kT28zA/Caz7oiUMn3d6H2yOVCVwuw==}
     engines: {node: ^20.19.0 || ^22.13.0 || >=23.5.0}
     peerDependencies:
       '@emnapi/core': ^1.7.1 || ^2.0.0-alpha.3
@@ -862,8 +862,8 @@ packages:
     resolution: {integrity: sha512-NUPRluOfOiTKBKvWPtSD4PhFvWCqOi0BGStNWs57X9js7XGTprSmFoz5F0tWhR4WPjNeR9jXqdC7/UpSJTnlRg==}
     engines: {node: '>=18'}
 
-  constructs@10.7.2:
-    resolution: {integrity: sha512-vA7JOqvO/xwq2HBCuq3qc6V2R9mHZCxJ8HPoucUcUWJY88YULe7bzMcsdBy27/gJJIphZi73U1oIXDY2Eqg6nA==}
+  constructs@10.8.0:
+    resolution: {integrity: sha512-pJHp2CxvTG0ttp52rZvQfkbspPLZzttWPooIRLBwlZK8rV7ZhkjIkyZWJhIfBDC4YdcwIDmXyUFr1ieJaqjBbg==}
 
   convert-source-map@2.0.0:
     resolution: {integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==}
@@ -1411,7 +1411,7 @@ snapshots:
       '@tybys/wasm-util': 0.10.3
     optional: true
 
-  '@napi-rs/wasm-runtime@1.2.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)':
+  '@napi-rs/wasm-runtime@1.2.2(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)':
     dependencies:
       '@emnapi/core': 1.11.1
       '@emnapi/runtime': 1.11.1
@@ -1472,7 +1472,7 @@ snapshots:
 
   '@rolldown/binding-wasm32-wasi@1.0.0-rc.12(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)':
     dependencies:
-      '@napi-rs/wasm-runtime': 1.2.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)
+      '@napi-rs/wasm-runtime': 1.2.2(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)
     transitivePeerDependencies:
       - '@emnapi/core'
       - '@emnapi/runtime'
@@ -1710,18 +1710,18 @@ snapshots:
       estree-walker: 3.0.3
       js-tokens: 10.0.0
 
-  aws-cdk-lib@2.262.2(constructs@10.7.2):
+  aws-cdk-lib@2.262.2(constructs@10.8.0):
     dependencies:
       '@aws-cdk/asset-awscli-v1': 2.2.282
       '@aws-cdk/asset-node-proxy-agent-v6': 2.1.2
       '@aws-cdk/cloud-assembly-schema': 54.14.0
-      constructs: 10.7.2
+      constructs: 10.8.0
 
   aws-cdk@2.1133.0: {}
 
   chai@6.2.2: {}
 
-  constructs@10.7.2: {}
+  constructs@10.8.0: {}
 
   convert-source-map@2.0.0: {}
 

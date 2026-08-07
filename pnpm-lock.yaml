@@ -75,7 +75,7 @@ importers:
         version: 3.0.2
       aws-cdk:
         specifier: ^2.115.0
-        version: 2.1134.0
+        version: 2.1135.0
       tsx:
         specifier: ^4.6.2
         version: 4.23.5
@@ -853,8 +853,8 @@ packages:
       - yaml
       - mime-types
 
-  aws-cdk@2.1134.0:
-    resolution: {integrity: sha512-Fy/g+gdpMpkhAAoCNlZtX0s4mD7q58bHlDV6QfbnTeifmQ5cEge26c5rB+U4qKB/bDudxNuJjQk/mSSk0ysnug==}
+  aws-cdk@2.1135.0:
+    resolution: {integrity: sha512-Vfz2kllheB+8y9audOtcw0qo0v6EnjxfO2pK7x6eSulHmD0GaAvkqrg6MF+20wxE2KTyuY1UDBzICO+nHUaFtA==}
     engines: {node: '>= 18.0.0'}
     hasBin: true
 
@@ -1030,8 +1030,8 @@ packages:
     resolution: {integrity: sha512-RvwwcruNjI1ncT5xRakeyS9Lf8lcItv34KD+aif+VH9kduAyfYBipGh12274xtenIPZ119/R9BdTBa8gAwSh0A==}
     engines: {node: '>=12'}
 
-  postcss@8.5.25:
-    resolution: {integrity: sha512-DTPx3RWSSnWyzLxQnlH0rJP+EW5ekl16ZU4/psbIhA0e53kJfdgaN5vKM+xP7yJtXVu+nfdVFmlgFDEKAe4Pyw==}
+  postcss@8.5.26:
+    resolution: {integrity: sha512-u82N74LFzG8ca+dD8puPnplTXoGH4fTPpVGuIbt36G3qvNlkvfD0lEAZSxaly3KX8TS/L1A1gsCEmvKmBcVbkQ==}
     engines: {node: ^10 || ^12 || >=14}
 
   rolldown@1.0.0-rc.12:
@@ -1718,7 +1718,7 @@ snapshots:
       '@aws-cdk/cloud-assembly-schema': 54.16.0
       constructs: 10.8.0
 
-  aws-cdk@2.1134.0: {}
+  aws-cdk@2.1135.0: {}
 
   chai@6.2.2: {}
 
@@ -1866,7 +1866,7 @@ snapshots:
 
   picomatch@4.0.5: {}
 
-  postcss@8.5.25:
+  postcss@8.5.26:
     dependencies:
       nanoid: 3.3.17
       picocolors: 1.1.1
@@ -1967,7 +1967,7 @@ snapshots:
     dependencies:
       lightningcss: 1.33.0
       picomatch: 4.0.5
-      postcss: 8.5.25
+      postcss: 8.5.26
       rolldown: 1.0.0-rc.12(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)
       tinyglobby: 0.2.17
     optionalDependencies:

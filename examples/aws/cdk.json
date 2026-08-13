@@ -1,5 +1,5 @@
 {
-  "app": "tsx src/main.ts",
+  "app": "node src/main.ts",
   "watch": { "include": ["src/**/*.ts"] },
   "context": {
     "@aws-cdk/aws-lambda:recognizeLayerVersion": true,

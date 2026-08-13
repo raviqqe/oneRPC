@@ -1,6 +1,7 @@
 {
   "extends": ["@raviqqe/tsconfig"],
   "compilerOptions": {
+    "allowImportingTsExtensions": true,
     "noEmit": true,
     "rootDir": "src"
   },

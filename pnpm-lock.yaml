@@ -16,7 +16,7 @@ importers:
         version: 0.3.1
       es-toolkit:
         specifier: ^1.39.10
-        version: 1.50.0
+        version: 1.51.0
     devDependencies:
       '@biomejs/biome':
         specifier: ^2.2.2
@@ -62,7 +62,7 @@ importers:
         version: 10.8.1
       es-toolkit:
         specifier: ^1.39.10
-        version: 1.50.0
+        version: 1.51.0
       onerpc:
         specifier: workspace:*
         version: link:../..
@@ -872,8 +872,8 @@ packages:
   es-module-lexer@2.3.0:
     resolution: {integrity: sha512-KLdwQm2NvGLDkQDCGvmiQrhkd0JbMzXthwQAUgWjQuQdBLFa3eiBP5arXZyA+f8x+x7OXgud6bq2rxjGtHV2tw==}
 
-  es-toolkit@1.50.0:
-    resolution: {integrity: sha512-OyZKhUVvEep9ITEiwHn8GKnMRQIVqoSIX7WnRbkWgJkllCujilqP2rD0u979tkl8wqyc8ICwlc1UBVv/Sl1G6w==}
+  es-toolkit@1.51.0:
+    resolution: {integrity: sha512-zC2lQGkM7QX+Gm6iM3+WIdZJzthsEd14LvRNJneSO2hzyz/zNBENR8+YXWo1cKxgPBtV6ksPYHELbcwBRzmdCw==}
 
   esbuild@0.28.2:
     resolution: {integrity: sha512-HKVLS8dvII+xoKW9kmqxbRKrnWEXfJJr/FZhhJmiqIB0e053QNYFqOBouTMO/k5sID4MvCiUCvv8b9M4h32wIA==}
@@ -1726,7 +1726,7 @@ snapshots:
 
   es-module-lexer@2.3.0: {}
 
-  es-toolkit@1.50.0: {}
+  es-toolkit@1.51.0: {}
 
   esbuild@0.28.2:
     optionalDependencies:

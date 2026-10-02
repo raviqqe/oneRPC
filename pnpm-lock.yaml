@@ -40,8 +40,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.2
       '@types/aws-lambda':
-        specifier: ^8.10.163
-        version: 8.10.163
+        specifier: ^8.10.164
+        version: 8.10.164
       aws-cdk:
         specifier: ^2.1143.0
         version: 2.1143.0
@@ -71,8 +71,8 @@ importers:
         specifier: ^1.0.2
         version: 1.0.2(typescript@7.0.2)
       '@types/aws-lambda':
-        specifier: ^8.10.163
-        version: 8.10.163
+        specifier: ^8.10.164
+        version: 8.10.164
       '@vitest/coverage-v8':
         specifier: ^5.0.2
         version: 5.0.2(vitest@5.0.2)
@@ -672,8 +672,8 @@ packages:
   '@tybys/wasm-util@0.10.3':
     resolution: {integrity: sha512-F3fo1MYrRJYL3zER0OUOmkutjr1Vp23m7OsSgp7nq4SP6OqX6C/56XFIPAl5bt3zaBRjmW7SGz3u/6LwFpYcOg==}
 
-  '@types/aws-lambda@8.10.163':
-    resolution: {integrity: sha512-+4zuoEB3S8RIhimtOFT7zAEk2SbpwrKjjGl9CyYnQR6k08uynxfauIIB0pDU1ssr05F8oyGiETwpn+8eXZMqPw==}
+  '@types/aws-lambda@8.10.164':
+    resolution: {integrity: sha512-XOnrazWcOd6yWPnR7DxqCBPPYciDjHq+NN8LPwwqBCJNXLyPJgKo47fZpJ113+oyAn9Zti0Cf6H4k6yPcE3WFg==}
 
   '@types/chai@5.2.3':
     resolution: {integrity: sha512-Mw558oeA9fFbv65/y4mHtXDs9bPnFMZAL/jxdPFUpOHHIXX91mcgEHbS5Lahr+pwZFR8A7GQleRWeI6cGFC2UA==}
@@ -1543,7 +1543,7 @@ snapshots:
       tslib: 2.8.1
     optional: true
 
-  '@types/aws-lambda@8.10.163': {}
+  '@types/aws-lambda@8.10.164': {}
 
   '@types/chai@5.2.3':
     dependencies:
